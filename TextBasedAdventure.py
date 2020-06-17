@@ -5,9 +5,7 @@
 # TODO Create a game-loop-esc function to call upon when something changes
 # TODO Save Functionality (maybe check points?)
 # TODO Implement Mana?
-
-
-# CHANGEEEEEEEE
+# TODO BIG todo: make a Trello board of todos. im losing count and going insane.
 
 
 # Imports
@@ -27,28 +25,106 @@ safeZone = 0
 big = ''
 small = ''
 
+
+'''
+------------------------------
+How I define the stats in Arx.
+------------------------------
+Strength:
+Description: Measures physical power and carrying capacity
+Primary benefit(s): Weapon Damage
+Additional benefit(s): Increases Inventory
+
+Agility:
+Description: 
+Primary benefit(s): Increased Stamina pool
+Additional benefit(s): Crit chance and Dodge chance
+
+Intelligence:
+Description:
+Primary benefit(s): Increased Mana pool
+Additional benefit(s): Spell Damage and Heal Amount
+
+Charisma:
+Description:
+Primary benefit(s): Trade prices
+Additional benefit(s): Chance to prevent negative effects
+
+--------------------------
+Class specific info in Arx
+--------------------------
+
+Assume 10 is a base value for every stat, where anything above 10 is
+a stat that class specializes in and vice vera. (0 - 20)
+Total of 40 for every class (except Commoner)
+
+Commoner:
+Description: Base class with equal across the board stats. They are all lowered for balance.
+Strength: 8
+Agility: 8
+Intelligence: 8
+Charisma: 8
+
+Warrior:
+Description: Strength based class that hits hard, lifts more, and has higher Charisma
+Strength: 16
+Agility: 6
+Intelligence: 6
+Charisma: 12
+
+Mage:
+Description: Intelligence based class with higher Charisma
+Strength: 6
+Agility: 5
+Intelligence: 16
+Charisma: 13
+
+Thief:
+Description: Agility based class with good Strength and Charisma
+Strength: 9
+Agility: 16
+Intelligence: 6
+Charisma: 9
+
+Paladin:
+Description: Charisma based class with better strength and good heals.
+Strength: 12
+Agility: 2
+Intelligence: 10
+Charisma: 16
+'''
+
+
 # Setting up players stats
-twentyList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-              11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-weightList = [0.6, 0.7, 0.8, 0.9, 1.1, 1.3, 1.5, 1.7, 1.9, 2.1,
-              2.3, 2.5, 2.2, 2.0, 1.8, 1.6, 1.4, 1.2, 1.1, 0.9]
-
-my_list = ['A'] * 5 + ['B'] * 5 + ['C'] * 90
-random.choice(my_list)
-
-
 class Player:
     def __init__(self, health, armor):
         self._health = health
         self._armor = armor
-        self.strength = random.choices(twentyList, weights=weightList)
-        self.strength = self.strength[0]
-        self.constitution = random.choices(twentyList, weights=weightList)
-        self.constitution = self.constitution[0]
-        self.dexterity = random.choices(twentyList, weights=weightList)
-        self.dexterity = self.dexterity[0]
-        self.charisma = random.choices(twentyList, weights=weightList)
-        self.charisma = self.charisma[0]
+        if playerClass.lower() == "commoner":
+            self.strength = 8
+            self.agility = 8
+            self.intelligence = 8
+            self.charisma = 8
+        elif playerClass.lower() == "warrior":
+            self.strength = 16
+            self.agility = 6
+            self.intelligence = 6
+            self.charisma = 12
+        elif playerClass.lower() == "mage":
+            self.strength = 6
+            self.agility = 5
+            self.intelligence = 16
+            self.charisma = 13
+        elif playerClass.lower() == "thief":
+            self.strength = 9
+            self.agility = 16
+            self.intelligence = 6
+            self.charisma = 9
+        elif playerClass.lower() == "paladin":
+            self.strength = 12
+            self.agility = 2
+            self.intelligence = 10
+            self.charisma = 16
 
     def __str__(self):
         return f'-◄[Health: {self.health}, Armor: {self.armor}]►-'
@@ -72,19 +148,11 @@ class Player:
         self.armor = value
 
 
-class Entity():
-    def __init__(self, name):
-        pass
-
-
-my_player = Player(10, 5)
-
-
 def set_hp(console, max_hp, current_hp):
     if showStats == 1:
         console.set_cursor_pos(0, 0)
         console.set_text_color('bright white', 'black')
-        print(f"   [Health {current_hp: >3}/{max_hp}:".ljust(14),
+        print(f"[Health {current_hp: >3}/{max_hp}:".ljust(14),
               end='', flush=True)
         health_percentage_current = int(((current_hp / max_hp) * 100) // 10)
 
@@ -103,7 +171,7 @@ def set_armor(console, max_armor, current_armor):
     if showStats == 1:
         console.set_cursor_pos(0, 1)
         console.set_text_color('bright white', 'black')
-        print(f"   [Armor    {current_armor: >2}/{max_armor}:".ljust(14),
+        print(f"[Armor    {current_armor: >2}/{max_armor}:".ljust(14),
               end='', flush=True)
         armor_percentage_current = int(
             ((current_armor / max_armor) * 100) // 10)
@@ -123,7 +191,7 @@ def set_mana(console, max_mana, current_mana):
     if showStats == 1:
         console.set_cursor_pos(0, 2)
         console.set_text_color('bright white', 'black')
-        print(f"   [Mana     {current_mana: >2}/{max_mana}:".ljust(14),
+        print(f"[Mana     {current_mana: >2}/{max_mana}:".ljust(14),
               end='', flush=True)
         mana_percent_current = int(
             ((current_mana / max_mana) * 100) // 10)
@@ -143,7 +211,7 @@ def set_stamina(console, max_stamina, current_stamina):
     if showStats == 1:
         console.set_cursor_pos(0, 3)
         console.set_text_color('bright white', 'black')
-        print(f"   [Stamina  {current_stamina: >2}/{max_stamina}:".ljust(14),
+        print(f"[Stamina  {current_stamina: >2}/{max_stamina}:".ljust(14),
               end='', flush=True)
         stamina_percent_current = int(
             ((current_stamina / max_stamina) * 100) // 10)
@@ -163,32 +231,34 @@ def set_stamina(console, max_stamina, current_stamina):
 def print_slow(fstr, waitTime=0):
     for letter in fstr:
         print(letter, end='', flush=True)
-        time.sleep(0.032)
+        time.sleep(0.03)
     time.sleep(waitTime)
     scroll_text_up(PADDING)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
     console.clear_line(console.get_console_info().window_rectangle.bottom - 1)
     return ''
 
-# How I define the stats in Arx.
-# Strength:- measuring physical power and carrying capacity (physical attack power and weight lifting abilities)
-# Constitution - measuring endurance, stamina and good health (fatigue threshold and ailment resilience (poison and sickness))
-# Dexterity - measuring agility, balance, coordination and reflexes (chance to dodge and chance to successfully hit)
-# Charisma - measuring force of personality, persuasiveness, leadership and successful planning (barting, escaping or avoiding conflict entirely, friendliness)
-
 
 # Shows player what each player stat does
 def statMeaning():
     print_slow(big)
-    print_slow(
-        "► HP measures how much damage you can take. (You start with 10)", .5)
-    print_slow(
-        "► Strength measures your physical power (base attack damage)", .5)
-    print_slow("► Constitution measures your endurance (stamina)", .5)
-    print_slow(
-        "► Dexterity measures your agility, balance, and coordination (reflexes)", .5)
-    print_slow(
-        f"► Charisma measure persuasiveness, and leadership (personality and bargining)", .5)
+    print_slow('Stats in Arx')
+    print_slow(small)
+    print_slow('Strength:')
+    print_slow('Primary benefit(s): Weapon Damage')
+    print_slow('Additional benefit(s): Increases Inventory', .5)
+    print_slow('')
+    print_slow('Agility:')
+    print_slow('Primary benefit(s): Increased Stamina pool')
+    print_slow('Additional benefit(s): Crit chance and Dodge chance', .5)
+    print_slow('')
+    print_slow('Intelligence:')
+    print_slow('Primary benfit(s): Increased Mana pool')
+    print_slow('Additional benefit(s): Spell Damage and Heal Amount', .5)
+    print_slow('')
+    print_slow('Charisma:')
+    print_slow('Primary benefit(s): Trade prices')
+    print_slow('Additional benefit(s): Chance to prevent negative effects', .5)
     print_slow(big)
     confirm()
 
@@ -197,12 +267,11 @@ def statMeaning():
 def playerStats():
     print_slow(big)
     print_slow(
-        "Lets look at your characters stats! (They are random every play through)", .5)
+        "Lets look at your characters stats! (They are dependent on what class you pick!)", .5)
     print_slow(small)
-    print_slow(f"► Your Health Points are: {my_player.health}", .5)
     print_slow(f"► Your Strength is: {my_player.strength}", .5)
-    print_slow(f"► Your Constitution is: {my_player.constitution}", .5)
-    print_slow(f"► Your Dexterity is: {my_player.dexterity}", .5)
+    print_slow(f"► Your Agility is: {my_player.agility}", .5)
+    print_slow(f"► Your Intelligence is: {my_player.intelligence}", .5)
     print_slow(f"► Your Charisma is: {my_player.charisma}", .5)
     print_slow(small)
     confirm(1)
@@ -228,9 +297,8 @@ def clear_screen():
         console.clear_line(
             console.get_console_info().window_rectangle.bottom - 1)
 
+
 # Question function to utilize all over and to check for command usage
-
-
 def qAnswer(question):
     print_slow(f"{question}")
     console.clear_line(console.get_console_info().window_rectangle.bottom - 1)
@@ -262,6 +330,7 @@ def confirm(keep=0):
     if keep == 0:
         for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
             scroll_text_up(PADDING)
+            time.sleep(0.002)
 
 
 def scroll_text_up(rectangle: consolemanager.Rectangle, clear_rows=1):
@@ -284,13 +353,12 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
     console.set_cursor_info(size=1, visibility=False)
     console.clear_screen()
     console_info = console.get_console_info()
-
     safeZone = 0
     showStats = 1
-    set_hp(console, 100, 80)
-    set_armor(console, 10, 3)
-    set_mana(console, 50, 40)
-    set_stamina(console, 50, 35)
+    set_hp(console, 100, 100)
+    set_armor(console, 10, 10)
+    set_mana(console, 50, 50)
+    set_stamina(console, 50, 50)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
     # Infinite (until it breaks) loop to get characters name.
@@ -312,6 +380,19 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
     print_slow('With help from friends! (credits to come.)')
     print_slow(big)
     confirm()
+
+    # Pick a class
+    while True:
+        console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
+        playerClass = qAnswer(
+            'What class would you like to play? [Commoner], [Warrior], [Mage], [Thief], or [Paladin]?')
+        clear_screen()
+        console.set_cursor_pos(
+            0, console.get_console_info().window_rectangle.bottom - 1)
+        if playerClass.lower() in ['commoner', 'warrior', 'mage', 'thief', 'paladin']:
+            break
+
+    my_player = Player(100, 0)
 
     # Display character's stats and what they mean.
     playerStats()
