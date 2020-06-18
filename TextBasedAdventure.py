@@ -96,61 +96,159 @@ Charisma: 16
 
 
 # Setting up players stats
+# class Player:
+#     def __init__(self, health, armor, charClass):
+#         self._health = health
+#         self._armor = armor
+#         if charClass == "commoner":
+#             self.strength = 8
+#             self.agility = 8
+#             self.intelligence = 8
+#             self.charisma = 8
+#         elif charClass == "warrior":
+#             self.strength = 16
+#             self.agility = 6
+#             self.intelligence = 6
+#             self.charisma = 12
+#         elif charClass == "mage":
+#             self.strength = 6
+#             self.agility = 5
+#             self.intelligence = 16
+#             self.charisma = 13
+#         elif charClass == "thief":
+#             self.strength = 9
+#             self.agility = 16
+#             self.intelligence = 6
+#             self.charisma = 9
+#         elif charClass == "paladin":
+#             self.strength = 12
+#             self.agility = 2
+#             self.intelligence = 10
+#             self.charisma = 16
+#         self.staminaPoolmax = self.agility * 5
+#         self.manaPoolmax = self.intelligence * 5
+
+#     def __str__(self):
+#         return f'-◄[Health: {self.health}, Armor: {self.armor}]►-'
+
+#     @property
+#     def health(self):
+#         return self._health
+
+#     @property
+#     def armor(self):
+#         return self._armor
+
+#     @health.setter
+#     def health(self, value):
+#         # Here I want to make it delete old health display and display new.
+#         self.health = value
+
+#     @armor.setter
+#     def armor(self, value):
+#         # Here I want to make it delete old armor display and display new.
+#         self.armor = value
+
 class Player:
-    def __init__(self, health, armor, charClass):
+    def __init__(self, stats):
+        self.stats = stats
+    ...
+
+
+class PlayerClasses:
+    def __init__(self, health, armor):
         self._health = health
         self._armor = armor
-        if charClass == "commoner":
-            self.strength = 8
-            self.agility = 8
-            self.intelligence = 8
-            self.charisma = 8
-        elif charClass == "warrior":
-            self.strength = 16
-            self.agility = 6
-            self.intelligence = 6
-            self.charisma = 12
-        elif charClass == "mage":
-            self.strength = 6
-            self.agility = 5
-            self.intelligence = 16
-            self.charisma = 13
-        elif charClass == "thief":
-            self.strength = 9
-            self.agility = 16
-            self.intelligence = 6
-            self.charisma = 9
-        elif charClass == "paladin":
-            self.strength = 12
-            self.agility = 2
-            self.intelligence = 10
-            self.charisma = 16
-        self.staminaPoolmax = self.agility * 5
-        self.manaPoolmax = self.intelligence * 5
 
-    def __str__(self):
-        return f'-◄[Health: {self.health}, Armor: {self.armor}]►-'
+    @property
+    def staminaPoolMax(self):
+        return self.agility * 5
+
+    @property
+    def manaPoolMax(self):
+        return self.intelligence * 5
 
     @property
     def health(self):
         return self._health
 
+    @health.setter
+    def health(self, value):
+        self._health = value
+
+    @property
+    def mana(self):
+        return self._mana
+
+    @mana.setter
+    def mana(self, value):
+        self._mana = value
+
+    @property
+    def stamina(self):
+        return self._stamina
+
+    @stamina.setter
+    def stamina(self, value):
+        self._stamina = value
+
     @property
     def armor(self):
         return self._armor
 
-    @health.setter
-    def health(self, value):
-        # Here I want to make it delete old health display and display new.
-        self.health = value
-
     @armor.setter
     def armor(self, value):
-        # Here I want to make it delete old armor display and display new.
-        self.armor = value
+        self._armor = value
+    ...
+
+
+class PlayerClassCommoner(PlayerClasses):
+    def __init__(self, health, armor):
+        super().__init__(health, armor)
+        self.strength = 8
+        self.agility = 8
+        self.intelligence = 8
+        self.charisma = 8
+
+
+class PlayerClassWarrior(PlayerClasses):
+    def __init__(self, health, armor):
+        super().__init__(health, armor)
+        self.strength = 16
+        self.agility = 6
+        self.intelligence = 6
+        self.charisma = 12
+
+
+class PlayerClassMage(PlayerClasses):
+    def __init__(self, health, armor):
+        super().__init__(health, armor)
+        self.strength = 6
+        self.agility = 5
+        self.intelligence = 16
+        self.charisma = 13
+
+
+class PlayerClassThief(PlayerClasses):
+    def __init__(self, health, armor):
+        super().__init__(health, armor)
+        self.strength = 9
+        self.agility = 16
+        self.intelligence = 6
+        self.charisma = 9
+
+
+class PlayerClassPaladin(PlayerClasses):
+    def __init__(self, health, armor):
+        super().__init__(health, armor)
+        self.strength = 12
+        self.agility = 2
+        self.intelligence = 10
+        self.charisma = 16
 
 
 def set_hp(console, current_hp,  max_hp=100, initialize=False):
+    my_player.stats.health = current_hp
     if showStats == True and initialize == False:
         console.set_cursor_pos(0, 0)
         console.set_text_color('bright white', 'black')
@@ -185,9 +283,10 @@ def set_hp(console, current_hp,  max_hp=100, initialize=False):
 
 
 def set_mana(console, current_mana, max_mana=None, initialize=False):
+    my_player.stats.mana = current_mana
     if showStats == True and initialize == False:
         if max_mana is None:
-            max_mana = my_player.manaPoolmax
+            max_mana = my_player.stats.manaPoolMax
         console.set_cursor_pos(0, 1)
         console.set_text_color('bright white', 'black')
         print(f"[Mana      {current_mana: >2}/{max_mana}:".ljust(14),
@@ -206,7 +305,7 @@ def set_mana(console, current_mana, max_mana=None, initialize=False):
         console.set_default_text_color()
     elif showStats == True and initialize == True:
         if max_mana is None:
-            max_mana = my_player.manaPoolmax
+            max_mana = my_player.stats.manaPoolmax
         console.set_cursor_pos(0, 1)
         console.set_text_color('bright white', 'black')
         print_slow(
@@ -226,9 +325,10 @@ def set_mana(console, current_mana, max_mana=None, initialize=False):
 
 
 def set_stamina(console, current_stamina, max_stamina=None, initialize=False):
+    my_player.stats.stamina = current_stamina
     if showStats == True and initialize == False:
         if max_stamina is None:
-            max_stamina = my_player.staminaPoolmax
+            max_stamina = my_player.stats.staminaPoolmax
         console.set_cursor_pos(0, 2)
         console.set_text_color('bright white', 'black')
         print(f"[Stamina   {current_stamina: >2}/{max_stamina}:".ljust(14),
@@ -247,7 +347,7 @@ def set_stamina(console, current_stamina, max_stamina=None, initialize=False):
         console.set_default_text_color()
     elif showStats == True and initialize == True:
         if max_stamina is None:
-            max_stamina = my_player.staminaPoolmax
+            max_stamina = my_player.stats.staminaPoolmax
         console.set_cursor_pos(0, 2)
         console.set_text_color('bright white', 'black')
         print_slow(
@@ -267,6 +367,7 @@ def set_stamina(console, current_stamina, max_stamina=None, initialize=False):
 
 
 def set_armor(console, current_armor, max_armor=10, initialize=False):
+    my_player.stats.armor = current_armor
     if showStats == True and initialize == False:
         console.set_cursor_pos(0, 3)
         console.set_text_color('bright white', 'black')
@@ -348,10 +449,10 @@ def playerStats():
         "Lets look at your characters stats! (They are dependent on what class you pick!)", .5)
     print_slow(small)
     # print_slow(f"► Your Mana is {my_player.mana}")
-    print_slow(f"► Your Strength is: {my_player.strength}", .5)
-    print_slow(f"► Your Agility is: {my_player.agility}", .5)
-    print_slow(f"► Your Intelligence is: {my_player.intelligence}", .5)
-    print_slow(f"► Your Charisma is: {my_player.charisma}", .5)
+    print_slow(f"► Your Strength is: {my_player.stats.strength}", .5)
+    print_slow(f"► Your Agility is: {my_player.stats.agility}", .5)
+    print_slow(f"► Your Intelligence is: {my_player.stats.intelligence}", .5)
+    print_slow(f"► Your Charisma is: {my_player.stats.charisma}", .5)
     print_slow(small)
     confirm(1)
 
@@ -471,15 +572,41 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
         clear_screen()
         console.set_cursor_pos(
             0, console.get_console_info().window_rectangle.bottom - 1)
-        if playerClass.lower() in ['commoner', 'warrior', 'mage', 'thief', 'paladin']:
-            # This is where I init my char class.
-            my_player = Player(100, 0, playerClass.lower())
+        # if playerClass.lower() in ['commoner', 'warrior', 'mage', 'thief', 'paladin']:
+        #     # This is where I init my char class.
+        #     my_player = Player(100, 0, playerClass.lower())
+        # break
+        if playerClass.lower() == "commoner":
+            stats = PlayerClassCommoner(100, 0)
+            my_player = Player(stats)
+            break
+
+        elif playerClass.lower() == "warrior":
+            stats = PlayerClassWarrior(100, 0)
+            my_player = Player(stats)
+            break
+
+        elif playerClass.lower() == "mage":
+            stats = PlayerClassMage(100, 0)
+            my_player = Player(stats)
+            break
+
+        elif playerClass.lower() == "thief":
+            stats = PlayerClassThief(100, 0)
+            my_player = Player(stats)
+            break
+
+        elif playerClass.lower() == "paladin":
+            stats = PlayerClassPaladin(100, 0)
+            my_player = Player(stats)
             break
 
     # Setting player stats bars and info.
+    my_player.stats.manaPoolMax = my_player.stats.intelligence * 5
+    my_player.stats.staminaPoolMax = my_player.stats.agility * 5
     set_hp(console, 100, 100, True)
-    set_mana(console, my_player.manaPoolmax, None, True)
-    set_stamina(console, my_player.staminaPoolmax, None, True)
+    set_mana(console, my_player.stats.manaPoolmax, None, True)
+    set_stamina(console, my_player.stats.staminaPoolmax, None, True)
     set_armor(console, 10, 10, True)
     console.set_cursor_pos(
         35, console.get_console_info().window_rectangle.top + 1)
