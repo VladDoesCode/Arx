@@ -150,11 +150,11 @@ class Player:
         self.armor = value
 
 
-def set_hp(console, current_hp,  max_hp=100, initialize='N'):
-    if showStats == True and initialize == 'N':
+def set_hp(console, current_hp,  max_hp=100, initialize=False):
+    if showStats == True and initialize == False:
         console.set_cursor_pos(0, 0)
         console.set_text_color('bright white', 'black')
-        print(f"[Health {current_hp: >3}/{max_hp}:".ljust(14),
+        print(f"[Health  {current_hp: >3}/{max_hp}:".ljust(14),
               end='', flush=True)
         health_percentage_current = int(((current_hp / max_hp) * 100) // 10)
 
@@ -167,10 +167,10 @@ def set_hp(console, current_hp,  max_hp=100, initialize='N'):
         console.set_text_color('bright white', 'black')
         print(']')
         console.set_default_text_color()
-    elif showStats == True and initialize.lower() == 'y':
+    elif showStats == True and initialize == True:
         console.set_cursor_pos(0, 0)
         console.set_text_color('bright white', 'black')
-        print_slow(f"[Health {current_hp: >3}/{max_hp}:".ljust(14))
+        print_slow(f"[Health  {current_hp: >3}/{max_hp}:".ljust(14), 0, False)
         health_percentage_current = int(((current_hp / max_hp) * 100) // 10)
 
         console.set_text_color('bright white', 'light red')
@@ -184,13 +184,13 @@ def set_hp(console, current_hp,  max_hp=100, initialize='N'):
         console.set_default_text_color()
 
 
-def set_mana(console, current_mana, max_mana=None, initialize='N'):
-    if showStats == True:
+def set_mana(console, current_mana, max_mana=None, initialize=False):
+    if showStats == True and initialize == False:
         if max_mana is None:
             max_mana = my_player.manaPoolmax
         console.set_cursor_pos(0, 1)
         console.set_text_color('bright white', 'black')
-        print(f"[Mana     {current_mana: >2}/{max_mana}:".ljust(14),
+        print(f"[Mana      {current_mana: >2}/{max_mana}:".ljust(14),
               end='', flush=True)
         mana_percent_current = int(
             ((current_mana / max_mana) * 100) // 10)
@@ -204,15 +204,34 @@ def set_mana(console, current_mana, max_mana=None, initialize='N'):
         console.set_text_color('bright white', 'black')
         print(']')
         console.set_default_text_color()
+    elif showStats == True and initialize == True:
+        if max_mana is None:
+            max_mana = my_player.manaPoolmax
+        console.set_cursor_pos(0, 1)
+        console.set_text_color('bright white', 'black')
+        print_slow(
+            f"[Mana      {current_mana: >2}/{max_mana}:".ljust(14), 0, False)
+        mana_percent_current = int(
+            ((current_mana / max_mana) * 100) // 10)
+
+        console.set_text_color('bright white', 'light aqua')
+        print_slow(' ' * mana_percent_current, 0, False)
+
+        console.set_text_color('bright white', 'aqua')
+        print_slow(' ' * (10 - mana_percent_current), 0, False)
+
+        console.set_text_color('bright white', 'black')
+        print_slow(']')
+        console.set_default_text_color()
 
 
-def set_stamina(console, current_stamina, max_stamina=None, initialize='N'):
-    if showStats == True:
+def set_stamina(console, current_stamina, max_stamina=None, initialize=False):
+    if showStats == True and initialize == False:
         if max_stamina is None:
             max_stamina = my_player.staminaPoolmax
         console.set_cursor_pos(0, 2)
         console.set_text_color('bright white', 'black')
-        print(f"[Stamina  {current_stamina: >2}/{max_stamina}:".ljust(14),
+        print(f"[Stamina   {current_stamina: >2}/{max_stamina}:".ljust(14),
               end='', flush=True)
         stamina_percent_current = int(
             ((current_stamina / max_stamina) * 100) // 10)
@@ -226,13 +245,32 @@ def set_stamina(console, current_stamina, max_stamina=None, initialize='N'):
         console.set_text_color('bright white', 'black')
         print(']')
         console.set_default_text_color()
+    elif showStats == True and initialize == True:
+        if max_stamina is None:
+            max_stamina = my_player.staminaPoolmax
+        console.set_cursor_pos(0, 2)
+        console.set_text_color('bright white', 'black')
+        print_slow(
+            f"[Stamina   {current_stamina: >2}/{max_stamina}:".ljust(14), 0, False)
+        stamina_percent_current = int(
+            ((current_stamina / max_stamina) * 100) // 10)
+
+        console.set_text_color('bright white', 'light green')
+        print_slow(' ' * stamina_percent_current, 0, False)
+
+        console.set_text_color('bright white', 'green')
+        print_slow(' ' * (10 - stamina_percent_current), 0, False)
+
+        console.set_text_color('bright white', 'black')
+        print_slow(']')
+        console.set_default_text_color()
 
 
-def set_armor(console, current_armor, max_armor=10, initialize='N'):
-    if showStats == True:
+def set_armor(console, current_armor, max_armor=10, initialize=False):
+    if showStats == True and initialize == False:
         console.set_cursor_pos(0, 3)
         console.set_text_color('bright white', 'black')
-        print(f"[Armor    {current_armor: >2}/{max_armor}:".ljust(14),
+        print(f"[Armor     {current_armor: >2}/{max_armor}:".ljust(14),
               end='', flush=True)
         armor_percentage_current = int(
             ((current_armor / max_armor) * 100) // 10)
@@ -245,6 +283,23 @@ def set_armor(console, current_armor, max_armor=10, initialize='N'):
 
         console.set_text_color('bright white', 'black')
         print(']')
+        console.set_default_text_color()
+    elif showStats == True and initialize == True:
+        console.set_cursor_pos(0, 3)
+        console.set_text_color('bright white', 'black')
+        print_slow(
+            f"[Armor     {current_armor: >2}/{max_armor}:".ljust(14), 0, False)
+        armor_percentage_current = int(
+            ((current_armor / max_armor) * 100) // 10)
+
+        console.set_text_color('bright white', 'light yellow')
+        print_slow(' ' * armor_percentage_current, 0, False)
+
+        console.set_text_color('bright white', 'yellow')
+        print_slow(' ' * (10 - armor_percentage_current), 0, False)
+
+        console.set_text_color('bright white', 'black')
+        print_slow(']')
         console.set_default_text_color()
 
 
@@ -386,11 +441,17 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
         print_slow(big)
         playerName = qAnswer("Hello Adventurer, what is your name?")
     # If character name is 18 or more characters, don't allow it.
-        if len(playerName) <= 18:
+        if len(playerName) <= 18 and len(playerName) > 0:
             break
-        print_slow(small)
-        print_slow('Thats a mighty long name, do you go by something shorter?')
-        print_slow(small)
+        elif len(playerName) == 0:
+            print_slow(small)
+            print_slow('Are you just going to sit there and not talk?')
+            print_slow(small)
+        else:
+            print_slow(small)
+            print_slow(
+                'Thats a mighty long name, do you go by something shorter?')
+            print_slow(small)
 
     # Set the name to capital
     playerName = playerName.capitalize()
@@ -415,11 +476,28 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             my_player = Player(100, 0, playerClass.lower())
             break
 
-    # Setting player stats.
-    set_hp(console, 100, 100, 'y')
-    set_mana(console, my_player.manaPoolmax)
-    set_stamina(console, my_player.staminaPoolmax)
-    set_armor(console, 10)
+    # Setting player stats bars and info.
+    set_hp(console, 100, 100, True)
+    set_mana(console, my_player.manaPoolmax, None, True)
+    set_stamina(console, my_player.staminaPoolmax, None, True)
+    set_armor(console, 10, 10, True)
+    console.set_cursor_pos(
+        35, console.get_console_info().window_rectangle.top + 1)
+    print_slow(f"[Name:  {playerName.capitalize()}]")
+    console.set_cursor_pos(
+        35, console.get_console_info().window_rectangle.top + 2)
+    print_slow(f"[Class:  {playerClass.capitalize()}]")
+    time.sleep(1)
+    console.set_cursor_pos(
+        0, console.get_console_info().window_rectangle.top + 8)
+    print_slow(
+        '^ These are your stat bars, they update in real time when events occur in Arx.')
+    console.set_cursor_pos(
+        0, console.get_console_info().window_rectangle.top + 8)
+    print_slow('Make sure to keep an eye out on them!')
+    console.set_cursor_pos(
+        0, console.get_console_info().window_rectangle.top + 8)
+    confirm()
 
     # Display character's stats and what they mean.
     playerStats()
