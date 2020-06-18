@@ -97,34 +97,36 @@ Charisma: 16
 
 # Setting up players stats
 class Player:
-    def __init__(self, health, armor):
+    def __init__(self, health, armor, charClass):
         self._health = health
         self._armor = armor
-        if playerClass.lower() == "commoner":
+        if charClass == "commoner":
             self.strength = 8
             self.agility = 8
             self.intelligence = 8
             self.charisma = 8
-        elif playerClass.lower() == "warrior":
+        elif charClass == "warrior":
             self.strength = 16
             self.agility = 6
             self.intelligence = 6
             self.charisma = 12
-        elif playerClass.lower() == "mage":
+        elif charClass == "mage":
             self.strength = 6
             self.agility = 5
             self.intelligence = 16
             self.charisma = 13
-        elif playerClass.lower() == "thief":
+        elif charClass == "thief":
             self.strength = 9
             self.agility = 16
             self.intelligence = 6
             self.charisma = 9
-        elif playerClass.lower() == "paladin":
+        elif charClass == "paladin":
             self.strength = 12
             self.agility = 2
             self.intelligence = 10
             self.charisma = 16
+        self.staminaPoolmax = self.agility * 5
+        self.manaPoolmax = self.intelligence * 5
 
     def __str__(self):
         return f'-◄[Health: {self.health}, Armor: {self.armor}]►-'
@@ -148,7 +150,7 @@ class Player:
         self.armor = value
 
 
-def set_hp(console, max_hp, current_hp):
+def set_hp(console, current_hp,  max_hp=100):
     if showStats == 1:
         console.set_cursor_pos(0, 0)
         console.set_text_color('bright white', 'black')
@@ -167,29 +169,11 @@ def set_hp(console, max_hp, current_hp):
         console.set_default_text_color()
 
 
-def set_armor(console, max_armor, current_armor):
+def set_mana(console, current_mana, max_mana=None):
     if showStats == 1:
+        if max_mana is None:
+            max_mana = my_player.manaPoolmax
         console.set_cursor_pos(0, 1)
-        console.set_text_color('bright white', 'black')
-        print(f"[Armor    {current_armor: >2}/{max_armor}:".ljust(14),
-              end='', flush=True)
-        armor_percentage_current = int(
-            ((current_armor / max_armor) * 100) // 10)
-
-        console.set_text_color('bright white', 'light yellow')
-        print(' ' * armor_percentage_current, end='', flush=True)
-
-        console.set_text_color('bright white', 'yellow')
-        print(' ' * (10 - armor_percentage_current), end='', flush=True)
-
-        console.set_text_color('bright white', 'black')
-        print(']')
-        console.set_default_text_color()
-
-
-def set_mana(console, max_mana, current_mana):
-    if showStats == 1:
-        console.set_cursor_pos(0, 2)
         console.set_text_color('bright white', 'black')
         print(f"[Mana     {current_mana: >2}/{max_mana}:".ljust(14),
               end='', flush=True)
@@ -207,9 +191,11 @@ def set_mana(console, max_mana, current_mana):
         console.set_default_text_color()
 
 
-def set_stamina(console, max_stamina, current_stamina):
+def set_stamina(console, current_stamina, max_stamina=None):
     if showStats == 1:
-        console.set_cursor_pos(0, 3)
+        if max_stamina is None:
+            max_stamina = my_player.staminaPoolmax
+        console.set_cursor_pos(0, 2)
         console.set_text_color('bright white', 'black')
         print(f"[Stamina  {current_stamina: >2}/{max_stamina}:".ljust(14),
               end='', flush=True)
@@ -221,6 +207,26 @@ def set_stamina(console, max_stamina, current_stamina):
 
         console.set_text_color('bright white', 'green')
         print(' ' * (10 - stamina_percent_current), end='', flush=True)
+
+        console.set_text_color('bright white', 'black')
+        print(']')
+        console.set_default_text_color()
+
+
+def set_armor(console, current_armor, max_armor=10):
+    if showStats == 1:
+        console.set_cursor_pos(0, 3)
+        console.set_text_color('bright white', 'black')
+        print(f"[Armor    {current_armor: >2}/{max_armor}:".ljust(14),
+              end='', flush=True)
+        armor_percentage_current = int(
+            ((current_armor / max_armor) * 100) // 10)
+
+        console.set_text_color('bright white', 'light yellow')
+        print(' ' * armor_percentage_current, end='', flush=True)
+
+        console.set_text_color('bright white', 'yellow')
+        print(' ' * (10 - armor_percentage_current), end='', flush=True)
 
         console.set_text_color('bright white', 'black')
         print(']')
@@ -244,19 +250,19 @@ def statMeaning():
     print_slow(big)
     print_slow('Stats in Arx')
     print_slow(small)
-    print_slow('Strength:')
+    print_slow('Strength:', .5)
     print_slow('Primary benefit(s): Weapon Damage')
     print_slow('Additional benefit(s): Increases Inventory', .5)
     print_slow('')
-    print_slow('Agility:')
+    print_slow('Agility:', .5)
     print_slow('Primary benefit(s): Increased Stamina pool')
     print_slow('Additional benefit(s): Crit chance and Dodge chance', .5)
     print_slow('')
-    print_slow('Intelligence:')
+    print_slow('Intelligence:', .5)
     print_slow('Primary benfit(s): Increased Mana pool')
     print_slow('Additional benefit(s): Spell Damage and Heal Amount', .5)
     print_slow('')
-    print_slow('Charisma:')
+    print_slow('Charisma:', .5)
     print_slow('Primary benefit(s): Trade prices')
     print_slow('Additional benefit(s): Chance to prevent negative effects', .5)
     print_slow(big)
@@ -269,6 +275,7 @@ def playerStats():
     print_slow(
         "Lets look at your characters stats! (They are dependent on what class you pick!)", .5)
     print_slow(small)
+    # print_slow(f"► Your Mana is {my_player.mana}")
     print_slow(f"► Your Strength is: {my_player.strength}", .5)
     print_slow(f"► Your Agility is: {my_player.agility}", .5)
     print_slow(f"► Your Intelligence is: {my_player.intelligence}", .5)
@@ -355,13 +362,9 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
     console_info = console.get_console_info()
     safeZone = 0
     showStats = 1
-    set_hp(console, 100, 100)
-    set_armor(console, 10, 10)
-    set_mana(console, 50, 50)
-    set_stamina(console, 50, 50)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
-    # Infinite (until it breaks) loop to get characters name.
+    # Get Characters name
     while True:
         print_slow(big)
         playerName = qAnswer("Hello Adventurer, what is your name?")
@@ -384,15 +387,22 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
     # Pick a class
     while True:
         console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
+        print_slow(small)
         playerClass = qAnswer(
             'What class would you like to play? [Commoner], [Warrior], [Mage], [Thief], or [Paladin]?')
         clear_screen()
         console.set_cursor_pos(
             0, console.get_console_info().window_rectangle.bottom - 1)
         if playerClass.lower() in ['commoner', 'warrior', 'mage', 'thief', 'paladin']:
+            #           This is where I init my char class.
+            my_player = Player(100, 0, playerClass.lower())
             break
 
-    my_player = Player(100, 0)
+    # Setting player stats.
+    set_hp(console, 100)
+    set_mana(console, my_player.manaPoolmax)
+    set_stamina(console, my_player.staminaPoolmax)
+    set_armor(console, 10)
 
     # Display character's stats and what they mean.
     playerStats()
