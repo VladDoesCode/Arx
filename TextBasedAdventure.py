@@ -150,8 +150,8 @@ class Player:
         self.armor = value
 
 
-def set_hp(console, current_hp,  max_hp=100):
-    if showStats == 1:
+def set_hp(console, current_hp,  max_hp=100, initialize='N'):
+    if showStats == True and initialize == 'N':
         console.set_cursor_pos(0, 0)
         console.set_text_color('bright white', 'black')
         print(f"[Health {current_hp: >3}/{max_hp}:".ljust(14),
@@ -167,10 +167,25 @@ def set_hp(console, current_hp,  max_hp=100):
         console.set_text_color('bright white', 'black')
         print(']')
         console.set_default_text_color()
+    elif showStats == True and initialize.lower() == 'y':
+        console.set_cursor_pos(0, 0)
+        console.set_text_color('bright white', 'black')
+        print_slow(f"[Health {current_hp: >3}/{max_hp}:".ljust(14))
+        health_percentage_current = int(((current_hp / max_hp) * 100) // 10)
+
+        console.set_text_color('bright white', 'light red')
+        print_slow(' ' * health_percentage_current, 0, False)
+
+        console.set_text_color('bright white', 'red')
+        print_slow(' ' * (10 - health_percentage_current), 0, False)
+
+        console.set_text_color('bright white', 'black')
+        print_slow(']')
+        console.set_default_text_color()
 
 
-def set_mana(console, current_mana, max_mana=None):
-    if showStats == 1:
+def set_mana(console, current_mana, max_mana=None, initialize='N'):
+    if showStats == True:
         if max_mana is None:
             max_mana = my_player.manaPoolmax
         console.set_cursor_pos(0, 1)
@@ -191,8 +206,8 @@ def set_mana(console, current_mana, max_mana=None):
         console.set_default_text_color()
 
 
-def set_stamina(console, current_stamina, max_stamina=None):
-    if showStats == 1:
+def set_stamina(console, current_stamina, max_stamina=None, initialize='N'):
+    if showStats == True:
         if max_stamina is None:
             max_stamina = my_player.staminaPoolmax
         console.set_cursor_pos(0, 2)
@@ -213,8 +228,8 @@ def set_stamina(console, current_stamina, max_stamina=None):
         console.set_default_text_color()
 
 
-def set_armor(console, current_armor, max_armor=10):
-    if showStats == 1:
+def set_armor(console, current_armor, max_armor=10, initialize='N'):
+    if showStats == True:
         console.set_cursor_pos(0, 3)
         console.set_text_color('bright white', 'black')
         print(f"[Armor    {current_armor: >2}/{max_armor}:".ljust(14),
@@ -234,14 +249,16 @@ def set_armor(console, current_armor, max_armor=10):
 
 
 # Prints text slowly
-def print_slow(fstr, waitTime=0):
+def print_slow(fstr, waitTime=0, nextLine=True):
     for letter in fstr:
         print(letter, end='', flush=True)
         time.sleep(0.03)
     time.sleep(waitTime)
-    scroll_text_up(PADDING)
-    console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
-    console.clear_line(console.get_console_info().window_rectangle.bottom - 1)
+    if nextLine == True:
+        scroll_text_up(PADDING)
+        console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
+        console.clear_line(
+            console.get_console_info().window_rectangle.bottom - 1)
     return ''
 
 
@@ -361,7 +378,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
     console.clear_screen()
     console_info = console.get_console_info()
     safeZone = 0
-    showStats = 1
+    showStats = True
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
     # Get Characters name
@@ -394,12 +411,12 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
         console.set_cursor_pos(
             0, console.get_console_info().window_rectangle.bottom - 1)
         if playerClass.lower() in ['commoner', 'warrior', 'mage', 'thief', 'paladin']:
-            #           This is where I init my char class.
+            # This is where I init my char class.
             my_player = Player(100, 0, playerClass.lower())
             break
 
     # Setting player stats.
-    set_hp(console, 100)
+    set_hp(console, 100, 100, 'y')
     set_mana(console, my_player.manaPoolmax)
     set_stamina(console, my_player.staminaPoolmax)
     set_armor(console, 10)
@@ -409,11 +426,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
     statMeaning()
 
     # First choice
-    showStats = 1
     safeZone = 1
-    set_hp(console, 100, 100)
-    set_armor(console, 10, 0)
-    set_mana(console, 50, 40)
     while True:
         print_slow(big)
         print_slow("Now that you're situated with your stats, would you like to:")
