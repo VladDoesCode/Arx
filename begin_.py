@@ -6,16 +6,22 @@ import universalFunctions
 from classes import Hero
 from universalFunctions import printSlow
 
-PADDING = consoleManager.Rectangle(0, 5, 12, 0)
+# PADDING = consoleManager.Rectangle(0, 5, 12, 0)
 
 
 def beginGame():
-    global showStats
     global mainChar
+    # with consoleManager.ConsoleManager(consoleManager.ConsoleStandardHandle.STD_OUTPUT_HANDLE) as console:
     showStats = True
     askName()
     askClass()
     mainChar = Hero(100, 10, classSelect)
+    universalFunctions.set_hp(100, showStats, mainChar, 100, True)
+    universalFunctions.set_mana(
+        mainChar.manaPoolmax, showStats, mainChar, mainChar.manaPoolmax, True)
+    universalFunctions.set_stamina(
+        mainChar.staminaPoolmax, showStats, mainChar, mainChar.staminaPoolmax, True)
+    universalFunctions.set_armor(10, showStats, mainChar, 10, True)
     dialogue1()
 
 

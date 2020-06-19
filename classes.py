@@ -41,9 +41,9 @@ class Hero():
     @health.setter
     def health(self, value):
         # Here I want to make it delete old health display and display new.
-        self.health = value
+        self._health = value
 
     @armor.setter
     def armor(self, value):
         # Here I want to make it delete old armor display and display new.
-        self.armor = value
+        self._armor = value
