@@ -5,6 +5,7 @@ from classes import Hero
 
 
 def beginGame():
+    global mainChar
     askName()
     askClass()
     mainChar = Hero(100, 10, classSelect)

@@ -131,13 +131,13 @@ Charisma: 16
 #     def __str__(self):
 #         return f'-◄[Health: {self.health}, Armor: {self.armor}]►-'
 
-#     @property
-#     def health(self):
-#         return self._health
+# @property
+# def health(self):
+#     return self._health
 
-#     @property
-#     def armor(self):
-#         return self._armor
+# @property
+# def armor(self):
+#     return self._armor
 
 #     @health.setter
 #     def health(self, value):
