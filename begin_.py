@@ -1,11 +1,18 @@
 import sys
-import consoleManager
 import time as t
+
+import consoleManager
+import universalFunctions
 from classes import Hero
+from universalFunctions import printSlow
+
+PADDING = consoleManager.Rectangle(0, 5, 12, 0)
 
 
 def beginGame():
+    global showStats
     global mainChar
+    showStats = True
     askName()
     askClass()
     mainChar = Hero(100, 10, classSelect)
@@ -15,16 +22,6 @@ def beginGame():
 # ------------------------------------------
 # Break to indicate all the functions below:
 # ------------------------------------------
-
-
-def printSlow(text, typespeed=0.03, sleeptime=0, nextline=True):
-    for char in text:
-        sys.stdout.write(char)
-        sys.stdout.flush()
-        t.sleep(typespeed)
-    t.sleep(sleeptime)
-    if nextline == True:
-        print(" ")
 
 
 def askName():

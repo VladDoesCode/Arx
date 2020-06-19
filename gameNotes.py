@@ -1,3 +1,11 @@
+# TODO implement monster fighting (Monster Class)
+# TODO Inventory system
+# TODO Create a question function to pass if command statements through - Done!
+# TODO Display stats at the top of terminal.
+# TODO Create a game-loop-esc function to call upon when something changes
+# TODO Save Functionality (maybe check points?)
+# TODO BIG todo: make a Trello board of todos. im losing count and going insane.
+
 '''
 ------------------------------
 How I define the stats in Arx.
