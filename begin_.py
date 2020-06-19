@@ -41,7 +41,7 @@ def askName():
             printSlow(
                 "Ive never met an Adventurer with such a short name, what else do you go by?")
         name = input("> ")
-    printSlow("Welcome, %s" % name.capitalize() + " to the city of Arx!")
+    printSlow("Welcome, %s" % name.capitalize() + " to the world of Arx!")
 
 
 def askClass():
