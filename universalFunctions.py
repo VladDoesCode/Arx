@@ -2,12 +2,11 @@ import sys
 import time as t
 import consolemanager
 
-PADDING = consolemanager.Rectangle(0, 5, 12, 0)
-
-
 with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTPUT_HANDLE) as console:
     console_info = console.get_console_info()
+    PADDING = consolemanager.Rectangle(0, 5, 12, 0)
 
+#   Function to Type out Printed strings
     def printSlow(fstr, waitTime=0, nextLine=True):
         for char in fstr:
             print(char, end='', flush=True)
@@ -20,6 +19,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
                 console.get_console_info().window_rectangle.bottom - 1)
         return ''
 
+#   Function to move text up
     def scroll_text_up(rectangle: consolemanager.Rectangle, clear_rows=1):
         ci = console.get_console_info()
         for row in range(rectangle.top + 1, ci.window_rectangle.bottom + 1 - rectangle.bottom - clear_rows):
@@ -32,18 +32,22 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
                     rectangle.left, row - 1 + clear_row)
                 print(line, end='', flush=True)
 
-    def clear_screen(PADDING):
+# Function to clear the screen
+    def clear_screen(PADDING=PADDING):
         for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
             scroll_text_up(PADDING)
             console.clear_line(
                 console.get_console_info().window_rectangle.bottom - 1)
+        console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
+# Function when I want user to press "Enter" as confirmation.
     def confirm(keep=0):
         input(printSlow("Press Enter to continue..."))
         if keep == 0:
             for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
                 scroll_text_up(PADDING)
                 t.sleep(0.002)
+        console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
     # Question function to utilize all over and to check for command usage
     def qAnswer(question):
@@ -77,10 +81,14 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
                 console.get_console_info().window_rectangle.bottom - 1)
             return answer
 
+# Stat Bar Setting Functions Below:
+# ---------------------------------
+
     def set_hp(current_hp, showStats, mainChar, max_hp=100, initialize=False):
         mainChar.health = current_hp
         if showStats == True and initialize == False:
             console.set_cursor_pos(0, 0)
+
             console.set_text_color('bright white', 'black')
             print(f"[Health  {current_hp: >3}/{max_hp}:".ljust(14),
                   end='', flush=True)
@@ -94,7 +102,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             print(' ' * (10 - health_percentage_current), end='', flush=True)
 
             console.set_text_color('bright white', 'black')
-            print(']')
+            printSlow(']', 0, False)
             console.set_default_text_color()
         elif showStats == True and initialize == True:
             console.set_cursor_pos(0, 0)
@@ -111,7 +119,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             printSlow(' ' * (10 - health_percentage_current), 0, False)
 
             console.set_text_color('bright white', 'black')
-            printSlow(']')
+            printSlow(']', 0, False)
             console.set_default_text_color()
 
     def set_mana(current_mana, showStats, mainChar, max_mana=None, initialize=False):
@@ -133,7 +141,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             print(' ' * (10 - mana_percent_current), end='', flush=True)
 
             console.set_text_color('bright white', 'black')
-            print(']')
+            printSlow(']', 0, False)
             console.set_default_text_color()
         elif showStats == True and initialize == True:
             if max_mana is None:
@@ -152,7 +160,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             printSlow(' ' * (10 - mana_percent_current), 0, False)
 
             console.set_text_color('bright white', 'black')
-            printSlow(']')
+            printSlow(']', 0, False)
             console.set_default_text_color()
 
     def set_stamina(current_stamina, showStats, mainChar, max_stamina=None, initialize=False):
@@ -174,7 +182,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             print(' ' * (10 - stamina_percent_current), end='', flush=True)
 
             console.set_text_color('bright white', 'black')
-            print(']')
+            printSlow(']', 0, False)
             console.set_default_text_color()
         elif showStats == True and initialize == True:
             if max_stamina is None:
@@ -193,7 +201,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             printSlow(' ' * (10 - stamina_percent_current), 0, False)
 
             console.set_text_color('bright white', 'black')
-            printSlow(']')
+            printSlow(']', 0, False)
             console.set_default_text_color()
 
     def set_armor(current_armor, showStats, mainChar, max_armor=10, initialize=False):
@@ -213,7 +221,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             print(' ' * (10 - armor_percentage_current), end='', flush=True)
 
             console.set_text_color('bright white', 'black')
-            print(']')
+            printSlow(']', 0, False)
             console.set_default_text_color()
         elif showStats == True and initialize == True:
             console.set_cursor_pos(0, 3)
