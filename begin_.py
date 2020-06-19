@@ -7,6 +7,7 @@ from classes import Hero
 from universalFunctions import printSlow
 from universalFunctions import qAnswer
 
+
 with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTPUT_HANDLE) as console:
 
     console_info = console.get_console_info()

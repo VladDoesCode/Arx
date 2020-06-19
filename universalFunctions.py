@@ -2,6 +2,7 @@ import sys
 import time as t
 import consolemanager
 
+
 with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTPUT_HANDLE) as console:
     console_info = console.get_console_info()
     PADDING = consolemanager.Rectangle(0, 5, 12, 0)
