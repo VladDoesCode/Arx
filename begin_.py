@@ -1,17 +1,17 @@
 import sys
 import time as t
 
-import consoleManager
+import consolemanager
 import universalFunctions
 from classes import Hero
 from universalFunctions import printSlow
 
-# PADDING = consoleManager.Rectangle(0, 5, 12, 0)
+# PADDING = consolemanager.Rectangle(0, 5, 12, 0)
 
 
 def beginGame():
     global mainChar
-    # with consoleManager.ConsoleManager(consoleManager.ConsoleStandardHandle.STD_OUTPUT_HANDLE) as console:
+    # with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTPUT_HANDLE) as console:
     showStats = True
     askName()
     askClass()

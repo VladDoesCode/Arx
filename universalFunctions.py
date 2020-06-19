@@ -1,11 +1,11 @@
 import sys
 import time as t
-import consoleManager
+import consolemanager
 
-console = consoleManager.ConsoleManager(
-    consoleManager.ConsoleStandardHandle.STD_OUTPUT_HANDLE)
+console = consolemanager.ConsoleManager(
+    consolemanager.ConsoleStandardHandle.STD_OUTPUT_HANDLE)
 
-PADDING = consoleManager.Rectangle(0, 5, 12, 0)
+PADDING = consolemanager.Rectangle(0, 5, 12, 0)
 
 
 def printSlow(text, typespeed=0.03, sleeptime=0, nextline=True):
@@ -21,7 +21,7 @@ def printSlow(text, typespeed=0.03, sleeptime=0, nextline=True):
 def set_hp(current_hp, showStats, mainChar, max_hp=100, initialize=False):
     mainChar.health = current_hp
     if showStats == True and initialize == False:
-        consoleManager.Console.set_cursor_pos(consoleManager.Console, 0, 0)
+        consolemanager.Console.set_cursor_pos(consolemanager.Console, 0, 0)
         console.set_text_color('bright white', 'black')
         print(f"[Health  {current_hp: >3}/{max_hp}:".ljust(14),
               end='', flush=True)
@@ -37,7 +37,7 @@ def set_hp(current_hp, showStats, mainChar, max_hp=100, initialize=False):
         print(']')
         console.set_default_text_color()
     elif showStats == True and initialize == True:
-        consoleManager.Console.set_cursor_pos(consoleManager.Console, 0, 0)
+        consolemanager.Console.set_cursor_pos(consolemanager.Console, 0, 0)
         console.set_text_color('bright white', 'black')
         printSlow(f"[Health  {current_hp: >3}/{max_hp}:".ljust(14), 0, False)
         health_percentage_current = int(((current_hp / max_hp) * 100) // 10)
@@ -58,7 +58,7 @@ def set_mana(current_mana, showStats, mainChar, max_mana=None, initialize=False)
     if showStats == True and initialize == False:
         if max_mana is None:
             max_mana = mainChar.manaPoolMax
-        consoleManager.Console.set_cursor_pos(consoleManager.Console, 0, 1)
+        consolemanager.Console.set_cursor_pos(consolemanager.Console, 0, 1)
         console.set_text_color('bright white', 'black')
         print(f"[Mana      {current_mana: >2}/{max_mana}:".ljust(14),
               end='', flush=True)
@@ -77,7 +77,7 @@ def set_mana(current_mana, showStats, mainChar, max_mana=None, initialize=False)
     elif showStats == True and initialize == True:
         if max_mana is None:
             max_mana = mainChar.manaPoolmax
-        consoleManager.Console.set_cursor_pos(consoleManager.Console, 0, 1)
+        consolemanager.Console.set_cursor_pos(consolemanager.Console, 0, 1)
         console.set_text_color('bright white', 'black')
         printSlow(
             f"[Mana      {current_mana: >2}/{max_mana}:".ljust(14), 0, False)
@@ -100,7 +100,7 @@ def set_stamina(current_stamina, showStats, mainChar, max_stamina=None, initiali
     if showStats == True and initialize == False:
         if max_stamina is None:
             max_stamina = mainChar.staminaPoolmax
-        consoleManager.Console.set_cursor_pos(consoleManager.Console, 0, 2)
+        consolemanager.Console.set_cursor_pos(consolemanager.Console, 0, 2)
         console.set_text_color('bright white', 'black')
         print(f"[Stamina   {current_stamina: >2}/{max_stamina}:".ljust(14),
               end='', flush=True)
@@ -119,7 +119,7 @@ def set_stamina(current_stamina, showStats, mainChar, max_stamina=None, initiali
     elif showStats == True and initialize == True:
         if max_stamina is None:
             max_stamina = mainChar.staminaPoolmax
-        consoleManager.Console.set_cursor_pos(consoleManager.Console, 0, 2)
+        consolemanager.Console.set_cursor_pos(consolemanager.Console, 0, 2)
         console.set_text_color('bright white', 'black')
         printSlow(
             f"[Stamina   {current_stamina: >2}/{max_stamina}:".ljust(14), 0, False)
@@ -140,7 +140,7 @@ def set_stamina(current_stamina, showStats, mainChar, max_stamina=None, initiali
 def set_armor(current_armor, showStats, mainChar, max_armor=10, initialize=False):
     mainChar.armor = current_armor
     if showStats == True and initialize == False:
-        consoleManager.Console.set_cursor_pos(consoleManager.Console, 0, 3)
+        consolemanager.Console.set_cursor_pos(consolemanager.Console, 0, 3)
         console.set_text_color('bright white', 'black')
         print(f"[Armor     {current_armor: >2}/{max_armor}:".ljust(14),
               end='', flush=True)
@@ -157,7 +157,7 @@ def set_armor(current_armor, showStats, mainChar, max_armor=10, initialize=False
         print(']')
         console.set_default_text_color()
     elif showStats == True and initialize == True:
-        consoleManager.Console.set_cursor_pos(consoleManager.Console, 0, 3)
+        consolemanager.Console.set_cursor_pos(consolemanager.Console, 0, 3)
         console.set_text_color('bright white', 'black')
         printSlow(
             f"[Armor     {current_armor: >2}/{max_armor}:".ljust(14), 0, False)
@@ -175,7 +175,7 @@ def set_armor(current_armor, showStats, mainChar, max_armor=10, initialize=False
         console.set_default_text_color()
 
 
-def scroll_text_up(rectangle: consoleManager.Rectangle, clear_rows=1):
+def scroll_text_up(rectangle: consolemanager.Rectangle, clear_rows=1):
     ci = console.get_console_info()
     for row in range(rectangle.top + 1, ci.window_rectangle.bottom + 1 - rectangle.bottom - clear_rows):
         for clear_row in range(clear_rows):
@@ -183,8 +183,8 @@ def scroll_text_up(rectangle: consoleManager.Rectangle, clear_rows=1):
                                      row - 1 + clear_row, x_start=rectangle.left)
             line = console.read_console_line(
                 row + clear_row)[rectangle.left:-rectangle.right]
-            consoleManager.Console.set_cursor_pos(
-                consoleManager.Console, rectangle.left, row - 1 + clear_row)
+            consolemanager.Console.set_cursor_pos(
+                consolemanager.Console, rectangle.left, row - 1 + clear_row)
             print(line, end='', flush=True)
 
 
