@@ -4,15 +4,78 @@ import consolemanager
 
 PADDING = consolemanager.Rectangle(0, 5, 12, 0)
 
+
 with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTPUT_HANDLE) as console:
-    def printSlow(text, typespeed=0.03, sleeptime=0, nextline=True):
-        for char in text:
-            sys.stdout.write(char)
-            sys.stdout.flush()
-            t.sleep(typespeed)
-        t.sleep(sleeptime)
-        if nextline == True:
-            print(" ")
+    console_info = console.get_console_info()
+
+    def printSlow(fstr, waitTime=0, nextLine=True):
+        for char in fstr:
+            print(char, end='', flush=True)
+            t.sleep(0.03)
+        t.sleep(waitTime)
+        if nextLine == True:
+            scroll_text_up(PADDING)
+            console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
+            console.clear_line(
+                console.get_console_info().window_rectangle.bottom - 1)
+        return ''
+
+    def scroll_text_up(rectangle: consolemanager.Rectangle, clear_rows=1):
+        ci = console.get_console_info()
+        for row in range(rectangle.top + 1, ci.window_rectangle.bottom + 1 - rectangle.bottom - clear_rows):
+            for clear_row in range(clear_rows):
+                console.clear_line_until(ci.window_rectangle.right - rectangle.right - rectangle.left,
+                                         row - 1 + clear_row, x_start=rectangle.left)
+                line = console.read_console_line(
+                    row + clear_row)[rectangle.left:-rectangle.right]
+                console.set_cursor_pos(
+                    rectangle.left, row - 1 + clear_row)
+                print(line, end='', flush=True)
+
+    def clear_screen(PADDING):
+        for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
+            scroll_text_up(PADDING)
+            console.clear_line(
+                console.get_console_info().window_rectangle.bottom - 1)
+
+    def confirm(keep=0):
+        input(printSlow("Press Enter to continue..."))
+        if keep == 0:
+            for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
+                scroll_text_up(PADDING)
+                t.sleep(0.002)
+
+    # Question function to utilize all over and to check for command usage
+    def qAnswer(question):
+        printSlow(f"{question}")
+        console.clear_line(
+            console.get_console_info().window_rectangle.bottom - 1)
+        # print('> ', end='', flush=True)
+        printSlow('> ', 0, False)
+        answer = input()
+        if answer.lower() == "!stats" and safeZone == 1:
+            clear_screen()
+            printSlow(big)
+            printSlow(
+                "Remember you can view a list of commands in any safezone with !commands", .5)
+            playerStats()
+            clear_screen()
+        elif answer.lower() == "!statsmeaning" and safeZone == 1:
+            clear_screen()
+            printSlow(big)
+            printSlow(
+                "Remember you can view a list of commands in any safezone with !commands", .5)
+            printSlow(big)
+            statMeaning()
+        elif answer.lower() == "!commands" and safeZone == 1:
+            clear_screen()
+            commands()
+        else:
+            scroll_text_up(PADDING)
+            console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
+            console.clear_line(
+                console.get_console_info().window_rectangle.bottom - 1)
+            return answer
 
     def set_hp(current_hp, showStats, mainChar, max_hp=100, initialize=False):
         mainChar.health = current_hp
@@ -169,21 +232,3 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             console.set_text_color('bright white', 'black')
             printSlow(']')
             console.set_default_text_color()
-
-    def scroll_text_up(rectangle: consolemanager.Rectangle, clear_rows=1):
-        ci = console.get_console_info()
-        for row in range(rectangle.top + 1, ci.window_rectangle.bottom + 1 - rectangle.bottom - clear_rows):
-            for clear_row in range(clear_rows):
-                console.clear_line_until(ci.window_rectangle.right - rectangle.right - rectangle.left,
-                                         row - 1 + clear_row, x_start=rectangle.left)
-                line = console.read_console_line(
-                    row + clear_row)[rectangle.left:-rectangle.right]
-                console.set_cursor_pos(
-                    rectangle.left, row - 1 + clear_row)
-                print(line, end='', flush=True)
-
-    def clear_screen(PADDING):
-        for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
-            scroll_text_up(PADDING)
-            console.clear_line(
-                console.get_console_info().window_rectangle.bottom - 1)

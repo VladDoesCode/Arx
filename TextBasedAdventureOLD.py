@@ -261,7 +261,7 @@ def clear_screen():
 def qAnswer(question):
     print_slow(f"{question}")
     console.clear_line(console.get_console_info().window_rectangle.bottom - 1)
-    print('► ', end='', flush=True)
+    print('> ', end='', flush=True)
     answer = input()
     if answer.lower() == "!stats" and safeZone == 1:
         clear_screen()

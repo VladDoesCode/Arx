@@ -5,24 +5,31 @@ import consolemanager
 import universalFunctions
 from classes import Hero
 from universalFunctions import printSlow
+from universalFunctions import qAnswer
 
-# PADDING = consolemanager.Rectangle(0, 5, 12, 0)
+with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTPUT_HANDLE) as console:
 
+    console_info = console.get_console_info()
 
-def beginGame():
-    global mainChar
-    # with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTPUT_HANDLE) as console:
-    showStats = True
-    askName()
-    askClass()
-    mainChar = Hero(100, 10, classSelect)
-    universalFunctions.set_hp(100, showStats, mainChar, 100, True)
-    universalFunctions.set_mana(
-        mainChar.manaPoolmax, showStats, mainChar, mainChar.manaPoolmax, True)
-    universalFunctions.set_stamina(
-        mainChar.staminaPoolmax, showStats, mainChar, mainChar.staminaPoolmax, True)
-    universalFunctions.set_armor(10, showStats, mainChar, 10, True)
-    dialogue1()
+    def beginGame():
+        global mainChar
+        console.set_title("Arx")
+        console.set_cursor_info(size=1, visibility=False)
+        console.clear_screen()
+        safeZone = 0
+        showStats = True
+        console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
+
+        askName()
+        askClass()
+        mainChar = Hero(100, 10, classSelect)
+        universalFunctions.set_hp(100, showStats, mainChar, 100, True)
+        universalFunctions.set_mana(
+            mainChar.manaPoolmax, showStats, mainChar, mainChar.manaPoolmax, True)
+        universalFunctions.set_stamina(
+            mainChar.staminaPoolmax, showStats, mainChar, mainChar.staminaPoolmax, True)
+        universalFunctions.set_armor(10, showStats, mainChar, 10, True)
+        dialogue1()
 
 
 # ------------------------------------------
@@ -31,28 +38,27 @@ def beginGame():
 
 
 def askName():
-    printSlow("Hello Adventurer, what is your name?")
-    name = input("> ")
+    name = qAnswer("Hello Adventurer, what is your name?")
     while len(name) > 18 or len(name) < 3:
         if len(name) > 18:
-            printSlow(
+            name = qAnswer(
                 "Ive never met an Adventurer with such a long name, what else do you go by?")
-        elif len(name) < 3:
-            printSlow(
+        elif len(name) < 3 and len(name) > 0:
+            name = qAnswer(
                 "Ive never met an Adventurer with such a short name, what else do you go by?")
-        name = input("> ")
-    printSlow("Welcome, %s" % name.capitalize() + " to the world of Arx!")
+        elif len(name) == 0:
+            name = qAnswer(
+                "What, are you just going to sit there any say nothing? Give me your name.")
+    printSlow(f"Welcome {name}, to the world of Arx!")
 
 
 def askClass():
     global classSelect
-    printSlow(
+    classSelect = qAnswer(
         "What class would you like to play, [Commoner], [Warrior], [Mage], [Thief], or [Paladin]?")
-    classSelect = input("> ")
     while classSelect.lower() not in ["commoner", "warrior", "mage", "thief", "paladin"]:
-        printSlow(
+        classSelect = qAnswer(
             "Come again, which class? [Commoner], [Warrior], [Mage], [Thief], or [Paladin].")
-        classSelect = input("> ")
 
 
 def dialogue1():
