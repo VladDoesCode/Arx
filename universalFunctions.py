@@ -10,7 +10,7 @@ small = '-<===============>-'
 
 with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTPUT_HANDLE) as console:
     console_info = console.get_console_info()
-    PADDING = consolemanager.Rectangle(0, 5, 12, 0)
+    PADDING = consolemanager.Rectangle(0, 6, 12, 0)
     PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
 
 #   Function to Type out Printed strings
@@ -40,7 +40,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
                 print(line, end='', flush=True)
 
 #   Function to clear the screen WITH padding
-    def clear_screen(PADDING=PADDING, waitTime=0):
+    def clear_screen(PADDING=PADDING, waitTime=0.015):
         for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
             scroll_text_up(PADDING)
             console.clear_line(
@@ -54,7 +54,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
         if keep == 0:
             for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
                 scroll_text_up(PADDING)
-                t.sleep(0.002)
+                t.sleep(0.015)
         console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
     # Question function to utilize all over and to check for command usage
@@ -84,9 +84,6 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             commands()
         else:
             scroll_text_up(PADDING)
-            # console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
-            # console.clear_line(
-            #     console.get_console_info().window_rectangle.bottom - 1)
             printSlow('')
             console.clear_line(
                 console.get_console_info().window_rectangle.bottom - 2)
@@ -96,7 +93,36 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
 # Stat Bar Setting Functions Below:
 # ---------------------------------
 
-    def set_hp(current_hp, showStats, mainChar, max_hp=100, initialize=False):
+    '''
+       _____   __________ ____  ___
+      /  _  \  \______   \\   \/  /
+     /  /_\  \  |       _/ \     / 
+    /    |    \ |    |   \ /     \ 
+    \____|__  / |____|_  //___/\  \
+            \/         \/       \_/
+    '''
+
+    def setArx():
+        console.set_cursor_pos(
+            console.get_console_info().window_rectangle.right - 32, 0)
+        printSlow("   _____   __________ ____  ___ ")
+        console.set_cursor_pos(
+            console.get_console_info().window_rectangle.right - 32, 1)
+        printSlow("  /  _  \  \______   \\\   \/  /")
+        console.set_cursor_pos(
+            console.get_console_info().window_rectangle.right - 32, 2)
+        printSlow(" /  /_\  \  |       _/ \     /  ")
+        console.set_cursor_pos(
+            console.get_console_info().window_rectangle.right - 32, 3)
+        printSlow("/    |    \ |    |   \ /     \  ")
+        console.set_cursor_pos(
+            console.get_console_info().window_rectangle.right - 32, 4)
+        printSlow("\____|__  / |____|_  //___/\  \ ")
+        console.set_cursor_pos(
+            console.get_console_info().window_rectangle.right - 32, 5)
+        printSlow("        \/         \/       \_/ ")
+
+    def setHP(current_hp, showStats, mainChar, max_hp=100, initialize=False):
         mainChar.health = current_hp
         if showStats == True and initialize == False:
             console.set_cursor_pos(0, 0)
@@ -135,7 +161,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             printSlow(']', 0, False)
             console.set_default_text_color()
 
-    def set_mana(current_mana, showStats, mainChar, max_mana=None, initialize=False):
+    def setMana(current_mana, showStats, mainChar, max_mana=None, initialize=False):
         mainChar.mana = current_mana
         if showStats == True and initialize == False:
             if max_mana is None:
@@ -176,7 +202,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             printSlow(']', 0, False)
             console.set_default_text_color()
 
-    def set_stamina(current_stamina, showStats, mainChar, max_stamina=None, initialize=False):
+    def setStamina(current_stamina, showStats, mainChar, max_stamina=None, initialize=False):
         mainChar.stamina = current_stamina
         if showStats == True and initialize == False:
             if max_stamina is None:
@@ -217,7 +243,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             printSlow(']', 0, False)
             console.set_default_text_color()
 
-    def set_armor(current_armor, showStats, mainChar, max_armor=10, initialize=False):
+    def setArmor(current_armor, showStats, mainChar, max_armor=10, initialize=False):
         mainChar.armor = current_armor
         if showStats == True and initialize == False:
             console.set_cursor_pos(0, 3)
@@ -254,56 +280,53 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             printSlow(']')
             console.set_default_text_color()
 
-'''
+    '''                                   
+          _____        _____                   
+      ___|\    \   ___|\    \  _____      _____
+     /    /\    \ |    |\    \ \    \    /    /
+    |    |  |    ||    | |    | \    \  /    / 
+    |    |__|    ||    |/____/   \____\/____/  
+    |    .--.    ||    |\    \   /    /\    \  
+    |    |  |    ||    | |    | /    /  \    \ 
+    |____|  |____||____| |____|/____/ /\ \____\
+    |    |  |    ||    | |    ||    |/  \|    |
+    |____|  |____||____| |____||____|    |____|
+      \(      )/    \(     )/    \(        )/  
+       '      '      '     '      '        '                                             
+    '''
 
-                                           
-      _____        _____                   
-  ___|\    \   ___|\    \  _____      _____
- /    /\    \ |    |\    \ \    \    /    /
-|    |  |    ||    | |    | \    \  /    / 
-|    |__|    ||    |/____/   \____\/____/  
-|    .--.    ||    |\    \   /    /\    \  
-|    |  |    ||    | |    | /    /  \    \ 
-|____|  |____||____| |____|/____/ /\ \____\
-|    |  |    ||    | |    ||    |/  \|    |
-|____|  |____||____| |____||____|    |____|
-  \(      )/    \(     )/    \(        )/  
-   '      '      '     '      '        '   
-                                           
-'''
-
-
-#   This is the ascii art logo.
-def titleLogo():
-    console.set_cursor_pos(35, 19)
-    printSlow("      _____        _____                   ", 0, True, 0.008)
-    console.set_cursor_pos(35, 19)
-    printSlow("  ___|\    \   ___|\    \  _____      _____", 0, True, 0.008)
-    console.set_cursor_pos(35, 19)
-    printSlow(" /    /\    \ |    |\    \ \    \    /    /", 0, True, 0.008)
-    console.set_cursor_pos(35, 19)
-    printSlow("|    |  |    ||    | |    | \    \  /    / ", 0, True, 0.008)
-    console.set_cursor_pos(35, 19)
-    printSlow("|    |__|    ||    |/____/   \____\/____/  ", 0, True, 0.008)
-    console.set_cursor_pos(35, 19)
-    printSlow("|    .--.    ||    |\    \   /    /\    \  ", 0, True, 0.008)
-    console.set_cursor_pos(35, 19)
-    printSlow("|    |  |    ||    | |    | /    /  \    \ ", 0, True, 0.008)
-    console.set_cursor_pos(35, 19)
-    printSlow("|____|  |____||____| |____|/____/ /\ \____\ ", 0, True, 0.008)
-    console.set_cursor_pos(35, 19)
-    printSlow("|    |  |    ||    | |    ||    |/  \|    |", 0, True, 0.008)
-    console.set_cursor_pos(35, 19)
-    printSlow("|____|  |____||____| |____||____|    |____|", 0, True, 0.008)
-    console.set_cursor_pos(35, 19)
-    printSlow("  \(      )/    \(     )/    \(        )/  ", 0, True, 0.008)
-    console.set_cursor_pos(35, 19)
-    printSlow("   '      '      '     '      '        '   ", 0.5, True, 0.008)
-    console.set_cursor_pos(23, 19)
-    printSlow(
-        "A text based adventure game made by Vladimir with help from friends.", 0, True, 0.02)
-    console.set_cursor_pos(27, 19)
-    printSlow(
-        "Use !credits in a safe zone to view the help of my friends!",  0, True, 0.02)
-    t.sleep(2)
-    clear_screen(PADDINGNONE, 0.15)
+    #   This is the ascii art logo.
+    def titleLogo():
+        console.set_cursor_pos(35, 19)
+        printSlow("      _____        _____                   ", 0, True, 0.008)
+        console.set_cursor_pos(35, 19)
+        printSlow("  ___|\    \   ___|\    \  _____      _____", 0, True, 0.008)
+        console.set_cursor_pos(35, 19)
+        printSlow(" /    /\    \ |    |\    \ \    \    /    /", 0, True, 0.008)
+        console.set_cursor_pos(35, 19)
+        printSlow("|    |  |    ||    | |    | \    \  /    / ", 0, True, 0.008)
+        console.set_cursor_pos(35, 19)
+        printSlow("|    |__|    ||    |/____/   \____\/____/  ", 0, True, 0.008)
+        console.set_cursor_pos(35, 19)
+        printSlow("|    .--.    ||    |\    \   /    /\    \  ", 0, True, 0.008)
+        console.set_cursor_pos(35, 19)
+        printSlow("|    |  |    ||    | |    | /    /  \    \ ", 0, True, 0.008)
+        console.set_cursor_pos(35, 19)
+        printSlow("|____|  |____||____| |____|/____/ /\ \____\ ", 0, True, 0.008)
+        console.set_cursor_pos(35, 19)
+        printSlow("|    |  |    ||    | |    ||    |/  \|    |", 0, True, 0.008)
+        console.set_cursor_pos(35, 19)
+        printSlow("|____|  |____||____| |____||____|    |____|", 0, True, 0.008)
+        console.set_cursor_pos(35, 19)
+        printSlow("  \(      )/    \(     )/    \(        )/  ", 0, True, 0.008)
+        console.set_cursor_pos(35, 19)
+        printSlow("   '      '      '     '      '        '   ",
+                  0.2, True, 0.008)
+        console.set_cursor_pos(23, 19)
+        printSlow(
+            "A text based adventure game made by Vladimir with help from friends.", 0, True, 0.02)
+        console.set_cursor_pos(27, 19)
+        printSlow(
+            "Use !credits in a safe zone to view the help of my friends!",  0, True, 0.02)
+        t.sleep(2)
+        clear_screen(PADDINGNONE, 0.1)

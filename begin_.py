@@ -28,12 +28,13 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
         askName()
         askClass()
         mainChar = Hero(100, 10, classSelect)
-        universalFunctions.set_hp(100, showStats, mainChar, 100, True)
-        universalFunctions.set_mana(
+        universalFunctions.setHP(100, showStats, mainChar, 100, True)
+        universalFunctions.setMana(
             mainChar.manaPoolmax, showStats, mainChar, mainChar.manaPoolmax, True)
-        universalFunctions.set_stamina(
+        universalFunctions.setStamina(
             mainChar.staminaPoolmax, showStats, mainChar, mainChar.staminaPoolmax, True)
-        universalFunctions.set_armor(10, showStats, mainChar, 10, True)
+        universalFunctions.setArmor(10, showStats, mainChar, 10, True)
+        universalFunctions.setArx()
         dialogue1()
 
 
@@ -56,11 +57,9 @@ def askName():
         elif len(name) == 0:
             universalFunctions.clear_screen()
             name = qAnswer(
-                "What, are you just going to sit there any say nothing? Give me your name.")
+                "What, are you just going to sit there and say nothing? Give me your name.")
 
     printSlow(f"Welcome {name}, to the world of Arx!")
-    printSlow('A text based adventure created by Vladimir!')
-    printSlow('With help from friends! (credits to come.)')
     universalFunctions.confirm()
 
 
