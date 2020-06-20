@@ -14,7 +14,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
     PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
 
 #   Function to Type out Printed strings
-    def printSlow(fstr, typeSpeed=0.03, waitTime=0, nextLine=True):
+    def printSlow(fstr, waitTime=0, nextLine=True, typeSpeed=0.03):
         for char in fstr:
             print(char, end='', flush=True)
             t.sleep(typeSpeed)
@@ -63,7 +63,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
         console.clear_line(
             console.get_console_info().window_rectangle.bottom - 1)
         # print('> ', end='', flush=True)
-        printSlow('> ', 0.03, 0, False)
+        printSlow('> ', 0, False)
         answer = input()
         if answer.lower() == "!stats" and safeZone == True:
             clear_screen()
@@ -84,9 +84,12 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             commands()
         else:
             scroll_text_up(PADDING)
-            console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
+            # console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
+            # console.clear_line(
+            #     console.get_console_info().window_rectangle.bottom - 1)
+            printSlow('')
             console.clear_line(
-                console.get_console_info().window_rectangle.bottom - 1)
+                console.get_console_info().window_rectangle.bottom - 2)
             return answer
 
 # ---------------------------------
@@ -115,6 +118,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             console.set_default_text_color()
         elif showStats == True and initialize == True:
             console.set_cursor_pos(0, 0)
+
             console.set_text_color('bright white', 'black')
             printSlow(
                 f"[Health  {current_hp: >3}/{max_hp}:".ljust(14), 0, False)
@@ -272,32 +276,34 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
 #   This is the ascii art logo.
 def titleLogo():
     console.set_cursor_pos(35, 19)
-    printSlow("      _____        _____                   ", 0.008)
+    printSlow("      _____        _____                   ", 0, True, 0.008)
     console.set_cursor_pos(35, 19)
-    printSlow("  ___|\    \   ___|\    \  _____      _____", 0.008)
+    printSlow("  ___|\    \   ___|\    \  _____      _____", 0, True, 0.008)
     console.set_cursor_pos(35, 19)
-    printSlow(" /    /\    \ |    |\    \ \    \    /    /", 0.008)
+    printSlow(" /    /\    \ |    |\    \ \    \    /    /", 0, True, 0.008)
     console.set_cursor_pos(35, 19)
-    printSlow("|    |  |    ||    | |    | \    \  /    / ", 0.008)
+    printSlow("|    |  |    ||    | |    | \    \  /    / ", 0, True, 0.008)
     console.set_cursor_pos(35, 19)
-    printSlow("|    |__|    ||    |/____/   \____\/____/  ", 0.008)
+    printSlow("|    |__|    ||    |/____/   \____\/____/  ", 0, True, 0.008)
     console.set_cursor_pos(35, 19)
-    printSlow("|    .--.    ||    |\    \   /    /\    \  ", 0.008)
+    printSlow("|    .--.    ||    |\    \   /    /\    \  ", 0, True, 0.008)
     console.set_cursor_pos(35, 19)
-    printSlow("|    |  |    ||    | |    | /    /  \    \ ", 0.008)
+    printSlow("|    |  |    ||    | |    | /    /  \    \ ", 0, True, 0.008)
     console.set_cursor_pos(35, 19)
-    printSlow("|____|  |____||____| |____|/____/ /\ \____\ ", 0.008)
+    printSlow("|____|  |____||____| |____|/____/ /\ \____\ ", 0, True, 0.008)
     console.set_cursor_pos(35, 19)
-    printSlow("|    |  |    ||    | |    ||    |/  \|    |", 0.008)
+    printSlow("|    |  |    ||    | |    ||    |/  \|    |", 0, True, 0.008)
     console.set_cursor_pos(35, 19)
-    printSlow("|____|  |____||____| |____||____|    |____|", 0.008)
+    printSlow("|____|  |____||____| |____||____|    |____|", 0, True, 0.008)
     console.set_cursor_pos(35, 19)
-    printSlow("  \(      )/    \(     )/    \(        )/  ", 0.008)
+    printSlow("  \(      )/    \(     )/    \(        )/  ", 0, True, 0.008)
     console.set_cursor_pos(35, 19)
-    printSlow("   '      '      '     '      '        '   ", 0.008, 0.5)
-    console.set_cursor_pos(25, 19)
-    printSlow("A text based adventure game made by Vladimir with help from friends.")
-    console.set_cursor_pos(29, 19)
-    printSlow("Use !credits in a safe zone to view the help of my friends!")
+    printSlow("   '      '      '     '      '        '   ", 0.5, True, 0.008)
+    console.set_cursor_pos(23, 19)
+    printSlow(
+        "A text based adventure game made by Vladimir with help from friends.", 0, True, 0.02)
+    console.set_cursor_pos(27, 19)
+    printSlow(
+        "Use !credits in a safe zone to view the help of my friends!",  0, True, 0.02)
     t.sleep(2)
     clear_screen(PADDINGNONE, 0.15)
