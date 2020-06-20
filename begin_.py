@@ -24,7 +24,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
         showStats = True
         console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
-        universalFunctions.titleLogo()
+        universalFunctions.titleScreen()
         askName()
         askClass()
         mainChar = Hero(100, 10, classSelect)
@@ -60,7 +60,7 @@ def askName():
                 "What, are you just going to sit there and say nothing? Give me your name.")
 
     printSlow(f"Welcome {name}, to the world of Arx!")
-    universalFunctions.confirm()
+    universalFunctions.confirm(1)
 
 
 def askClass():
@@ -74,6 +74,8 @@ def askClass():
 
 
 def dialogue1():
+    console.set_cursor_pos(
+        0, console.get_console_info().window_rectangle.bottom - 1)
     printSlow(f"Agility: {mainChar.agility}")
     printSlow(f"Charisma: {mainChar.charisma}")
     printSlow(f"Intelligence: {mainChar.intelligence}")
@@ -84,3 +86,5 @@ def dialogue1():
     printSlow(f"_Armor: {mainChar._armor}")
     printSlow(f"Health: {mainChar.health}")
     printSlow(f"Armor: {mainChar.armor}")
+    printSlow(
+        "This is the end so far! More to come soon, let me know of any ideas you have for Arx!")
