@@ -2,16 +2,22 @@ import sys
 import time as t
 import consolemanager
 
+# Text format block things
+# big = "░▒▓█►-━════════════════━-◄█▓▒░"
+# small = "█►-━═══════════━-◄█"
+big = '--<======================>--'
+small = '-<===============>-'
 
 with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTPUT_HANDLE) as console:
     console_info = console.get_console_info()
     PADDING = consolemanager.Rectangle(0, 5, 12, 0)
+    PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
 
 #   Function to Type out Printed strings
-    def printSlow(fstr, waitTime=0, nextLine=True):
+    def printSlow(fstr, typeSpeed=0.03, waitTime=0, nextLine=True):
         for char in fstr:
             print(char, end='', flush=True)
-            t.sleep(0.03)
+            t.sleep(typeSpeed)
         t.sleep(waitTime)
         if nextLine == True:
             scroll_text_up(PADDING)
@@ -33,15 +39,16 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
                     rectangle.left, row - 1 + clear_row)
                 print(line, end='', flush=True)
 
-# Function to clear the screen
-    def clear_screen(PADDING=PADDING):
+#   Function to clear the screen WITH padding
+    def clear_screen(PADDING=PADDING, waitTime=0):
         for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
             scroll_text_up(PADDING)
             console.clear_line(
                 console.get_console_info().window_rectangle.bottom - 1)
+            t.sleep(waitTime)
         console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
-# Function when I want user to press "Enter" as confirmation.
+#   Function when I want user to press "Enter" as confirmation.
     def confirm(keep=0):
         input(printSlow("Press Enter to continue..."))
         if keep == 0:
@@ -51,28 +58,28 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
         console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
     # Question function to utilize all over and to check for command usage
-    def qAnswer(question):
+    def qAnswer(question, safeZone=False):
         printSlow(f"{question}")
         console.clear_line(
             console.get_console_info().window_rectangle.bottom - 1)
         # print('> ', end='', flush=True)
-        printSlow('> ', 0, False)
+        printSlow('> ', 0.03, 0, False)
         answer = input()
-        if answer.lower() == "!stats" and safeZone == 1:
+        if answer.lower() == "!stats" and safeZone == True:
             clear_screen()
             printSlow(big)
             printSlow(
                 "Remember you can view a list of commands in any safezone with !commands", .5)
             playerStats()
             clear_screen()
-        elif answer.lower() == "!statsmeaning" and safeZone == 1:
+        elif answer.lower() == "!statsmeaning" and safeZone == True:
             clear_screen()
             printSlow(big)
             printSlow(
                 "Remember you can view a list of commands in any safezone with !commands", .5)
             printSlow(big)
             statMeaning()
-        elif answer.lower() == "!commands" and safeZone == 1:
+        elif answer.lower() == "!commands" and safeZone == True:
             clear_screen()
             commands()
         else:
@@ -82,6 +89,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
                 console.get_console_info().window_rectangle.bottom - 1)
             return answer
 
+# ---------------------------------
 # Stat Bar Setting Functions Below:
 # ---------------------------------
 
@@ -241,3 +249,55 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
             console.set_text_color('bright white', 'black')
             printSlow(']')
             console.set_default_text_color()
+
+'''
+
+                                           
+      _____        _____                   
+  ___|\    \   ___|\    \  _____      _____
+ /    /\    \ |    |\    \ \    \    /    /
+|    |  |    ||    | |    | \    \  /    / 
+|    |__|    ||    |/____/   \____\/____/  
+|    .--.    ||    |\    \   /    /\    \  
+|    |  |    ||    | |    | /    /  \    \ 
+|____|  |____||____| |____|/____/ /\ \____\
+|    |  |    ||    | |    ||    |/  \|    |
+|____|  |____||____| |____||____|    |____|
+  \(      )/    \(     )/    \(        )/  
+   '      '      '     '      '        '   
+                                           
+'''
+
+
+#   This is the ascii art logo.
+def titleLogo():
+    console.set_cursor_pos(35, 19)
+    printSlow("      _____        _____                   ", 0.008)
+    console.set_cursor_pos(35, 19)
+    printSlow("  ___|\    \   ___|\    \  _____      _____", 0.008)
+    console.set_cursor_pos(35, 19)
+    printSlow(" /    /\    \ |    |\    \ \    \    /    /", 0.008)
+    console.set_cursor_pos(35, 19)
+    printSlow("|    |  |    ||    | |    | \    \  /    / ", 0.008)
+    console.set_cursor_pos(35, 19)
+    printSlow("|    |__|    ||    |/____/   \____\/____/  ", 0.008)
+    console.set_cursor_pos(35, 19)
+    printSlow("|    .--.    ||    |\    \   /    /\    \  ", 0.008)
+    console.set_cursor_pos(35, 19)
+    printSlow("|    |  |    ||    | |    | /    /  \    \ ", 0.008)
+    console.set_cursor_pos(35, 19)
+    printSlow("|____|  |____||____| |____|/____/ /\ \____\ ", 0.008)
+    console.set_cursor_pos(35, 19)
+    printSlow("|    |  |    ||    | |    ||    |/  \|    |", 0.008)
+    console.set_cursor_pos(35, 19)
+    printSlow("|____|  |____||____| |____||____|    |____|", 0.008)
+    console.set_cursor_pos(35, 19)
+    printSlow("  \(      )/    \(     )/    \(        )/  ", 0.008)
+    console.set_cursor_pos(35, 19)
+    printSlow("   '      '      '     '      '        '   ", 0.008, 0.5)
+    console.set_cursor_pos(25, 19)
+    printSlow("A text based adventure game made by Vladimir with help from friends.")
+    console.set_cursor_pos(29, 19)
+    printSlow("Use !credits in a safe zone to view the help of my friends!")
+    t.sleep(2)
+    clear_screen(PADDINGNONE, 0.15)

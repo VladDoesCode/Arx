@@ -14,6 +14,8 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
     console.set_title("Arx")
     console.set_cursor_info(size=1, visibility=False)
     console.clear_screen()
+    mainChar = ""
+    classSelect = ""
 
 #   Beggining of the game!
     def beginGame():
@@ -22,6 +24,7 @@ with consolemanager.ConsoleManager(consolemanager.ConsoleStandardHandle.STD_OUTP
         showStats = True
         console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
+        universalFunctions.titleLogo()
         askName()
         askClass()
         mainChar = Hero(100, 10, classSelect)
