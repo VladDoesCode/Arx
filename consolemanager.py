@@ -2,6 +2,70 @@ import ctypes
 import enum
 
 
+def decode_utf16_from_address(address, byteorder='little',
+                              c_char=ctypes.c_char):
+    if not address:
+        return None
+    if byteorder not in ('little', 'big'):
+        raise ValueError("byteorder must be either 'little' or 'big'")
+    chars = []
+    while True:
+        c1 = c_char.from_address(address).value
+        c2 = c_char.from_address(address + 1).value
+        if c1 == b'\x00' and c2 == b'\x00':
+            break
+        chars += [c1, c2]
+        address += 2
+    if byteorder == 'little':
+        return b''.join(chars).decode('utf-16le')
+    return b''.join(chars).decode('utf-16be')
+
+
+class c_utf16le_p(ctypes.c_char_p):
+    def __init__(self, value=None):
+        super(c_utf16le_p, self).__init__()
+        if value is not None:
+            self.value = value
+
+    @property
+    def value(self,
+              c_void_p=ctypes.c_void_p):
+        addr = c_void_p.from_buffer(self).value
+        return decode_utf16_from_address(addr, 'little')
+
+    @value.setter
+    def value(self, value,
+              c_char_p=ctypes.c_char_p):
+        value = value.encode('utf-16le') + b'\x00'
+        c_char_p.value.__set__(self, value)
+
+    @classmethod
+    def from_param(cls, obj):
+        if isinstance(obj, unicode):
+            obj = obj.encode('utf-16le') + b'\x00'
+        return super(c_utf16le_p, cls).from_param(obj)
+
+    @classmethod
+    def _check_retval_(cls, result):
+        return result.value
+
+
+class UTF16LEField(object):
+    def __init__(self, name):
+        self.name = name
+
+    def __get__(self, obj, cls,
+                c_void_p=ctypes.c_void_p,
+                addressof=ctypes.addressof):
+        field_addr = addressof(obj) + getattr(cls, self.name).offset
+        addr = c_void_p.from_address(field_addr).value
+        return decode_utf16_from_address(addr, 'little')
+
+    def __set__(self, obj, value):
+        value = value.encode('utf-16le') + b'\x00'
+        setattr(obj, self.name, value)
+
+
 class _COORD(ctypes.Structure):
     _fields_ = [('X', ctypes.c_ushort),
                 ('Y', ctypes.c_ushort)]
@@ -187,6 +251,12 @@ _FillConsoleOutputCharacterA.argtypes = [
 _FillConsoleOutputCharacterA.restype = ctypes.c_int
 _FillConsoleOutputCharacterA.errcheck = _general_windows_errcheck
 
+_FillConsoleOutputCharacterW = ctypes.windll.kernel32.FillConsoleOutputCharacterW
+_FillConsoleOutputCharacterW.argtypes = [
+    ctypes.c_void_p, ctypes.c_wchar, ctypes.c_ulong, _COORD, ctypes.POINTER(ctypes.c_ulong)]
+_FillConsoleOutputCharacterW.restype = ctypes.c_int
+_FillConsoleOutputCharacterW.errcheck = _general_windows_errcheck
+
 _FillConsoleOutputAttribute = ctypes.windll.kernel32.FillConsoleOutputAttribute
 _FillConsoleOutputAttribute.argtypes = [
     ctypes.c_void_p, ctypes.c_ushort, ctypes.c_ulong, _COORD, ctypes.POINTER(ctypes.c_ulong)]
@@ -227,11 +297,17 @@ _ReadConsoleOutputA.argtypes = [ctypes.c_void_p, ctypes.POINTER(
 _ReadConsoleOutputA.restype = ctypes.c_uint
 _ReadConsoleOutputA.errcheck = _general_windows_errcheck
 
-_ReadConsoleOutputCharacterA = ctypes.windll.kernel32.ReadConsoleOutputCharacterA
-_ReadConsoleOutputCharacterA.argtypes = [
-    ctypes.c_void_p, ctypes.c_char_p, ctypes.c_uint32, _COORD, ctypes.POINTER(ctypes.c_uint32)]
-_ReadConsoleOutputCharacterA.restype = ctypes.c_uint
-_ReadConsoleOutputCharacterA.errcheck = _general_windows_errcheck
+_ReadConsoleOutputCharacterW = ctypes.windll.kernel32.ReadConsoleOutputCharacterW
+_ReadConsoleOutputCharacterW.argtypes = [
+    ctypes.c_void_p, ctypes.c_wchar_p, ctypes.c_uint32, _COORD, ctypes.POINTER(ctypes.c_uint32)]
+_ReadConsoleOutputCharacterW.restype = ctypes.c_uint
+_ReadConsoleOutputCharacterW.errcheck = _general_windows_errcheck
+
+_WriteConsoleOutputW = ctypes.windll.kernel32.WriteConsoleOutputW
+_WriteConsoleOutputW.argtypes = [ctypes.c_void_p, ctypes.POINTER(
+    _CHAR_INFO), _COORD, _COORD, ctypes.POINTER(_SMALL_RECT)]
+_WriteConsoleOutputW.restype = ctypes.c_uint
+_WriteConsoleOutputW.errcheck = _general_windows_errcheck
 
 
 class ConsoleStandardHandle(enum.IntEnum):
@@ -262,7 +338,6 @@ class Console:
 
     def __init__(self, std_handle=ConsoleStandardHandle.STD_INPUT_HANDLE):
         self.handle = _GetStdHandle(std_handle)
-        print(self.handle)
         self.__default_cursor_info = self.__get_win32_cursor_info()
         self.__default_console_info = self.__get_win32_console_screen_buffer_info()
 
@@ -298,7 +373,6 @@ class Console:
         return CursorInformation._CursorInformation__from_CONSOLE_CURSOR_INFO(cci)
 
     def __get_win32_cursor_info(self):
-        print(self.handle)
         cci_out = _CONSOLE_CURSOR_INFO()
         _GetConsoleCursorInfo(self.handle, ctypes.byref(cci_out))
         return cci_out
@@ -373,11 +447,55 @@ class Console:
     def read_console_line(self, y: int):
         csbi = self.__get_win32_console_screen_buffer_info()
         length = csbi.srWindow.Right - csbi.srWindow.Left - 1
-        char_buffer = ctypes.create_string_buffer(length + 1)
+        char_buffer = ctypes.create_unicode_buffer(length + 1)
         chars_read = ctypes.c_ulong(0)
-        _ReadConsoleOutputCharacterA(self.handle, ctypes.cast(ctypes.byref(
-            char_buffer), ctypes.c_char_p), length, _COORD(0, y), ctypes.byref(chars_read))
-        return ctypes.string_at(char_buffer).decode('UTF-8')
+        _ReadConsoleOutputCharacterW(self.handle, ctypes.cast(ctypes.byref(
+            char_buffer), ctypes.c_wchar_p), length, _COORD(0, y), ctypes.byref(chars_read))
+        return char_buffer.value
+
+    def read_console_line_attributes(self, y: int):
+        csbi = self.__get_win32_console_screen_buffer_info()
+        buffer_size = _COORD(0, 0)
+        buffer_coord = _COORD(0, 0)
+        rectangle = _SMALL_RECT()
+
+        rectangle.Left = 0
+        rectangle.Right = csbi.srWindow.Right - 1
+        rectangle.Top = y
+        rectangle.Bottom = y
+
+        buffer_size.X = rectangle.Right - rectangle.Left + 1
+        buffer_size.Y = 1
+        char_info_buffer = (_CHAR_INFO * (buffer_size.X * buffer_size.Y))()
+
+        _ReadConsoleOutputW(self.handle, ctypes.cast(char_info_buffer, ctypes.POINTER(
+            _CHAR_INFO)), buffer_size, buffer_coord, ctypes.byref(rectangle))
+        char_buffer = ctypes.create_unicode_buffer(
+            buffer_size.X * buffer_size.Y + 1)
+        attributes = (ctypes.c_ushort * (buffer_size.X * buffer_size.Y + 1))()
+
+        for i, char_info in enumerate(char_info_buffer):
+            char_buffer[i] = char_info.Char.UnicodeChar
+            attributes[i] = char_info.Attributes
+
+        return (char_buffer.value, attributes, char_info_buffer)
+
+    def write_console_line_attributes(self, x: int, y: int, char_info_buffer, x_end=0):
+        csbi = self.__get_win32_console_screen_buffer_info()
+        buffer_size = _COORD(0, 0)
+        buffer_coord = _COORD(x, 0)
+        rectangle = _SMALL_RECT()
+
+        rectangle.Left = x
+        rectangle.Right = csbi.srWindow.Right - 1 - x_end
+        rectangle.Top = y
+        rectangle.Bottom = y
+
+        buffer_size.X = rectangle.Right - rectangle.Left + 1
+        buffer_size.Y = 1
+
+        _WriteConsoleOutputW(self.handle, char_info_buffer,
+                             buffer_size, buffer_coord, ctypes.byref(rectangle))
 
     def clear_line(self, y: int, x: int = 0):
         coord_screen = _COORD(x, y)
@@ -414,86 +532,23 @@ class ConsoleManager:
         self.console.set_default_text_color()
 
 
-# def scroll_text_up(rectangle: Rectangle, clear_rows):
-#     ci = console.get_console_info()
-#     for row in range(rectangle.top + 1, ci.window_rectangle.bottom + 1 - rectangle.bottom - clear_rows):
-#         for clear_row in range(clear_rows):
-#             console.clear_line_until(ci.window_rectangle.right - rectangle.right - rectangle.left,
-#                                      row - 1 + clear_row, x_start=rectangle.left)
-#             line = console.read_console_line(
-#                 row + clear_row)[rectangle.left:-rectangle.right]
-#             console.set_cursor_pos(rectangle.left, row - 1 + clear_row)
-#             print(line, end='', flush=True)
-
-
-TOP_PADDING = 5
-BOTTOM_PADDING = 5
-RIGHT_PADDING = 12
-LEFT_PADDING = 12
-
-# if __name__ == "__main__":
-#     with ConsoleManager() as console:
-#         console.clear_screen()
-#         ci = console.get_console_info()
-
-#         padding_rectangle = Rectangle(
-#             LEFT_PADDING, TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING)
-
-#         for padding_row in range(padding_rectangle.top):
-#             console.set_cursor_pos(padding_rectangle.left, padding_row)
-#             copy_str = "01"
-#             if padding_row % 2 != 0:
-#                 copy_str = "10"
-#             write_padding = copy_str * ((ci.window_rectangle.right - 1) // 2)
-#             if (ci.window_rectangle.right - 1) % 2 != 0:
-#                 write_padding = write_padding[:-1]
-#             print(write_padding, end='', flush=True)
-
-#         for padding_row in range(ci.window_rectangle.bottom - padding_rectangle.bottom,
-#                                  ci.window_rectangle.bottom + 1):
-#             console.set_cursor_pos(padding_rectangle.left, padding_row)
-#             copy_str = "01"
-#             if padding_row % 2 != 0:
-#                 copy_str = "10"
-#             write_padding = copy_str * ((ci.window_rectangle.right - 1) // 2)
-#             if (ci.window_rectangle.right - 1) % 2 != 0:
-#                 write_padding = write_padding[:-1]
-#             print(write_padding, end='', flush=True)
-
-#         for row in range(ci.window_rectangle.bottom + 1):
-#             console.set_cursor_pos(
-#                 ci.window_rectangle.right - RIGHT_PADDING, row)
-#             copy_str = "01"
-#             if row % 2 != 0:
-#                 copy_str = "10"
-#             write_padding = copy_str * (padding_rectangle.right + 1 // 2)
-#             if ci.window_rectangle.right % 2 != 0:
-#                 write_padding = write_padding[:-1]
-#             print(write_padding, end='', flush=True)
-
-#         for row in range(ci.window_rectangle.bottom + 1):
-#             console.set_cursor_pos(0, row)
-#             copy_str = "01"
-#             if row % 2 != 0:
-#                 copy_str = "10"
-#             write_padding = copy_str * (padding_rectangle.left // 2)
-#             if padding_rectangle.left % 2 != 0:
-#                 write_padding = write_padding[:-1]
-#             print(write_padding, end='', flush=True)
-
-#         while True:
-#             ci = console.get_console_info()
-#             console.set_cursor_pos(
-#                 padding_rectangle.left, ci.window_rectangle.bottom - 1 - padding_rectangle.bottom)
-#             console.clear_line_until(ci.window_rectangle.right - padding_rectangle.right - padding_rectangle.left,
-#                                      ci.window_rectangle.bottom - 1 - padding_rectangle.bottom,
-#                                      x_start=padding_rectangle.left)
-#             console.set_text_color("bright white", "light red")
-#             print('> ', end='', flush=True)
-#             console.set_default_text_color()
-#             line = input()
-
-#             if line == "quit":
-#                 break
-
-#             scroll_text_up(padding_rectangle, 1)
+def scroll_text_up(console, rectangle: Rectangle, clear_rows):
+    import time
+    ci = console.get_console_info()
+    for row in range(rectangle.top + 1, ci.window_rectangle.bottom + 1 - rectangle.bottom - clear_rows):
+        for clear_row in range(clear_rows):
+            console.clear_line_until(ci.window_rectangle.right - rectangle.right - rectangle.left,
+                                     row - 1 + clear_row, x_start=rectangle.left)
+            line, attributes, char_info = console.read_console_line_attributes(
+                row + clear_row)
+            """
+            for i in range(len(line)):
+                c = line[i]
+                attribute = attributes[i]
+                if c != ' ':
+                    time.sleep(0.01)
+                    console._Console__set_text_attribute(attribute)
+                print(c, end='', flush=True)
+            """
+            console.write_console_line_attributes(rectangle.left, row - 1 + clear_row, char_info,
+                                                  rectangle.right)
