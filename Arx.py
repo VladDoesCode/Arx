@@ -1,6 +1,6 @@
 import sys
 import time as t
 
-import begin_
+import begin
 
-begin_.beginGame()
+begin.beginGame()
