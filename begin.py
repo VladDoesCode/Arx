@@ -110,6 +110,7 @@ def dialogue1():
     if answer == '2':
         printSlow(
             'Alright lets climb this hill, I think I see some monsters on top!')
+        clear_screen()
 
     monster1 = Monster("skeleton", mainChar)
 

@@ -11,17 +11,18 @@ small = '-<===============>-'
 console_info = "console.get_console_info()"
 PADDING = consolemanager.Rectangle(0, 6, 12, 0)
 PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
+PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
 
 
 # Function to Type out Printed strings
-def printSlow(fstr, waitTime=0, nextLine=True, typeSpeed=0.03):
+def printSlow(fstr, waitTime=0, nextLine=True, typeSpeed=0.03, PADDINGAREA=PADDING):
     console = begin.console
     for char in fstr:
         print(char, end='', flush=True)
         t.sleep(typeSpeed)
     t.sleep(waitTime)
     if nextLine == True:
-        scroll_text_up(PADDING)
+        scroll_text_up(PADDINGAREA)
         console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
         console.clear_line(
             console.get_console_info().window_rectangle.bottom - 1)
@@ -68,12 +69,12 @@ def confirm(keep=0):
 
 
 # Question function to utilize all over and to check for command usage
-def qAnswer(question, safeZone=False):
+def qAnswer(question, safeZone=False, PADDINGAREA=PADDING):
     console = begin.console
-    printSlow(f"{question}")
+    printSlow(f"{question}", 0, True, 0.03, PADDINGAREA)
     console.clear_line(
         console.get_console_info().window_rectangle.bottom - 1)
-    printSlow('> ', 0, False)
+    printSlow('> ', 0, False, 0.03, PADDINGAREA)
     answer = input()
     if answer.lower() == "!stats" and safeZone == True:
         clear_screen()
@@ -93,8 +94,8 @@ def qAnswer(question, safeZone=False):
         clear_screen()
         commands()
     else:
-        scroll_text_up(PADDING)
-        printSlow('')
+        scroll_text_up(PADDINGAREA)
+        printSlow('', 0, True, 0.03, PADDINGAREA)
         console.clear_line(
             console.get_console_info().window_rectangle.bottom - 2)
         return answer
@@ -108,10 +109,12 @@ def spacing(x1, x2, str1, str2):
 
 # Monster encounter function
 def monsterFight(monster, mainChar):
-    clear_screen()
-    printSlow(f"You encounter a {monster.name}!")
+    clear_screen(PADDINGART)
+    playerArt()
+    skeletonArt()
+    printSlow(f"You encounter a {monster.name}!", 0, True, 0.03, PADDINGART)
     choice = qAnswer(
-        "What would you like to do? [1. Attack] [2. Try to Escape!]")
+        "What would you like to do? [1. Attack] [2. Try to Escape!]", False, PADDINGART)
     while monster.health > 0:
         enemyCritChance = monster.agility + 5
         enemyDodgeChance = monster.agility + 5
@@ -138,13 +141,13 @@ def monsterFight(monster, mainChar):
                         (3 + (mainChar.strength * playerAttackMultiplier - monster.armor))
                     if playerAttackMultiplier == 1:
                         printSlow(
-                            f"You strike the {monster.name} with your sword, dealing {3 + (mainChar.strength * playerAttackMultiplier - monster.armor)} damage!")
-                        printSlow("")
+                            f"You strike the {monster.name} with your sword, dealing {3 + (mainChar.strength * playerAttackMultiplier - monster.armor)} damage!", 0, True, 0.03, PADDINGART)
+                        printSlow("", 0, True, 0.03, PADDINGART)
 
                     elif playerAttackMultiplier == 2:
                         printSlow(
-                            f"You critically strike the {monster.name} with your sword for {3 + (mainChar.strength * playerAttackMultiplier - monster.armor)} damage; breaking one armor point!")
-                        printSlow("")
+                            f"You critically strike the {monster.name} with your sword for {3 + (mainChar.strength * playerAttackMultiplier - monster.armor)} damage; breaking one armor point!", 0, True, 0.03, PADDINGART)
+                        printSlow("", 0, True, 0.03, PADDINGART)
                         if monster.armor > 0:
                             monster.armor = monster.armor - 1
 
@@ -152,23 +155,25 @@ def monsterFight(monster, mainChar):
 
                     monster.health = 0
                     printSlow(
-                        f"You decapitate the {monster.name}. It drops to the ground in front of you.")
-                    printSlow("")
+                        f"You decapitate the {monster.name}. It drops to the ground in front of you.", 0, True, 0.03, PADDINGART)
+                    printSlow("", 0, True, 0.03, PADDINGART)
 
             else:
-                printSlow(f"You swing your sword and miss the {monster.name}")
-                printSlow("")
+                printSlow(
+                    f"You swing your sword and miss the {monster.name}", 0, True, 0.03, PADDINGART)
+                printSlow("", 0, True, 0.03, PADDINGART)
 
         elif choice == "2":
 
             printSlow(
-                "- Escaping isn't possible right now, try again later! -", 0.5)
-            printSlow("")
+                "- Escaping isn't possible right now, try again later! -", 0.5, True, 0.03, PADDINGART)
+            printSlow("", 0, True, 0.03, PADDINGART)
 
         else:
 
-            printSlow("Theres no time for other matters, you must fight or run!")
-            printSlow("")
+            printSlow("Theres no time for other matters, you must fight or run!",
+                      0, True, 0.03, PADDINGART)
+            printSlow("", 0, True, 0.03, PADDINGART)
 
         if monster.health > 0:
 
@@ -191,13 +196,13 @@ def monsterFight(monster, mainChar):
                         (int(monster.strength * enemyAttackMultiplier - mainChar.armor))
                     if enemyAttackMultiplier == 1:
                         printSlow(
-                            f"The {monster.name} attacks you, dealing {monster.strength * enemyAttackMultiplier - mainChar.armor} damage!")
-                        printSlow("")
+                            f"The {monster.name} attacks you, dealing {monster.strength * enemyAttackMultiplier - mainChar.armor} damage!", 0, True, 0.03, PADDINGART)
+                        printSlow("", 0, True, 0.03, PADDINGART)
 
                     elif enemyAttackMultiplier == 1.5:
                         printSlow(
-                            f"The {monster.name} critically attacks you for {int(monster.strength * enemyAttackMultiplier - mainChar.armor)} damage; breaking one armor point.")
-                        printSlow("")
+                            f"The {monster.name} critically attacks you for {int(monster.strength * enemyAttackMultiplier - mainChar.armor)} damage; breaking one armor point.", 0, True, 0.03, PADDINGART)
+                        printSlow("", 0, True, 0.03, PADDINGART)
                         if mainChar.armor > 0:
                             mainChar.armor = mainChar.armor - 1
 
@@ -205,19 +210,21 @@ def monsterFight(monster, mainChar):
 
                     mainChar.health = 0
                     printSlow(
-                        f"You were defeated by: {monster.name}.")
+                        f"You were defeated by: {monster.name}.", 0, True, 0.03, PADDINGART)
                     t.sleep(1)
                     printSlow(
-                        f"Thank you very much for playing Arx!")
+                        f"Thank you very much for playing ARX!", 0, True, 0.03, PADDINGART)
                     t.sleep(1)
                     exit()
 
             elif roll <= heroDodgeChance:
 
-                printSlow(f"The {monster.name} tried to attack you and misses")
-                printSlow("")
+                printSlow(
+                    f"The {monster.name} tried to attack you and misses", 0, True, 0.03, PADDINGART)
+                printSlow("", 0, True, 0.03, PADDINGART)
 
-            choice = qAnswer("Now what? [1. Attack] [2. Try to Escape!]")
+            choice = qAnswer(
+                "Now what? [1. Attack] [2. Try to Escape!]", False, PADDINGART)
 
     clear_screen()
     printSlow(f"Wow, you defeated the {monster.name}")
@@ -665,6 +672,142 @@ def clearEnemyStats():
     print("                           ")
     console.set_cursor_pos(55, 4)
     print("                           ")
+    console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
+
+
+'''
+               ████████   ████████████████                1
+            ▄█████████████▓▓███▌▒▒███▒▒██████             2
+            ██████████████▓▓▓██▌▓▓███╣╣▓█████             3
+            ██████████████▓▓▓██▓▓▓███╣╣▓█████   ,,        4
+            ██████████████▓▓▓▓▓▓▓▓╣╣╣╣╣╣╣╣███  ▐██▌       5
+            ███  ▐███▓▓▓▓▓██████████████████████▒▒███     6
+                 ▐███▓▓▓▓▓░░░░░░░░░░░░░███▀  ███▒▒███     7
+                 ▐███▓▓▓▓▓▒▒▒▄▄▒▒▒▒▒▒▄▄███   ███▒▒███     8
+                 ▐███▓▓▓▓▓▒▒▐▓▓▒▒▒▒▒▒▓▓███   ███▒▒███     9
+                 ▐███▓▓▓▓▓▒▒▐▓▓▒▒▒▒▒▒▓▓███   ███▒▒███     10
+                    ▐██▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▐██   ███▒▒███     11
+               █████████████████████████████████▒▒███     12
+            ▄▄▄██████▀▀█████▓▀▀▀▀▓▓▓▓▀▀█████████▓▓▓██▄▄▄  13
+            ▀▀▀███▓▓▄▄▄███▓▓▓▓▒▒╣╣███╣╣████████▓▓▓▓██▀▀▀  14
+               ███████████▓▓▓▓▓▓▒▒███▒▒█████████▒▒███     15
+            ██████████████████████▓▓▓███████████▓▓███     16
+            ███▓▓█▓▓██████▓▓▓▓▓▓╢╢▓▓▓▒▒███-  █████▌       17
+            ██████▓▓██████████████████████   ▀▀▀▀▀`       18
+'''
+
+
+def playerArt():
+    console = begin.console
+    console.set_cursor_pos(3, 5)
+    printSlow("   ████████   ████████████████", 0, False, 0.008)
+    console.set_cursor_pos(3, 6)
+    printSlow("▄█████████████▓▓███▌▒▒███▒▒██████", 0, False, 0.008)
+    console.set_cursor_pos(3, 7)
+    printSlow("██████████████▓▓▓██▌▓▓███╣╣▓█████", 0, False, 0.008)
+    console.set_cursor_pos(3, 8)
+    printSlow("██████████████▓▓▓██▓▓▓███╣╣▓█████   ,,", 0, False, 0.008)
+    console.set_cursor_pos(3, 9)
+    printSlow("██████████████▓▓▓▓▓▓▓▓╣╣╣╣╣╣╣╣███  ▐██▌", 0, False, 0.008)
+    console.set_cursor_pos(3, 10)
+    printSlow("███  ▐███▓▓▓▓▓██████████████████████▒▒███", 0, False, 0.008)
+    console.set_cursor_pos(3, 11)
+    printSlow("     ▐███▓▓▓▓▓░░░░░░░░░░░░░███▀  ███▒▒███", 0, False, 0.008)
+    console.set_cursor_pos(3, 12)
+    printSlow("     ▐███▓▓▓▓▓▒▒▒▄▄▒▒▒▒▒▒▄▄███   ███▒▒███", 0, False, 0.008)
+    console.set_cursor_pos(3, 13)
+    printSlow("     ▐███▓▓▓▓▓▒▒▐▓▓▒▒▒▒▒▒▓▓███   ███▒▒███", 0, False, 0.008)
+    console.set_cursor_pos(3, 14)
+    printSlow("     ▐███▓▓▓▓▓▒▒▐▓▓▒▒▒▒▒▒▓▓███   ███▒▒███", 0, False, 0.008)
+    console.set_cursor_pos(3, 15)
+    printSlow("        ▐██▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▐██   ███▒▒███", 0, False, 0.008)
+    console.set_cursor_pos(3, 16)
+    printSlow("   █████████████████████████████████▒▒███", 0, False, 0.008)
+    console.set_cursor_pos(3, 17)
+    printSlow("▄▄▄██████▀▀█████▓▀▀▀▀▓▓▓▓▀▀█████████▓▓▓██▄▄▄", 0, False, 0.008)
+    console.set_cursor_pos(3, 18)
+    printSlow("▀▀▀███▓▓▄▄▄███▓▓▓▓▒▒╣╣███╣╣████████▓▓▓▓██▀▀▀", 0, False, 0.008)
+    console.set_cursor_pos(3, 19)
+    printSlow("   ███████████▓▓▓▓▓▓▒▒███▒▒█████████▒▒███", 0, False, 0.008)
+    console.set_cursor_pos(3, 20)
+    printSlow("██████████████████████▓▓▓███████████▓▓███", 0, False, 0.008)
+    console.set_cursor_pos(3, 21)
+    printSlow("███▓▓█▓▓██████▓▓▓▓▓▓╢╢▓▓▓▒▒███-  █████▌", 0, False, 0.008)
+    console.set_cursor_pos(3, 22)
+    printSlow("██████▓▓██████████████████████   ▀▀▀▀▀`", 0, False, 0.008)
+    console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
+
+
+'''
+                              _.--""-._                         1
+  .                         ."         ".                       2
+ / \    ,^.         /(     Y             |      )\              3
+/   `---. |--'\    (  \__..'--   -   -- -'""-.-'  )             4
+|        :|    `>   '.     l_..-------.._l      .'              5
+|      __l;__ .'      "-.__.||_.-'v'-._||`"----"                6
+ \  .-' | |  `              l._       _.'                       7
+  \/    | |                   l`^^'^^'j                         8
+        | |                _   \_____/     _                    9
+        j |               l `--__)-'(__.--' |                   10
+        | |               | /`---``-----'"1 |  ,-----.          11
+        | |               )/  `--' '---'   \'-'  ___  `-.       12
+        | |              //  `-'  '`----'  /  ,-'   I`.  \      13
+      _ L |_            //  `-.-.'`-----' /  /  |   |  `. \     14
+     '._' / \         _/(   `/   )- ---' ;  /__.J   L.__.\ :    15
+      `._;/7(-.......'  /        ) (     |  |            | |    16
+      `._;l _'--------_/        )-'/     :  |___.    _._./ ;    17
+        | |                 .__ )-'\  __  \  \  I   1   / /     18
+'''
+
+
+def skeletonArt():
+    console = begin.console
+    console.set_cursor_pos(44, 5)
+    printSlow("                              _.--""-._", 0, False, 0.008)
+    console.set_cursor_pos(44, 6)
+    printSlow("  .                         ."         ".", 0, False, 0.008)
+    console.set_cursor_pos(44, 7)
+    printSlow(" /, ^ .         / (Y             |)\ ", 0, False, 0.008)
+    console.set_cursor_pos(44, 8)
+    printSlow("/   `---. |--'\    (  \__..'--   -   -- -'''-.-'  )",
+              0, False, 0.008)
+    console.set_cursor_pos(44, 9)
+    printSlow("|        :|    `>   '.     l_..-------.._l      .'",
+              0, False, 0.008)
+    console.set_cursor_pos(44, 10)
+    printSlow("|      __l;__ .'      '-.__.||_.-'v'-._||`'----'", 0, False, 0.008)
+    console.set_cursor_pos(44, 11)
+    printSlow(" \  .-' | |  `              l._       _.'", 0, False, 0.008)
+    console.set_cursor_pos(44, 12)
+    printSlow("  \/    | |                   l`^^'^^'j", 0, False, 0.008)
+    console.set_cursor_pos(44, 13)
+    printSlow("        | |                _   \_____/     _", 0, False, 0.008)
+    console.set_cursor_pos(44, 14)
+    printSlow("        j |               l `--__)-'(__.--' |", 0, False, 0.008)
+    console.set_cursor_pos(44, 15)
+    printSlow(
+        "        | |               | /`---``-----''1 |  ,-----.", 0, False, 0.008)
+    console.set_cursor_pos(44, 16)
+    printSlow("        | |               )/  `--' '---'   \'-'  ___  `-.",
+              0, False, 0.008)
+    console.set_cursor_pos(44, 17)
+    printSlow(
+        "        | |              //  `-'  '`----'  /  ,-'   I`.  \ ", 0, False, 0.008)
+    console.set_cursor_pos(44, 18)
+    printSlow(
+        "      _ L |_            //  `-.-.'`-----' /  /  |   |  `. \ ", 0, False, 0.008)
+    console.set_cursor_pos(44, 19)
+    printSlow(
+        "     '._' / \         _/(   `/   )- ---' ;  /__.J   L.__.\ :", 0, False, 0.008)
+    console.set_cursor_pos(44, 20)
+    printSlow(
+        "      `._;/7(-.......'  /        ) (     |  |            | |", 0, False, 0.008)
+    console.set_cursor_pos(44, 21)
+    printSlow(
+        "      `._;l _'--------_/        )-'/     :  |___.    _._./ ;", 0, False, 0.008)
+    console.set_cursor_pos(44, 22)
+    printSlow(
+        "        | |                 .__ )-'\  __  \  \  I   1   / /", 0, False, 0.008)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
 
