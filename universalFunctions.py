@@ -208,7 +208,7 @@ def monsterFight(monster, mainChar):
                         f"You were defeated by: {monster.name}.")
                     t.sleep(1)
                     printSlow(
-                        f"Thank you very much for playing Arx! {mainChar.name}")
+                        f"Thank you very much for playing Arx!")
                     t.sleep(1)
                     exit()
 
