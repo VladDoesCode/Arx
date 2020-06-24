@@ -17,9 +17,15 @@ console.set_cursor_info(size=1, visibility=False)
 console.clear_screen()
 mainChar = ""
 classSelect = ""
+PADDING = consolemanager.Rectangle(0, 6, 12, 0)
+PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
+PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
 
+PADDINGMIDDLE = consolemanager.Rectangle(0, 14, 1, 2)
 
 #   Beggining of the game!
+
+
 def beginGame():
     global mainChar
     safeZone = 0
@@ -36,7 +42,6 @@ def beginGame():
     universalFunctions.setStamina(
         mainChar.staminaPoolmax, showStats, mainChar, mainChar.staminaPoolmax, True)
     universalFunctions.setArmor(10, showStats, mainChar, 10, True)
-    imageBasedFunctions.setArx()
     dialogue1()
 
 
@@ -52,20 +57,19 @@ def askName():
     name = qAnswer("Hello Adventurer, what is your name?")
     while len(name) > 17 or len(name) < 3:
         if len(name) > 17:
-            universalFunctions.scroll_text_up(PADDINGNONE, scroll="mid")
+            universalFunctions.clear_screen()
             name = qAnswer(
                 "Thats a mighty long name, do you go by something shorter?")
         elif len(name) < 3 and len(name) > 0:
-            universalFunctions.scroll_text_up(PADDINGNONE, scroll="mid")
+            universalFunctions.clear_screen()
             name = qAnswer(
                 "Ive never met an Adventurer with such a short name, what else do you go by?")
         elif len(name) == 0:
-            universalFunctions.scroll_text_up(PADDINGNONE, scroll="mid")
+            universalFunctions.clear_screen()
             name = qAnswer(
                 "What, are you just going to sit there and say nothing? Give me your name.")
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
-    universalFunctions.scroll_text_up(PADDINGNONE, scroll="mid")
-    printSlow(f"Welcome {name}, to the world of Arx!", 0, False)
+    printSlow(f"Welcome {name}, to the world of Arx!", 0, True)
 
 
 def askClass():
@@ -73,7 +77,9 @@ def askClass():
     classSelect = qAnswer(
         "What class would you like to play, [Commoner], [Warrior], [Mage], [Thief], or [Paladin]?")
     while classSelect.lower() not in ["commoner", "warrior", "mage", "thief", "paladin"]:
-        classSelect = qAnswer("Come again, which class? [Commoner], [Warrior], [Mage], [Thief], or [Paladin].")
+        universalFunctions.clear_screen()
+        classSelect = qAnswer(
+            "Come again, which class? [Commoner], [Warrior], [Mage], [Thief], or [Paladin].")
 
 
 def dialogue1():
@@ -89,7 +95,8 @@ def dialogue1():
     printSlow(f"[Class: {classSelect.capitalize()}]", 0, False)
     t.sleep(.5)
 
-    console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
+    console.set_cursor_pos(
+        0, console.get_console_info().window_rectangle.bottom - 3)
     universalFunctions.playerStats(mainChar)
     universalFunctions.statMeaning()
 

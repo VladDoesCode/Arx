@@ -26,47 +26,36 @@ def printSlow(fstr, waitTime=0, nextLine=True, typeSpeed=0.02, PADDINGAREA=PADDI
     t.sleep(waitTime)
     if nextLine == True:
         scroll_text_up(PADDINGAREA)
-        console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
-        console.clear_line(
-            console.get_console_info().window_rectangle.bottom - 1)
     return ''
 
 
 # Function to move text up
-def scroll_text_up(rectangle: consolemanager.Rectangle, clear_rows=1, waitTime=0, scroll="all"):
+def scroll_text_up(rectangle: consolemanager.Rectangle, clear_rows=1, waitTime=0):
     console = begin.console
     ci = console.get_console_info()
-    if scroll == "all":
-        for row in range(rectangle.top + 1, ci.window_rectangle.bottom + 1 - rectangle.bottom - clear_rows):
-            for clear_row in range(clear_rows):
-                console.clear_line_until(ci.window_rectangle.right - rectangle.right - rectangle.left,
-                                         row - 1 + clear_row, x_start=rectangle.left)
-                line = console.read_console_line(
-                    row + clear_row)[rectangle.left:-rectangle.right]
-                console.set_cursor_pos(
-                    rectangle.left, row - 1 + clear_row)
-                print(line, end='', flush=True)
-                t.sleep(waitTime)
-    elif scroll == "mid":
-        console = begin.console
-        ci = console.get_console_info()
-        for line in range(console.get_console_info().window_rectangle.bottom + 1 - 15 - 3):
-            text = console.read_console_line(line + 15)
-            console.clear_line(line + 15)
-            console.set_cursor_pos(0, line + 14)
-            print(text)
-        console.clear_line(ci.window_rectangle.bottom - 1)
+    for row in range(rectangle.top + 1, ci.window_rectangle.bottom + 1 - rectangle.bottom - clear_rows):
+        for clear_row in range(clear_rows):
+            console.clear_line_until(ci.window_rectangle.right - rectangle.right - rectangle.left,
+                                     row - 1 + clear_row, x_start=rectangle.left)
+            line = console.read_console_line(
+                row + clear_row)[rectangle.left:-rectangle.right]
+            console.clear_line(row)
+            console.set_cursor_pos(
+                rectangle.left, row - 1 + clear_row)
+            print(line, end='', flush=True)
+            t.sleep(waitTime)
 
 
 # Function to clear the screen WITH padding
-def clear_screen(Padding=PADDING, waitTime=0.015):
+def clear_screen(PADDING=PADDINGMIDDLE, waitTime=0.018):
     console = begin.console
-    for row in range(console.get_console_info().window_rectangle.bottom - Padding.top):
-        scroll_text_up(Padding)
+    for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
+        scroll_text_up(PADDING)
         console.clear_line(
             console.get_console_info().window_rectangle.bottom - 1)
         t.sleep(waitTime)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
+
 
 # Function when I want user to press "Enter" as confirmation.
 def confirm(keep=0):
@@ -79,15 +68,17 @@ def confirm(keep=0):
             t.sleep(0.015)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
+
 # Question function to utilize all over and to check for command usage
 def qAnswer(question, safeZone=False, PADDINGAREA=PADDINGMIDDLE):
     console = begin.console
-    scroll_text_up(PADDINGNONE, scroll="mid")
+    scroll_text_up(PADDINGAREA)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
     printSlow(f"{question}", 0, False, 0.03, PADDINGAREA)
-    console.set_cursor_pos(0, console_info.window_rectangle.bottom-1)
+    console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
     answer = input(printSlow('> ', 0, False, 0.03, PADDINGAREA))
-    console.clear_line(console_info.window_rectangle.bottom, 2)
+    scroll_text_up(PADDINGMIDDLE)
+    console.clear_line(console_info.window_rectangle.bottom - 1, 2)
     if answer.lower() == "!stats" and safeZone == True:
         clear_screen()
         printSlow(big)
@@ -244,16 +235,13 @@ def monsterFight(monster, mainChar):
 # Shows player their stats
 def playerStats(mainChar):
     console = begin.console
-    printSlow(big)
     printSlow(
         "Lets look at your characters stats! (They are dependent on what class you pick!)", .5)
-    printSlow(small)
     printSlow(f"► Your Strength is: {mainChar.strength}")
     printSlow(f"► Your Agility is: {mainChar.agility}")
     printSlow(
         f"► Your Intelligence is: {mainChar.intelligence}")
     printSlow(f"► Your Charisma is: {mainChar.charisma}")
-    printSlow(small)
     confirm(1)
 
 
