@@ -94,11 +94,11 @@ class Monster():
             self.staminaPoolmax = random.randint(20, 45)
             self._stamina = self.staminaPoolmax
 
-            self.armorPoolmax = random.randint(2, 5)
+            self.armorPoolmax = random.randint(5, 9)
             self._armor = self.armorPoolmax
 
-            self.strength = random.randint(15, 19)
-            self.agility = random.randint(3, 10)
+            self.strength = random.randint(16, 19)
+            self.agility = random.randint(6, 10)
             self.intelligence = random.randint(3, 10)
             self.charisma = random.randint(3, 10)
 

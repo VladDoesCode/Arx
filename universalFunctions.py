@@ -110,8 +110,8 @@ def spacing(x1, x2, str1, str2):
 # Monster encounter function
 def monsterFight(monster, mainChar):
     clear_screen(PADDINGART)
-    playerArt()
-    skeletonArt()
+    # playerArt()
+    # skeletonArt()
     printSlow(f"You encounter a {monster.name}!", 0, True, 0.03, PADDINGART)
     choice = qAnswer(
         "What would you like to do? [1. Attack] [2. Try to Escape!]", False, PADDINGART)
