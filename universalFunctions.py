@@ -14,6 +14,158 @@ PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
 PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
 
 
+contributors = {
+    "VladimirBienvenue": [
+        "Creator"
+    ],
+    "Vortetty": [
+        "Credits system",
+        "Saving system"
+    ]
+}
+
+def rollCredits():
+    """
+    Plays the credits, name is a nod to cinemasins on youtube since im watching them while making this code
+    :return:
+    """
+    for i in range(console_info.window_rectangle.bottom):
+        begin.console.clear_line(i)
+        t.sleep(0.01)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("      _____        _____                   ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("  ___|\    \   ___|\    \  _____      _____", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow(" /    /\    \ |    |\    \ \    \    /    /", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|    |  |    ||    | |    | \    \  /    / ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|    |__|    ||    |/____/   \____\/____/  ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|    .--.    ||    |\    \   /    /\    \  ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|    |  |    ||    | |    | /    /  \    \ ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|____|  |____||____| |____|/____/ /\ \____\ ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|    |  |    ||    | |    ||    |/  \|    |", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|____|  |____||____| |____||____|    |____|", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("  \(      )/    \(     )/    \(        )/  ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("   '      '      '     '      '        '   ", 0.05, True, 0)
+    for row in range(10):
+        t.sleep(0.05)
+        scroll_text_up(PADDINGNONE)
+    begin.console.set_cursor_pos(35, 22)
+
+    contributorNames = list(contributors.keys())
+
+    for i in range(len(contributors)):
+        contributorName = contributorNames[i]
+        contributorRoles = contributors[contributorName]
+        begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+        printSlow(" - " + contributorName + "'s contributions:", 0.05, True, 0)
+        begin.console.set_cursor_pos(35, 6)
+        printSlow("      _____        _____                   ", 0.0, False, 0)
+        begin.console.set_cursor_pos(35, 7)
+        printSlow("  ___|\    \   ___|\    \  _____      _____", 0.0, False, 0)
+        begin.console.set_cursor_pos(35, 8)
+        printSlow(" /    /\    \ |    |\    \ \    \    /    /", 0.0, False, 0)
+        begin.console.set_cursor_pos(35, 9)
+        printSlow("|    |  |    ||    | |    | \    \  /    / ", 0.0, False, 0)
+        begin.console.set_cursor_pos(35, 10)
+        printSlow("|    |__|    ||    |/____/   \____\/____/  ", 0.0, False, 0)
+        begin.console.set_cursor_pos(35, 11)
+        printSlow("|    .--.    ||    |\    \   /    /\    \  ", 0.0, False, 0)
+        begin.console.set_cursor_pos(35, 12)
+        printSlow("|    |  |    ||    | |    | /    /  \    \ ", 0.0, False, 0)
+        begin.console.set_cursor_pos(35, 13)
+        printSlow("|____|  |____||____| |____|/____/ /\ \____\ ", 0.0, False, 0)
+        begin.console.set_cursor_pos(35, 14)
+        printSlow("|    |  |    ||    | |    ||    |/  \|    |", 0.0, False, 0)
+        begin.console.set_cursor_pos(35, 15)
+        printSlow("|____|  |____||____| |____||____|    |____|", 0.0, False, 0)
+        begin.console.set_cursor_pos(35, 16)
+        printSlow("  \(      )/    \(     )/    \(        )/  ", 0.0, False, 0)
+        begin.console.set_cursor_pos(35, 17)
+        printSlow("   '      '      '     '      '        '   ", 0.0, False, 0)
+        t.sleep(0.5)
+        for i in contributorRoles:
+            begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+            printSlow("   - " + i, 0.05, True, 0)
+            begin.console.set_cursor_pos(35, 6)
+            printSlow("      _____        _____                   ", 0.0, False, 0)
+            begin.console.set_cursor_pos(35, 7)
+            printSlow("  ___|\    \   ___|\    \  _____      _____", 0.0, False, 0)
+            begin.console.set_cursor_pos(35, 8)
+            printSlow(" /    /\    \ |    |\    \ \    \    /    /", 0.0, False, 0)
+            begin.console.set_cursor_pos(35, 9)
+            printSlow("|    |  |    ||    | |    | \    \  /    / ", 0.0, False, 0)
+            begin.console.set_cursor_pos(35, 10)
+            printSlow("|    |__|    ||    |/____/   \____\/____/  ", 0.0, False, 0)
+            begin.console.set_cursor_pos(35, 11)
+            printSlow("|    .--.    ||    |\    \   /    /\    \  ", 0.0, False, 0)
+            begin.console.set_cursor_pos(35, 12)
+            printSlow("|    |  |    ||    | |    | /    /  \    \ ", 0.0, False, 0)
+            begin.console.set_cursor_pos(35, 13)
+            printSlow("|____|  |____||____| |____|/____/ /\ \____\ ", 0.0, False, 0)
+            begin.console.set_cursor_pos(35, 14)
+            printSlow("|    |  |    ||    | |    ||    |/  \|    |", 0.0, False, 0)
+            begin.console.set_cursor_pos(35, 15)
+            printSlow("|____|  |____||____| |____||____|    |____|", 0.0, False, 0)
+            begin.console.set_cursor_pos(35, 16)
+            printSlow("  \(      )/    \(     )/    \(        )/  ", 0.0, False, 0)
+            begin.console.set_cursor_pos(35, 17)
+            printSlow("   '      '      '     '      '        '   ", 0.0, False, 0)
+            t.sleep(0.5)
+
+    t.sleep(1)
+    for i in range(console_info.window_rectangle.bottom):
+        begin.console.clear_line(i)
+        t.sleep(0.01)
+
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("      _____        _____                   ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("  ___|\    \   ___|\    \  _____      _____", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow(" /    /\    \ |    |\    \ \    \    /    /", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|    |  |    ||    | |    | \    \  /    / ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|    |__|    ||    |/____/   \____\/____/  ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|    .--.    ||    |\    \   /    /\    \  ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|    |  |    ||    | |    | /    /  \    \ ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|____|  |____||____| |____|/____/ /\ \____\ ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|    |  |    ||    | |    ||    |/  \|    |", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("|____|  |____||____| |____||____|    |____|", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("  \(      )/    \(     )/    \(        )/  ", 0.05, True, 0)
+    begin.console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+    printSlow("   '      '      '     '      '        '   ", 0.05, True, 0)
+    begin.console.set_cursor_pos(23, console_info.window_rectangle.bottom - 1)
+    printSlow(
+        "A text based adventure game made by Vladimir with help from friends.", 0.05, True, 0)
+    begin.console.set_cursor_pos(29, console_info.window_rectangle.bottom - 1)
+    printSlow(
+        "- Inspired by Choose Your Own Adventure Books and D&D -", 0.05, True, 0)
+    for row in range(8):
+        t.sleep(0.05)
+        scroll_text_up(PADDINGNONE)
+    begin.console.set_cursor_pos(31, 22)
+    printSlow(
+        "[1. Start New Game] [2. Load Game] [3. Credits]", 0, False)
+    begin.console.set_cursor_pos(40, 23)
+
+
 # Function to Type out Printed strings
 def printSlow(fstr, waitTime=0, nextLine=True, typeSpeed=0.03, PADDINGAREA=PADDING):
     console = begin.console
@@ -855,8 +1007,7 @@ def titleScreen():
     console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
     printSlow("  \(      )/    \(     )/    \(        )/  ", 0.05, True, 0)
     console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("   '      '      '     '      '        '   ",
-              0.05, True, 0)
+    printSlow("   '      '      '     '      '        '   ",0.05, True, 0)
     console.set_cursor_pos(23, console_info.window_rectangle.bottom - 1)
     printSlow(
         "A text based adventure game made by Vladimir with help from friends.", 0.05, True, 0)
@@ -868,7 +1019,7 @@ def titleScreen():
         scroll_text_up(PADDINGNONE)
     console.set_cursor_pos(31, 22)
     printSlow(
-        "[1. Start New Game] [2. Load Game] [3. Game Credit]", 0, False)
+        "[1. Start New Game] [2. Load Game] [3. Credits]", 0, False)
     console.set_cursor_pos(40, 23)
 
     introChoice = input(
@@ -879,11 +1030,14 @@ def titleScreen():
         introChoice = input("Whats your choice, Adventurer? > ")
         if introChoice == "1":
             break
-        elif introChoice == "2" or introChoice == "3":
+        elif introChoice == "2":
             console.set_cursor_pos(25, 25)
             printSlow(
-                "That part of Arx isn't ready yet, try again in the next release!", 1, False)
+                "Sorry, but that part of Arx isn't ready yet. try again in the next release!", 1, False)
             console.clear_line(25)
+        elif introChoice == "3":
+            console.clear_line(25)
+            rollCredits()
 
     t.sleep(.5)
     clear_screen(PADDINGNONE, 0.05)

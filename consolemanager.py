@@ -1,5 +1,6 @@
 import ctypes
 import enum
+import math
 
 
 def decode_utf16_from_address(address, byteorder='little',
@@ -356,6 +357,17 @@ class Console:
         _FillConsoleOutputAttribute(
             self.handle, csbi.wAttributes, console_size, coord_screen, ctypes.byref(chars_written))
         _SetConsoleCursorPosition(self.handle, coord_screen)
+
+    def center_text(self, string, setcursorpos = True):
+        """
+        :param string: string to center, required to find the left center
+        :param setcursorpos: befaults to true, set to false if you dont want it to set the cursor position
+        :return: where to set the cursor to for the string to be center
+        """
+        cursorCenterPos = _CONSOLE_SCREEN_BUFFER_INFO().dwSize.X-len(string)
+        if setcursorpos:
+            self.set_cursor_pos(cursorCenterPos, self.get_console_info().window_rectangle.bottom - 1)
+        return math.floor(cursorCenterPos)
 
     def set_title(self, title):
         unicode_buffer = ctypes.create_unicode_buffer(title)
