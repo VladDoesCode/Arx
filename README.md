@@ -26,7 +26,7 @@ Thank you! :)
 1. *Added "Hero's Stats:" to stats bar display*
 1. *Other small internal changes*
 
-### Newest Update -> (6/23/2020):  
+### Commit #[4096fbd](https://github.com/VladimirBienvenue/Arx/commit/4096fbd2e15a8eaf0e9a834e5de68d78c5b47b1f) -> (6/23/2020): 
 1. __*Monster Update!!!*__
     1. *Added Monster Class*
     1. *Added Skeleton monster*
@@ -49,6 +49,11 @@ Thank you! :)
 1. *Changed "begin_ .py" to "begin .py"*
 1. *Added the "Possible Future Additions / Changes" Section to README file*
 1. *Added "Ways YOU Can Improve ARX!" Section to README file*
+
+### Newest Update -> (6/23/2020):  
+1. *Created "imageBasedFunctions .py" and moved such functions into that file*
+1. *Added Mountains() Function with new mini ARX logo*
+
 
 
 ## Possible Future Additions / Changes:

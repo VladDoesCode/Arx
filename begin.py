@@ -3,6 +3,7 @@ import time as t
 
 import consolemanager
 import universalFunctions
+import imageBasedFunctions
 import random
 from classes import *
 from universalFunctions import printSlow, qAnswer, monsterFight
@@ -25,7 +26,7 @@ def beginGame():
     showStats = True
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
-    universalFunctions.titleScreen()
+    imageBasedFunctions.titleScreen()
     askName()
     askClass()
     mainChar = Hero(100, 10, classSelect)
@@ -35,7 +36,7 @@ def beginGame():
     universalFunctions.setStamina(
         mainChar.staminaPoolmax, showStats, mainChar, mainChar.staminaPoolmax, True)
     universalFunctions.setArmor(10, showStats, mainChar, 10, True)
-    universalFunctions.setArx()
+    imageBasedFunctions.setArx()
     dialogue1()
 
 
@@ -62,7 +63,8 @@ def askName():
             universalFunctions.clear_screen()
             name = qAnswer(
                 "What, are you just going to sit there and say nothing? Give me your name.")
-    printSlow(f"Welcome {name}, to the world of Arx!")
+    console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
+    printSlow(f"Welcome {name}, to the world of Arx!", 0, False)
 
 
 def askClass():

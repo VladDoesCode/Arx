@@ -8,15 +8,18 @@ import random
 big = '--<======================>--'
 small = '-<===============>-'
 
-console_info = "console.get_console_info()"
+console_info = ""
 PADDING = consolemanager.Rectangle(0, 6, 12, 0)
 PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
 PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
+PADDINGMIDDLE = consolemanager.Rectangle(0, 14, 1, 2)
 
 
 # Function to Type out Printed strings
-def printSlow(fstr, waitTime=0, nextLine=True, typeSpeed=0.03, PADDINGAREA=PADDING):
+def printSlow(fstr, waitTime=0, nextLine=True, typeSpeed=0.02, PADDINGAREA=PADDINGMIDDLE):
+    global console_info
     console = begin.console
+    console_info = console.get_console_info()
     for char in fstr:
         print(char, end='', flush=True)
         t.sleep(typeSpeed)
@@ -69,13 +72,13 @@ def confirm(keep=0):
 
 
 # Question function to utilize all over and to check for command usage
-def qAnswer(question, safeZone=False, PADDINGAREA=PADDING):
+def qAnswer(question, safeZone=False, PADDINGAREA=PADDINGMIDDLE):
     console = begin.console
-    printSlow(f"{question}", 0, True, 0.03, PADDINGAREA)
-    console.clear_line(
-        console.get_console_info().window_rectangle.bottom - 1)
-    printSlow('> ', 0, False, 0.03, PADDINGAREA)
-    answer = input()
+    console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
+    printSlow(f"{question}", 0, False, 0.03, PADDINGAREA)
+    console.set_cursor_pos(0, console_info.window_rectangle.bottom)
+    answer = input(printSlow('> ', 0, False, 0.03, PADDINGAREA))
+    console.clear_line(console_info.window_rectangle.bottom, 2)
     if answer.lower() == "!stats" and safeZone == True:
         clear_screen()
         printSlow(big)
@@ -95,9 +98,6 @@ def qAnswer(question, safeZone=False, PADDINGAREA=PADDING):
         commands()
     else:
         scroll_text_up(PADDINGAREA)
-        printSlow('', 0, True, 0.03, PADDINGAREA)
-        console.clear_line(
-            console.get_console_info().window_rectangle.bottom - 2)
         return answer
 
 
@@ -110,8 +110,6 @@ def spacing(x1, x2, str1, str2):
 # Monster encounter function
 def monsterFight(monster, mainChar):
     clear_screen(PADDINGART)
-    # playerArt()
-    # skeletonArt()
     printSlow(f"You encounter a {monster.name}!", 0, True, 0.03, PADDINGART)
     choice = qAnswer(
         "What would you like to do? [1. Attack] [2. Try to Escape!]", False, PADDINGART)
@@ -278,37 +276,6 @@ def statMeaning():
 # ------------------------------------------
 # Stat Bar Setting and Icon Functions below:
 # ------------------------------------------
-
-'''
-   _____   __________ ____  ___
-  /  _  \  \______   \\   \/  /
- /  /_\  \  |       _/ \     /
-/    |    \ |    |   \ /     \
-\____|__  / |____|_  //___/\  \
-        \/         \/       \_/
-'''
-
-
-def setArx():
-    console = begin.console
-    console.set_cursor_pos(
-        console.get_console_info().window_rectangle.right - 30, 0)
-    printSlow("   _____  __________ ____  ___ ", 0, False, 0.012)
-    console.set_cursor_pos(
-        console.get_console_info().window_rectangle.right - 30, 1)
-    printSlow("  /  _  \ \______   \\\   \/  /", 0, False, 0.012)
-    console.set_cursor_pos(
-        console.get_console_info().window_rectangle.right - 30, 2)
-    printSlow(" /  /_\  \ |       _/ \     /  ", 0, False, 0.012)
-    console.set_cursor_pos(
-        console.get_console_info().window_rectangle.right - 30, 3)
-    printSlow("/    |    \|    |   \ /     \  ", 0, False, 0.012)
-    console.set_cursor_pos(
-        console.get_console_info().window_rectangle.right - 30, 4)
-    printSlow("\____|__  /|____|_  //___/\  \ ", 0, False, 0.012)
-    console.set_cursor_pos(
-        console.get_console_info().window_rectangle.right - 30, 5)
-    printSlow("        \/        \/       \_/ ", 0, False, 0.012)
 
 
 def setHP(current_hp, showStats, mainChar, max_hp=100, initialize=False):
@@ -673,217 +640,3 @@ def clearEnemyStats():
     console.set_cursor_pos(55, 4)
     print("                           ")
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
-
-
-'''
-               ████████   ████████████████                1
-            ▄█████████████▓▓███▌▒▒███▒▒██████             2
-            ██████████████▓▓▓██▌▓▓███╣╣▓█████             3
-            ██████████████▓▓▓██▓▓▓███╣╣▓█████   ,,        4
-            ██████████████▓▓▓▓▓▓▓▓╣╣╣╣╣╣╣╣███  ▐██▌       5
-            ███  ▐███▓▓▓▓▓██████████████████████▒▒███     6
-                 ▐███▓▓▓▓▓░░░░░░░░░░░░░███▀  ███▒▒███     7
-                 ▐███▓▓▓▓▓▒▒▒▄▄▒▒▒▒▒▒▄▄███   ███▒▒███     8
-                 ▐███▓▓▓▓▓▒▒▐▓▓▒▒▒▒▒▒▓▓███   ███▒▒███     9
-                 ▐███▓▓▓▓▓▒▒▐▓▓▒▒▒▒▒▒▓▓███   ███▒▒███     10
-                    ▐██▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▐██   ███▒▒███     11
-               █████████████████████████████████▒▒███     12
-            ▄▄▄██████▀▀█████▓▀▀▀▀▓▓▓▓▀▀█████████▓▓▓██▄▄▄  13
-            ▀▀▀███▓▓▄▄▄███▓▓▓▓▒▒╣╣███╣╣████████▓▓▓▓██▀▀▀  14
-               ███████████▓▓▓▓▓▓▒▒███▒▒█████████▒▒███     15
-            ██████████████████████▓▓▓███████████▓▓███     16
-            ███▓▓█▓▓██████▓▓▓▓▓▓╢╢▓▓▓▒▒███-  █████▌       17
-            ██████▓▓██████████████████████   ▀▀▀▀▀`       18
-'''
-
-
-def playerArt():
-    console = begin.console
-    console.set_cursor_pos(3, 5)
-    printSlow("   ████████   ████████████████", 0, False, 0.008)
-    console.set_cursor_pos(3, 6)
-    printSlow("▄█████████████▓▓███▌▒▒███▒▒██████", 0, False, 0.008)
-    console.set_cursor_pos(3, 7)
-    printSlow("██████████████▓▓▓██▌▓▓███╣╣▓█████", 0, False, 0.008)
-    console.set_cursor_pos(3, 8)
-    printSlow("██████████████▓▓▓██▓▓▓███╣╣▓█████   ,,", 0, False, 0.008)
-    console.set_cursor_pos(3, 9)
-    printSlow("██████████████▓▓▓▓▓▓▓▓╣╣╣╣╣╣╣╣███  ▐██▌", 0, False, 0.008)
-    console.set_cursor_pos(3, 10)
-    printSlow("███  ▐███▓▓▓▓▓██████████████████████▒▒███", 0, False, 0.008)
-    console.set_cursor_pos(3, 11)
-    printSlow("     ▐███▓▓▓▓▓░░░░░░░░░░░░░███▀  ███▒▒███", 0, False, 0.008)
-    console.set_cursor_pos(3, 12)
-    printSlow("     ▐███▓▓▓▓▓▒▒▒▄▄▒▒▒▒▒▒▄▄███   ███▒▒███", 0, False, 0.008)
-    console.set_cursor_pos(3, 13)
-    printSlow("     ▐███▓▓▓▓▓▒▒▐▓▓▒▒▒▒▒▒▓▓███   ███▒▒███", 0, False, 0.008)
-    console.set_cursor_pos(3, 14)
-    printSlow("     ▐███▓▓▓▓▓▒▒▐▓▓▒▒▒▒▒▒▓▓███   ███▒▒███", 0, False, 0.008)
-    console.set_cursor_pos(3, 15)
-    printSlow("        ▐██▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▐██   ███▒▒███", 0, False, 0.008)
-    console.set_cursor_pos(3, 16)
-    printSlow("   █████████████████████████████████▒▒███", 0, False, 0.008)
-    console.set_cursor_pos(3, 17)
-    printSlow("▄▄▄██████▀▀█████▓▀▀▀▀▓▓▓▓▀▀█████████▓▓▓██▄▄▄", 0, False, 0.008)
-    console.set_cursor_pos(3, 18)
-    printSlow("▀▀▀███▓▓▄▄▄███▓▓▓▓▒▒╣╣███╣╣████████▓▓▓▓██▀▀▀", 0, False, 0.008)
-    console.set_cursor_pos(3, 19)
-    printSlow("   ███████████▓▓▓▓▓▓▒▒███▒▒█████████▒▒███", 0, False, 0.008)
-    console.set_cursor_pos(3, 20)
-    printSlow("██████████████████████▓▓▓███████████▓▓███", 0, False, 0.008)
-    console.set_cursor_pos(3, 21)
-    printSlow("███▓▓█▓▓██████▓▓▓▓▓▓╢╢▓▓▓▒▒███-  █████▌", 0, False, 0.008)
-    console.set_cursor_pos(3, 22)
-    printSlow("██████▓▓██████████████████████   ▀▀▀▀▀`", 0, False, 0.008)
-    console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
-
-
-'''
-                              _.--""-._                         1
-  .                         ."         ".                       2
- / \    ,^.         /(     Y             |      )\              3
-/   `---. |--'\    (  \__..'--   -   -- -'""-.-'  )             4
-|        :|    `>   '.     l_..-------.._l      .'              5
-|      __l;__ .'      "-.__.||_.-'v'-._||`"----"                6
- \  .-' | |  `              l._       _.'                       7
-  \/    | |                   l`^^'^^'j                         8
-        | |                _   \_____/     _                    9
-        j |               l `--__)-'(__.--' |                   10
-        | |               | /`---``-----'"1 |  ,-----.          11
-        | |               )/  `--' '---'   \'-'  ___  `-.       12
-        | |              //  `-'  '`----'  /  ,-'   I`.  \      13
-      _ L |_            //  `-.-.'`-----' /  /  |   |  `. \     14
-     '._' / \         _/(   `/   )- ---' ;  /__.J   L.__.\ :    15
-      `._;/7(-.......'  /        ) (     |  |            | |    16
-      `._;l _'--------_/        )-'/     :  |___.    _._./ ;    17
-        | |                 .__ )-'\  __  \  \  I   1   / /     18
-'''
-
-
-def skeletonArt():
-    console = begin.console
-    console.set_cursor_pos(44, 5)
-    printSlow("                              _.--""-._", 0, False, 0.008)
-    console.set_cursor_pos(44, 6)
-    printSlow("  .                         ."         ".", 0, False, 0.008)
-    console.set_cursor_pos(44, 7)
-    printSlow(" /, ^ .         / (Y             |)\ ", 0, False, 0.008)
-    console.set_cursor_pos(44, 8)
-    printSlow("/   `---. |--'\    (  \__..'--   -   -- -'''-.-'  )",
-              0, False, 0.008)
-    console.set_cursor_pos(44, 9)
-    printSlow("|        :|    `>   '.     l_..-------.._l      .'",
-              0, False, 0.008)
-    console.set_cursor_pos(44, 10)
-    printSlow("|      __l;__ .'      '-.__.||_.-'v'-._||`'----'", 0, False, 0.008)
-    console.set_cursor_pos(44, 11)
-    printSlow(" \  .-' | |  `              l._       _.'", 0, False, 0.008)
-    console.set_cursor_pos(44, 12)
-    printSlow("  \/    | |                   l`^^'^^'j", 0, False, 0.008)
-    console.set_cursor_pos(44, 13)
-    printSlow("        | |                _   \_____/     _", 0, False, 0.008)
-    console.set_cursor_pos(44, 14)
-    printSlow("        j |               l `--__)-'(__.--' |", 0, False, 0.008)
-    console.set_cursor_pos(44, 15)
-    printSlow(
-        "        | |               | /`---``-----''1 |  ,-----.", 0, False, 0.008)
-    console.set_cursor_pos(44, 16)
-    printSlow("        | |               )/  `--' '---'   \'-'  ___  `-.",
-              0, False, 0.008)
-    console.set_cursor_pos(44, 17)
-    printSlow(
-        "        | |              //  `-'  '`----'  /  ,-'   I`.  \ ", 0, False, 0.008)
-    console.set_cursor_pos(44, 18)
-    printSlow(
-        "      _ L |_            //  `-.-.'`-----' /  /  |   |  `. \ ", 0, False, 0.008)
-    console.set_cursor_pos(44, 19)
-    printSlow(
-        "     '._' / \         _/(   `/   )- ---' ;  /__.J   L.__.\ :", 0, False, 0.008)
-    console.set_cursor_pos(44, 20)
-    printSlow(
-        "      `._;/7(-.......'  /        ) (     |  |            | |", 0, False, 0.008)
-    console.set_cursor_pos(44, 21)
-    printSlow(
-        "      `._;l _'--------_/        )-'/     :  |___.    _._./ ;", 0, False, 0.008)
-    console.set_cursor_pos(44, 22)
-    printSlow(
-        "        | |                 .__ )-'\  __  \  \  I   1   / /", 0, False, 0.008)
-    console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
-
-
-'''
-      _____        _____
-  ___|\    \   ___|\    \  _____      _____
- /    /\    \ |    |\    \ \    \    /    /
-|    |  |    ||    | |    | \    \  /    /
-|    |__|    ||    |/____/   \____\/____/
-|    .--.    ||    |\    \   /    /\    \
-|    |  |    ||    | |    | /    /  \    \
-|____|  |____||____| |____|/____/ /\ \____\
-|    |  |    ||    | |    ||    |/  \|    |
-|____|  |____||____| |____||____|    |____|
-  \(      )/    \(     )/    \(        )/
-   '      '      '     '      '        '
-'''
-
-
-#   This is the ascii art logo.
-def titleScreen():
-    global console_info
-    console = begin.console
-    console_info = console.get_console_info()
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("      _____        _____                   ", 0.05, True, 0)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("  ___|\    \   ___|\    \  _____      _____", 0.05, True, 0)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow(" /    /\    \ |    |\    \ \    \    /    /", 0.05, True, 0)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|    |  |    ||    | |    | \    \  /    / ", 0.05, True, 0)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|    |__|    ||    |/____/   \____\/____/  ", 0.05, True, 0)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|    .--.    ||    |\    \   /    /\    \  ", 0.05, True, 0)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|    |  |    ||    | |    | /    /  \    \ ", 0.05, True, 0)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|____|  |____||____| |____|/____/ /\ \____\ ", 0.05, True, 0)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|    |  |    ||    | |    ||    |/  \|    |", 0.05, True, 0)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|____|  |____||____| |____||____|    |____|", 0.05, True, 0)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("  \(      )/    \(     )/    \(        )/  ", 0.05, True, 0)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("   '      '      '     '      '        '   ",
-              0.05, True, 0)
-    console.set_cursor_pos(23, console_info.window_rectangle.bottom - 1)
-    printSlow(
-        "A text based adventure game made by Vladimir with help from friends.", 0.05, True, 0)
-    console.set_cursor_pos(29, console_info.window_rectangle.bottom - 1)
-    printSlow(
-        "- Inspired by Choose Your Own Adventure Books and D&D -",  0.05, True, 0)
-    for row in range(8):
-        t.sleep(0.05)
-        scroll_text_up(PADDINGNONE)
-    console.set_cursor_pos(31, 22)
-    printSlow(
-        "[1. Start New Game] [2. Load Game] [3. Game Credit]", 0, False)
-    console.set_cursor_pos(40, 23)
-
-    introChoice = input(
-        printSlow("Whats your choice, Adventurer? > ", 0, False))
-    while introChoice != "1":
-        console.clear_line(23)
-        console.set_cursor_pos(40, 23)
-        introChoice = input("Whats your choice, Adventurer? > ")
-        if introChoice == "1":
-            break
-        elif introChoice == "2" or introChoice == "3":
-            console.set_cursor_pos(25, 25)
-            printSlow(
-                "That part of Arx isn't ready yet, try again in the next release!", 1, False)
-            console.clear_line(25)
-
-    t.sleep(.5)
-    clear_screen(PADDINGNONE, 0.05)
