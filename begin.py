@@ -52,18 +52,19 @@ def askName():
     name = qAnswer("Hello Adventurer, what is your name?")
     while len(name) > 17 or len(name) < 3:
         if len(name) > 17:
-            universalFunctions.clear_screen()
+            universalFunctions.scroll_text_up(PADDINGNONE, scroll="mid")
             name = qAnswer(
                 "Thats a mighty long name, do you go by something shorter?")
         elif len(name) < 3 and len(name) > 0:
-            universalFunctions.clear_screen()
+            universalFunctions.scroll_text_up(PADDINGNONE, scroll="mid")
             name = qAnswer(
                 "Ive never met an Adventurer with such a short name, what else do you go by?")
         elif len(name) == 0:
-            universalFunctions.clear_screen()
+            universalFunctions.scroll_text_up(PADDINGNONE, scroll="mid")
             name = qAnswer(
                 "What, are you just going to sit there and say nothing? Give me your name.")
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
+    universalFunctions.scroll_text_up(PADDINGNONE, scroll="mid")
     printSlow(f"Welcome {name}, to the world of Arx!", 0, False)
 
 
@@ -72,9 +73,7 @@ def askClass():
     classSelect = qAnswer(
         "What class would you like to play, [Commoner], [Warrior], [Mage], [Thief], or [Paladin]?")
     while classSelect.lower() not in ["commoner", "warrior", "mage", "thief", "paladin"]:
-        universalFunctions.clear_screen()
-        classSelect = qAnswer(
-            "Come again, which class? [Commoner], [Warrior], [Mage], [Thief], or [Paladin].")
+        classSelect = qAnswer("Come again, which class? [Commoner], [Warrior], [Mage], [Thief], or [Paladin].")
 
 
 def dialogue1():

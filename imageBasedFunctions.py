@@ -141,7 +141,7 @@ def createGameArea():
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 2)
     printSlow(
         "█=►─═─═" + ("=" * (console_info.window_rectangle.right - 14)) + "═─═─◄=█", 0, False, 0.01)
-    mountains()
+    #mountains()
 
 
 '''
