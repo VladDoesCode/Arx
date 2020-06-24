@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+                    
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -672,7 +672,6 @@ into proprietary programs.  If your program is a subroutine library, you
 may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
-=======
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -1346,5 +1345,4 @@ into proprietary programs.  If your program is a subroutine library, you
 may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
->>>>>>> bfa46e22dde446041bea7417b2b32548d3548178
 <https://www.gnu.org/licenses/why-not-lgpl.html>.
