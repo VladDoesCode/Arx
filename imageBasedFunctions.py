@@ -9,7 +9,7 @@ PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
 PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
 
 PADDINGMIDDLE = consolemanager.Rectangle(0, 14, 1, 2)
-PADDINGBATTLE = consolemanager.Rectangle(0, 14, 28, 2)
+PADDINGBATTLE = consolemanager.Rectangle(0, 14, 29, 2)
 
 """
    _____   __________ ____  ___

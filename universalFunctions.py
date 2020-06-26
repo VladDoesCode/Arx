@@ -13,7 +13,7 @@ PADDING = consolemanager.Rectangle(0, 6, 12, 0)
 PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
 PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
 PADDINGMIDDLE = consolemanager.Rectangle(0, 14, 1, 2)
-PADDINGBATTLE = consolemanager.Rectangle(0, 14, 28, 2)
+PADDINGBATTLE = consolemanager.Rectangle(0, 14, 29, 2)
 
 
 # Function to Type out Printed strings
@@ -28,13 +28,15 @@ def printSlow(
         t.sleep(typeSpeed)
     t.sleep(waitTime)
     if nextLine == True:
-        scroll_text_up(PADDINGAREA)
+        scroll_text_up(PADDINGAREA, 1, 0, PADDINGAREA)
         console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
     return ""
 
 
 # Function to move text up
-def scroll_text_up(rectangle: consolemanager.Rectangle, clear_rows=1, waitTime=0):
+def scroll_text_up(
+    rectangle: consolemanager.Rectangle, clear_rows=1, waitTime=0, padding=PADDINGNONE
+):
     console = begin.console
     ci = console.get_console_info()
     for row in range(
@@ -50,7 +52,10 @@ def scroll_text_up(rectangle: consolemanager.Rectangle, clear_rows=1, waitTime=0
             line = console.read_console_line(row + clear_row)[
                 rectangle.left : -rectangle.right
             ]
-            console.clear_line(row)
+            # THIS MIGHT CAUSE AN ISSUE AT SOME POINT! IF THINGS ARNT MOVING UP!
+            console.clear_line_until(
+                console_info.window_rectangle.right - padding.right, row
+            )
             console.set_cursor_pos(rectangle.left, row - 1 + clear_row)
             print(line, end="", flush=True)
             t.sleep(waitTime)
@@ -83,12 +88,12 @@ def confirm(keep=0, padding=PADDINGMIDDLE):
 # Question function to utilize all over and to check for command usage
 def qAnswer(question, safeZone=False, PADDINGAREA=PADDINGMIDDLE):
     console = begin.console
-    scroll_text_up(PADDINGAREA)
+    scroll_text_up(PADDINGAREA, 1, 0, PADDINGAREA)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
     printSlow(f"{question}", 0, False, 0.03, PADDINGAREA)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
     answer = input(printSlow("> ", 0, False, 0.03, PADDINGAREA))
-    scroll_text_up(PADDINGAREA)
+    scroll_text_up(PADDINGAREA, 1, 0, PADDINGAREA)
     console.clear_line(console_info.window_rectangle.bottom - 1, 2)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
     if answer.lower() == "!stats" and safeZone == True:
@@ -113,7 +118,7 @@ def qAnswer(question, safeZone=False, PADDINGAREA=PADDINGMIDDLE):
         clear_screen()
         commands()
     else:
-        scroll_text_up(PADDINGAREA)
+        scroll_text_up(PADDINGAREA, 1, 0, PADDINGAREA)
         console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
         return answer
 
@@ -709,16 +714,16 @@ def setEnemyArmor(monster, max_armor, initialize=False):
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 
 
-def clearEnemyStats():
-    console = begin.console
-    console.set_cursor_pos(60, 0)
-    print("                           ")
-    console.set_cursor_pos(55, 1)
-    print("                           ")
-    console.set_cursor_pos(55, 2)
-    print("                           ")
-    console.set_cursor_pos(55, 3)
-    print("                           ")
-    console.set_cursor_pos(55, 4)
-    print("                           ")
-    console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
+# def clearEnemyStats():
+#     console = begin.console
+#     console.set_cursor_pos(60, 0)
+#     print("                           ")
+#     console.set_cursor_pos(55, 1)
+#     print("                           ")
+#     console.set_cursor_pos(55, 2)
+#     print("                           ")
+#     console.set_cursor_pos(55, 3)
+#     print("                           ")
+#     console.set_cursor_pos(55, 4)
+#     print("                           ")
+#     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)

@@ -23,7 +23,7 @@ PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
 PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
 
 PADDINGMIDDLE = consolemanager.Rectangle(0, 14, 1, 2)
-PADDINGBATTLE = consolemanager.Rectangle(0, 14, 28, 2)
+PADDINGBATTLE = consolemanager.Rectangle(0, 14, 29, 2)
 
 #   Beggining of the game!
 
@@ -110,8 +110,8 @@ def dialogue1():
     t.sleep(0.5)
 
     console.set_cursor_pos(0, console.get_console_info().window_rectangle.bottom - 3)
-    # universalFunctions.playerStats(mainChar)
-    # universalFunctions.statMeaning()
+    universalFunctions.playerStats(mainChar)
+    universalFunctions.statMeaning()
 
     # First choice
     safeZone = 1

@@ -50,9 +50,12 @@ Thank you! :)
 1. *Added the "Possible Future Additions / Changes" Section to README file*
 1. *Added "Ways YOU Can Improve ARX!" Section to README file*
 
-### Newest Update -> (6/23/2020):  
+### Newest Update -> (6/26/2020):  
+1. __*Restructured the design format of the game!!!*__
+    1. *Modyified most functions to account for this!*
 1. *Created "imageBasedFunctions .py" and moved such functions into that file*
 1. *Added Mountains() Function with new mini ARX logo*
+
 
 
 
