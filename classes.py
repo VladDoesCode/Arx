@@ -1,8 +1,20 @@
 import random
-from universalFunctions import setEnemyArmor, setEnemyHP, setEnemyMana, setEnemyStamina, clearEnemyStats, setHP, setMana, setArmor, setStamina, clear_screen, PADDINGNONE
+from universalFunctions import (
+    setEnemyArmor,
+    setEnemyHP,
+    setEnemyMana,
+    setEnemyStamina,
+    clearEnemyStats,
+    setHP,
+    setMana,
+    setArmor,
+    setStamina,
+    clear_screen,
+    PADDINGNONE,
+)
 
 
-class Hero():
+class Hero:
     def __init__(self, health, armor, charClass):
         self._health = health
         self.healthPoolmax = self.health
@@ -78,14 +90,15 @@ class Hero():
         setArmor(self._armor, True, self, self.armorPoolmax)
 
 
-class Monster():
+class Monster:
     def __init__(self, monsterType, mainChar):
         if monsterType == "skeleton":
 
             self.name = "Skeleton"
 
             self.healthPoolmax = int(
-                mainChar.healthPoolmax * (random.randint(2, 3) / 5))
+                mainChar.healthPoolmax * (random.randint(2, 3) / 5)
+            )
             self._health = self.healthPoolmax
 
             self.manaPoolmax = random.randint(5, 20)

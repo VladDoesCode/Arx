@@ -1,5 +1,7 @@
 import ctypes
 import enum
+import os
+import subprocess
 
 
 def decode_utf16_from_address(address, byteorder='little',
@@ -340,6 +342,15 @@ class Console:
         self.handle = _GetStdHandle(std_handle)
         self.__default_cursor_info = self.__get_win32_cursor_info()
         self.__default_console_info = self.__get_win32_console_screen_buffer_info()
+        self.originalDimensions = os.get_terminal_size()
+
+    def resize(self, x=os.get_terminal_size().lines, y=os.get_terminal_size().columns):
+        if x == os.get_terminal_size().lines and y == os.get_terminal_size().columns:
+            cmd = "mode " + str(self.originalDimensions.columns) + "," + str(self.originalDimensions.lines)
+            os.system(cmd)
+            return
+        cmd = "mode " + str(x) + "," + str(y)
+        os.system(cmd)
 
     def clear_screen(self, char=' '):
         coord_screen = _COORD(0, 0)
@@ -356,6 +367,8 @@ class Console:
         _FillConsoleOutputAttribute(
             self.handle, csbi.wAttributes, console_size, coord_screen, ctypes.byref(chars_written))
         _SetConsoleCursorPosition(self.handle, coord_screen)
+
+
 
     def set_title(self, title):
         unicode_buffer = ctypes.create_unicode_buffer(title)
