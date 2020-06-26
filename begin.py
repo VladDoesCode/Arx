@@ -131,6 +131,7 @@ def dialogue1():
         printSlow(
             "Alright lets climb this hill, I think I see some monsters on top!", 1
         )
+        printSlow("")
 
     monster1 = Monster("skeleton", mainChar)
 

@@ -175,7 +175,7 @@ def monsterFight(monster, mainChar):
 
                     elif playerAttackMultiplier == 2:
                         printSlow(
-                            f"You critically strike the {monster.name} with your sword for {3 + (mainChar.strength * playerAttackMultiplier - monster.armor)} damage; breaking one armor point!",
+                            f"You crit the {monster.name} with your sword for {3 + (mainChar.strength * playerAttackMultiplier - monster.armor)} damage; breaking one armor point!",
                             0,
                             True,
                             0.02,
@@ -260,7 +260,7 @@ def monsterFight(monster, mainChar):
 
                     elif enemyAttackMultiplier == 1.5:
                         printSlow(
-                            f"The {monster.name} critically attacks you for {int(monster.strength * enemyAttackMultiplier - mainChar.armor)} damage; breaking one armor point.",
+                            f"The {monster.name} crits you for {int(monster.strength * enemyAttackMultiplier - mainChar.armor)} damage; breaking one armor point.",
                             0,
                             True,
                             0.02,
@@ -714,7 +714,10 @@ def setEnemyArmor(monster, max_armor, initialize=False):
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 
 
-# def clearEnemyStats():
+def clearEnemyStats():
+    pass
+
+
 #     console = begin.console
 #     console.set_cursor_pos(60, 0)
 #     print("                           ")
