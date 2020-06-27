@@ -1,4 +1,8 @@
+> ## OPEN ARX.py in Windows CMD.exe
 # ARX 💀🗝️⚔️
+
+![ARX Gif](https://i.imgur.com/pzv0mVN.gif)
+
 ARX derives from latin to mean Dungeon;  
 ARX is my first "real" python project in which I am attempting to make an all terminal text based game.  
   
@@ -8,7 +12,7 @@ This being my first "real" project, I can always use some assistance;
 Please let me know if there are ways to improve my game or if you have any ideas to add.  
 Thank you! :)
 
-## Updates for each release (starting from 6/20/2020):
+> ## Updates for each release (starting from 6/20/2020):
 ### Commit #[8d4b85a](https://github.com/VladimirBienvenue/ARX/commit/8d4b85aea00ca4bcaf4cb8f837e2c4a467d68915) -> (6/20/2020): 
 1. *Updated Title Sequence*
 1. *fixed stat bars display*
@@ -50,16 +54,19 @@ Thank you! :)
 1. *Added the "Possible Future Additions / Changes" Section to README file*
 1. *Added "Ways YOU Can Improve ARX!" Section to README file*
 
-### Newest Update -> (6/26/2020):  
+### Commit #[edad451](https://github.com/VladimirBienvenue/Arx/commit/edad4510ba7f04a953157bda0aa1446fd0aaf5df) -> (6/26/2020):
 1. __*Restructured the design format of the game!!!*__
     1. *Modyified most functions to account for this!*
 1. *Created "imageBasedFunctions .py" and moved such functions into that file*
 1. *Added Mountains() Function with new mini ARX logo*
 
+### Newest Update -> (6/27/2020):  
+1. *Added Gif to Readme*
+1. *Added Run Instructions to ReadMe*
+1. *Added GitIgnore*
+1. *Formated Readme*
 
-
-
-## Possible Future Additions / Changes:
+> ## Possible Future Additions / Changes:
 * *Create Credits*
 * *Add Level System*
     * *Experience Bar and Graphical Indication*
@@ -75,11 +82,11 @@ Thank you! :)
 * *Ways to regain lost stats*
 * *Bosses?*
 
-## Ways YOU Can Improve ARX!
+> ## Ways YOU Can Improve ARX!
 * On top of any ideas you have for ARX
     * (which you can submit through github comments or via discord @ Von Spookelton#2429)
 * How can I improve the combat system?
 * What features do you like / do not like as much?
 * Any feedback on the game helps out tremendiously, its indie develpment so the more opinions I can get that arent just mine, the better!
 
-# Thank You for Checking out ARX! 💀🗝️⚔️
+> # Thank You for Checking out ARX! 💀🗝️⚔️
