@@ -14,12 +14,13 @@ PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
 PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
 PADDINGMIDDLE = consolemanager.Rectangle(0, 14, 1, 2)
 PADDINGBATTLE = consolemanager.Rectangle(0, 14, 29, 2)
+PADDINGWIPEART = consolemanager.Rectangle(0, 0, 1, 16)
 
 
-# Function to Type out Printed strings
 def printSlow(
     fstr, waitTime=0, nextLine=True, typeSpeed=0.02, PADDINGAREA=PADDINGMIDDLE
 ):
+    "Function to Type out Printed strings"
     global console_info
     console = begin.console
     console_info = console.get_console_info()
@@ -33,10 +34,10 @@ def printSlow(
     return ""
 
 
-# Function to move text up
 def scroll_text_up(
     rectangle: consolemanager.Rectangle, clear_rows=1, waitTime=0, padding=PADDINGNONE
 ):
+    "Function to move text up"
     console = begin.console
     ci = console.get_console_info()
     for row in range(
@@ -62,8 +63,8 @@ def scroll_text_up(
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 
 
-# Function to clear the screen WITH padding
 def clear_screen(PADDING=PADDINGMIDDLE, waitTime=0.018):
+    "Function to clear the screen WITH padding"
     console = begin.console
     for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
         scroll_text_up(PADDING)
@@ -71,8 +72,8 @@ def clear_screen(PADDING=PADDINGMIDDLE, waitTime=0.018):
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 
 
-# Function when I want user to press "Enter" as confirmation.
 def confirm(keep=0, padding=PADDINGMIDDLE):
+    "Function when I want user to press 'Enter' as confirmation."
     console = begin.console
     input(printSlow("Press Enter to continue..."))
     printSlow("")
@@ -85,8 +86,8 @@ def confirm(keep=0, padding=PADDINGMIDDLE):
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 
 
-# Question function to utilize all over and to check for command usage
 def qAnswer(question, safeZone=False, PADDINGAREA=PADDINGMIDDLE):
+    "Question function to utilize all over and to check for command usage. Returns the Inputed Answer."
     console = begin.console
     scroll_text_up(PADDINGAREA, 1, 0, PADDINGAREA)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
@@ -123,15 +124,18 @@ def qAnswer(question, safeZone=False, PADDINGAREA=PADDINGMIDDLE):
         return answer
 
 
-# Function to calculate where to place a string in between two points
 def spacing(x1, x2, str1, str2):
+    "Function to calculate where to place a string in between two points"
     return (x1 + ((x2 - x1 + 1) // 2)) - (len(str1) - 1) - ((len(str2) - 1) // 2) + 2
 
 
-# Monster encounter function
 def monsterFight(monster, mainChar):
-    # clear_screen(PADDINGBATTLE)
+    "Monster encounter function"
     printSlow(f"You encounter a {monster.name}!", 0, True, 0.02, PADDINGBATTLE)
+    setHP(mainChar.health, True, mainChar)
+    setMana(mainChar.mana, True, mainChar, mainChar.manaPoolmax)
+    setStamina(mainChar.stamina, True, mainChar, mainChar.staminaPoolmax)
+    setArmor(mainChar.armor, True, mainChar, mainChar.armorPoolmax)
     choice = qAnswer(
         "What would you like to do? [1. Attack] [2. Try to Escape!]",
         False,
@@ -302,8 +306,8 @@ def monsterFight(monster, mainChar):
 # -------------------------
 
 
-# Shows player their stats
 def playerStats(mainChar):
+    "Shows player their stats"
     console = begin.console
     printSlow(
         "Lets look at your characters stats! (They are dependent on what class you pick!)",
@@ -316,8 +320,8 @@ def playerStats(mainChar):
     confirm(1)
 
 
-# Shows player what each player stat does
 def statMeaning():
+    "Shows player what each player stat does"
     console = begin.console
     printSlow(big)
     printSlow("Stats in Arx")
@@ -347,6 +351,7 @@ def statMeaning():
 
 
 def setHP(current_hp, showStats, mainChar, max_hp=100, initialize=False):
+    "Sets Player Instance's Health and Updates On-Screen Display for it."
     console = begin.console
     mainChar._health = current_hp
     console.set_cursor_pos(8, 0)
@@ -387,6 +392,7 @@ def setHP(current_hp, showStats, mainChar, max_hp=100, initialize=False):
 
 
 def setMana(current_mana, showStats, mainChar, max_mana=None, initialize=False):
+    "Sets Player Instance's Mana and Updates On-Screen Display for it."
     console = begin.console
     mainChar._mana = current_mana
     if showStats == True and initialize == False:
@@ -431,6 +437,7 @@ def setMana(current_mana, showStats, mainChar, max_mana=None, initialize=False):
 def setStamina(
     current_stamina, showStats, mainChar, max_stamina=None, initialize=False
 ):
+    "Sets Player Instance's Stamina and Updates On-Screen Display for it."
     console = begin.console
     mainChar._stamina = current_stamina
     if showStats == True and initialize == False:
@@ -477,6 +484,7 @@ def setStamina(
 
 
 def setArmor(current_armor, showStats, mainChar, max_armor=10, initialize=False):
+    "Sets Player Instance's Armor and Updates On-Screen Display for it."
     console = begin.console
     mainChar._armor = current_armor
     if showStats == True and initialize == False:
@@ -520,6 +528,7 @@ def setArmor(current_armor, showStats, mainChar, max_armor=10, initialize=False)
 
 
 def setEnemyHP(monster, max_hp, initialize=False):
+    "Sets Enemy Instance's Health and Updates On-Screen Display for it."
     console = begin.console
     # TODO Set this to center monster.name relative to the len()
     console.set_cursor_pos(95, 18)
@@ -565,6 +574,7 @@ def setEnemyHP(monster, max_hp, initialize=False):
 
 
 def setEnemyMana(monster, initialize=False):
+    "Sets Enemy Instance's Mana and Updates On-Screen Display for it."
     console = begin.console
     console.set_cursor_pos(90, 20)
 
@@ -619,6 +629,7 @@ def setEnemyMana(monster, initialize=False):
 
 
 def setEnemyStamina(monster, initialize=False):
+    "Sets Enemy Instance's Stamina and Updates On-Screen Display for it."
     console = begin.console
     console.set_cursor_pos(90, 21)
 
@@ -670,6 +681,7 @@ def setEnemyStamina(monster, initialize=False):
 
 
 def setEnemyArmor(monster, max_armor, initialize=False):
+    "Sets Enemy Instance's Armor and Updates On-Screen Display for it."
     console = begin.console
     console.set_cursor_pos(90, 22)
 

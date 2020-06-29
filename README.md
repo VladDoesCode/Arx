@@ -1,4 +1,5 @@
-> ## OPEN ARX.py in Windows CMD.exe
+![ARX LOGO](https://i.imgur.com/yNg3kSX.png)
+> ## OPEN ARX.py in Windows CMD.exe (Uses Python 3.8)
 # ARX 💀🗝️⚔️
 
 ![ARX Gif](https://i.imgur.com/pzv0mVN.gif)
@@ -60,11 +61,14 @@ Thank you! :)
 1. *Created "imageBasedFunctions .py" and moved such functions into that file*
 1. *Added Mountains() Function with new mini ARX logo*
 
-### Newest Update -> (6/27/2020):  
+### Commit #[077095c](https://github.com/VladimirBienvenue/Arx/commit/077095c58ac79e7305ae3a04cc7453cf2933d389) -> (6/27/2020):
 1. *Added Gif to Readme*
 1. *Added Run Instructions to ReadMe*
 1. *Added GitIgnore*
 1. *Formated Readme*
+
+### Newest Update -> (6/27/2020):  
+1. *Added DocStrings to my functions.*
 
 > ## Possible Future Additions / Changes:
 * *Create Credits*

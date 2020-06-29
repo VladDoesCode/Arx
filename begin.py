@@ -24,11 +24,11 @@ PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
 
 PADDINGMIDDLE = consolemanager.Rectangle(0, 14, 1, 2)
 PADDINGBATTLE = consolemanager.Rectangle(0, 14, 29, 2)
-
-#   Beggining of the game!
+PADDINGWIPEART = consolemanager.Rectangle(0, 0, 1, 16)
 
 
 def beginGame():
+    "Beggining of the game"
     global mainChar
     safeZone = 0
     showStats = True
@@ -95,6 +95,11 @@ def askClass():
         )
 
 
+def classArt():
+    if mainChar.charClass == "warrior":
+        imageBasedFunctions.drawWarrior()
+
+
 def dialogue1():
     goodCursorPos = universalFunctions.spacing(29, 55, "[Title: ]", name)
     console.set_cursor_pos(
@@ -110,8 +115,8 @@ def dialogue1():
     t.sleep(0.5)
 
     console.set_cursor_pos(0, console.get_console_info().window_rectangle.bottom - 3)
-    universalFunctions.playerStats(mainChar)
-    universalFunctions.statMeaning()
+    # universalFunctions.playerStats(mainChar)
+    # universalFunctions.statMeaning()
 
     # First choice
     safeZone = 1
@@ -134,6 +139,9 @@ def dialogue1():
         printSlow("")
 
     monster1 = Monster("skeleton", mainChar)
+    clear_screen(PADDINGWIPEART)
+
+    classArt()
 
     monsterFight(monster1, mainChar)
 

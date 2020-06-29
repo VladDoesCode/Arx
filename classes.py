@@ -25,26 +25,31 @@ class Hero:
             self.agility = 8
             self.intelligence = 8
             self.charisma = 8
+            self.charClass = "commoner"
         elif charClass.lower() == "warrior":
             self.strength = 16
             self.agility = 6
             self.intelligence = 6
             self.charisma = 12
+            self.charClass = "warrior"
         elif charClass.lower() == "mage":
             self.strength = 6
             self.agility = 5
             self.intelligence = 16
             self.charisma = 13
+            self.charClass = "mage"
         elif charClass.lower() == "thief":
             self.strength = 9
             self.agility = 16
             self.intelligence = 6
             self.charisma = 9
+            self.charClass = "thief"
         elif charClass.lower() == "paladin":
             self.strength = 12
             self.agility = 2
             self.intelligence = 10
             self.charisma = 16
+            self.charClass = "paladin"
         self.staminaPoolmax = self.agility * 5
         self._stamina = self.staminaPoolmax
         self.manaPoolmax = self.intelligence * 5

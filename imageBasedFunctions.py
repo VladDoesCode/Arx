@@ -2,6 +2,7 @@ import begin
 import time as t
 import consolemanager
 from universalFunctions import printSlow, scroll_text_up, clear_screen
+from colored import *
 
 console_info = ""
 PADDING = consolemanager.Rectangle(0, 6, 12, 0)
@@ -10,6 +11,7 @@ PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
 
 PADDINGMIDDLE = consolemanager.Rectangle(0, 14, 1, 2)
 PADDINGBATTLE = consolemanager.Rectangle(0, 14, 29, 2)
+PADDINGWIPEART = consolemanager.Rectangle(0, 0, 1, 16)
 
 """
    _____   __________ ____  ___
@@ -37,53 +39,29 @@ def setArx():
     printSlow("        \/        \/       \_/ ", 0, False, 0.012)
 
 
-"""
-      _____        _____
-  ___|\    \   ___|\    \  _____      _____
- /    /\    \ |    |\    \ \    \    /    /
-|    |  |    ||    | |    | \    \  /    /
-|    |__|    ||    |/____/   \____\/____/
-|    .--.    ||    |\    \   /    /\    \
-|    |  |    ||    | |    | /    /  \    \
-|____|  |____||____| |____|/____/ /\ \____\
-|    |  |    ||    | |    ||    |/  \|    |
-|____|  |____||____| |____||____|    |____|
-  \(      )/    \(     )/    \(        )/
-   '      '      '     '      '        '
-"""
-
-
-#   This is the ascii art logo.
 def titleScreen():
+    # Function to create Ascii Art Main Menu.
     global console_info
     console = begin.console
     console_info = console.get_console_info()
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("      _____        _____                   ", 0.05, True, 0, PADDINGNONE)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("  ___|\    \   ___|\    \  _____      _____", 0.05, True, 0, PADDINGNONE)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow(" /    /\    \ |    |\    \ \    \    /    /", 0.05, True, 0, PADDINGNONE)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|    |  |    ||    | |    | \    \  /    / ", 0.05, True, 0, PADDINGNONE)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|    |__|    ||    |/____/   \____\/____/  ", 0.05, True, 0, PADDINGNONE)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|    .--.    ||    |\    \   /    /\    \  ", 0.05, True, 0, PADDINGNONE)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|    |  |    ||    | |    | /    /  \    \ ", 0.05, True, 0, PADDINGNONE)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow(
-        "|____|  |____||____| |____|/____/ /\ \____\ ", 0.05, True, 0, PADDINGNONE
-    )
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|    |  |    ||    | |    ||    |/  \|    |", 0.05, True, 0, PADDINGNONE)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("|____|  |____||____| |____||____|    |____|", 0.05, True, 0, PADDINGNONE)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("  \(      )/    \(     )/    \(        )/  ", 0.05, True, 0, PADDINGNONE)
-    console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
-    printSlow("   '      '      '     '      '        '   ", 0.05, True, 0, PADDINGNONE)
+    image = [
+        "      _____        _____",
+        "  ___|\    \   ___|\    \  _____      _____",
+        " /    /\    \ |    |\    \ \    \    /    /",
+        "|    |  |    ||    | |    | \    \  /    /",
+        "|    |__|    ||    |/____/   \____\/____/",
+        "|    .--.    ||    |\    \   /    /\    \ ",
+        "|    |  |    ||    | |    | /    /  \    \ ",
+        "|____|  |____||____| |____|/____/ /\ \____\ ",
+        "|    |  |    ||    | |    ||    |/  \|    |",
+        "|____|  |____||____| |____||____|    |____|",
+        "  \(      )/    \(     )/    \(        )/",
+        "   '      '      '     '      '        '",
+    ]
+    for line in image:
+        console.set_cursor_pos(35, console_info.window_rectangle.bottom - 1)
+        printSlow(line, 0.05, True, 0, PADDINGNONE)
+
     console.set_cursor_pos(23, console_info.window_rectangle.bottom - 1)
     printSlow(
         "A text based adventure game made by Vladimir with help from friends.",
@@ -155,118 +133,56 @@ def createGameArea():
     mountains()
 
 
-"""
-                                                                    ,                                                                  1               
-                                                                   ƒ'▐▄                                                                2               
-                                                                 ▄▀   ███▄                                                             3               
-                                                               ⌐'  ,   ▀███▄                                                           4               
-                                                            ,'   ▐█▀    ████▄                                                          5               
-                                                   ,═▄     ,   ▄██▀ ,▌   █████▄,   ,                                                   6              
-                                                 ¿'  ▀███▄▄   '▀-  ╒█      ▀▀████▄' ▀█▄                                                7               
-                    ,∞▄                         ╛ ╓█▌ `▀███▄    ▀▀ ▐▀¥       █████    ███▄                       ╛V▄                   8               
-                  ¿`   ▀█▄▄▄,,                ,'  █▀▀    ▀██▌   ▄████▄      ██████r    ████▄                   Æ   ██▄                 9               
-                ," ▀▀   ███████▄▄  .─`  ██▄═^`    '▀        '  █▀▄██▀       ▐██████▄ ,    ▐██▄              ,═ ╓▀╓ '▀██▄               10               
-              ⌐'  ▀ ▀▀    ████▀████▄      █▄          ▄▄█▀"   ╙  `           ▐██████ ▀     ████▄          ═   ▀▌▄"   ▄▄▀█▄             11               
-         ,.^   , █▀  ,     ▀  ▄██████      ╘▄     4▀`             ,▄▄         ██████`J▄     ███████▄⌐══^`    ██▌ █    ▀██ ██▄          12               
-      ,.^    ▀▀ ,              ▀█▌▀ ▀═       `                  ▄█▀▀  ███▄    ▐▀███' ▄ `    ██████▌          █▀ █'    █▄▀' ▀▀▀▀█▄▄,    13               
-"""
-"""
-   ____ _____ __  __
-  / () \| () )\ \/ /
- /__/\__\_|\_\/_/\_\ 
-"""
-
-
 def mountains():
     console = begin.console
-    console.set_cursor_pos(0, 0)
-    printSlow(
-        "                                                             ,",
-        0,
-        False,
-        0.006,
-    )
-    console.set_cursor_pos(0, 1)
-    printSlow(
-        "                                                            ƒ'▐▄",
-        0,
-        False,
-        0.006,
-    )
-    console.set_cursor_pos(0, 2)
-    printSlow(
-        "                                                          ▄▀   ███▄",
-        0,
-        False,
-        0.006,
-    )
-    console.set_cursor_pos(0, 3)
-    printSlow(
-        "                                                        ⌐'  ,   ▀███▄                 ____ _____ __  __",
-        0,
-        False,
-        0.006,
-    )
-    console.set_cursor_pos(0, 4)
-    printSlow(
-        "                                                     ,'   ▐█▀    ████▄               / () \| () )\ \/ /",
-        0,
-        False,
-        0.006,
-    )
-    console.set_cursor_pos(0, 5)
-    printSlow(
-        "                                            ,═▄     ,   ▄██▀ ,▌   █████▄,   ,       /__/\__\_|\_\/_/\_\ ",
-        0,
-        False,
-        0.006,
-    )
-    console.set_cursor_pos(0, 6)
-    printSlow(
-        "                                          ¿'  ▀███▄▄   '▀-  ╒█      ▀▀████▄' ▀█▄",
-        0,
-        False,
-        0.006,
-    )
-    console.set_cursor_pos(0, 7)
-    printSlow(
-        "             ,∞▄                         ╛ ╓█▌ `▀███▄    ▀▀ ▐▀¥       █████    ███▄                       ╛V▄",
-        0,
-        False,
-        0.006,
-    )
-    console.set_cursor_pos(0, 8)
-    printSlow(
-        "           ¿`   ▀█▄▄▄,,                ,'  █▀▀    ▀██▌   ▄████▄      ██████r    ████▄                   Æ   ██▄",
-        0,
-        False,
-        0.006,
-    )
-    console.set_cursor_pos(0, 9)
-    printSlow(
-        "         ,' ▀▀   ███████▄▄  .─`  ██▄═^`    '▀        '  █▀▄██▀       ▐██████▄ ,    ▐██▄              ,═ ╓▀╓ '▀██▄",
-        0,
-        False,
-        0.006,
-    )
-    console.set_cursor_pos(0, 10)
-    printSlow(
-        "       ⌐'  ▀ ▀▀    ████▀████▄      █▄          ▄▄█▀'   ╙  `           ▐██████ ▀     ████▄          ═   ▀▌▄'   ▄▄▀█▄",
-        0,
-        False,
-        0.006,
-    )
-    console.set_cursor_pos(0, 11)
-    printSlow(
-        "  ,.^   , █▀  ,     ▀  ▄██████      ╘▄     4▀`             ,▄▄         ██████`J▄     ███████▄⌐══^`    ██▌ █    ▀██ ██▄",
-        0,
-        False,
-        0.006,
-    )
-    console.set_cursor_pos(0, 12)
-    printSlow(
-        ".^    ▀▀ ,              ▀█▌▀ ▀═       `                  ▄█▀▀  ███▄    ▐▀███' ▄ `    ██████▌          █▀ █'    █▄▀' ▀▀█▄",
-        0,
-        True,
-        0.006,
-    )
+    image = [
+        "                                                           ,",
+        "                                                          ƒ'▐▄",
+        "                                                        ▄▀   ███▄",
+        "                                                      ⌐'  ,   ▀███▄",
+        "                                                    ,'   ▐█▀    ████▄                 ____ _____ __  __",
+        "                                           ,═▄     ,   ▄██▀ ,▌   █████▄,   ,         / () \| () )\ \/ /",
+        "                                         ¿'  ▀███▄▄   '▀-  ╒█      ▀▀████▄' ▀█▄     /__/\__\_|\_\/_/\_\ ",
+        "            ,∞▄                         ╛ ╓█▌ `▀███▄    ▀▀ ▐▀¥       █████    ███▄                       ╛V▄",
+        "          ¿`   ▀█▄▄▄,,                ,'  █▀▀    ▀██▌   ▄████▄      ██████r    ████▄                   Æ   ██▄",
+        "        ,' ▀▀   ███████▄▄  .─`  ██▄═^`    '▀        '  █▀▄██▀       ▐██████▄ ,    ▐██▄              ,═ ╓▀╓ '▀██▄",
+        "      ⌐'  ▀ ▀▀    ████▀████▄      █▄          ▄▄█▀'   ╙  `           ▐██████ ▀     ████▄          ═   ▀▌▄'   ▄▄▀█▄",
+        "   ,.^   , █▀  ,     ▀  ▄██████      ╘▄     4▀`             ,▄▄         ██████`J▄     ███████▄⌐══^`    ██▌ █    ▀██▄",
+        ",.^    ▀▀ ,              ▀█▌▀ ▀═       `                  ▄█▀▀  ███▄    ▐▀███' ▄ `    ██████▌          █▀ █'     ▀▀▀█▄▄",
+    ]
+    yPos = 0
+    for line in image:
+        console.set_cursor_pos(0, yPos)
+        printSlow(line, 0, False, 0.004)
+        yPos += 1
+
+
+def drawWarrior():
+    console = begin.console
+    i = fg("#ff0077")
+
+    Warrior = [
+        "\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;247m██\x1b[38;5;247m██\x1b[0m",
+        "\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;247m██\x1b[38;5;247m██\x1b[0m",
+        "\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;247m██\x1b[38;5;247m██\x1b[0m",
+        "\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;247m██\x1b[38;5;247m██\x1b[0m",
+        "\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;0m██\x1b[38;5;0m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;0m██\x1b[38;5;0m██\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;247m██\x1b[38;5;247m██\x1b[0m",
+        "\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;0m██\x1b[38;5;0m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;0m██\x1b[38;5;0m██\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;247m██\x1b[38;5;247m██\x1b[0m",
+        "\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;137m██\x1b[38;5;137m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;247m██\x1b[38;5;247m██\x1b[0m",
+        "\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;137m██\x1b[38;5;137m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;247m██\x1b[38;5;247m██\x1b[0m",
+        "\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[0m",
+        "\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;221m██\x1b[38;5;221m██\x1b[0m",
+        "\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;58m██\x1b[38;5;58m██\x1b[38;5;130m██\x1b[38;5;130m██\x1b[38;5;130m██\x1b[38;5;130m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;58m██\x1b[38;5;58m██\x1b[38;5;94m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[0m",
+        "\x1b[38;5;221m██\x1b[38;5;221m██\x1b[38;5;58m██\x1b[38;5;58m██\x1b[38;5;130m██\x1b[38;5;130m██\x1b[38;5;130m██\x1b[38;5;130m██\x1b[38;5;247m██\x1b[38;5;247m██\x1b[38;5;58m██\x1b[38;5;58m██\x1b[38;5;94m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[0m",
+        "\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;94m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[0m",
+        "\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;243m██\x1b[38;5;94m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[0m",
+        "\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;58m██\x1b[38;5;58m██\x1b[38;5;94m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;58m██\x1b[38;5;58m██\x1b[38;5;94m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[0m",
+        "\x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;58m██\x1b[38;5;58m██\x1b[38;5;94m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;58m██\x1b[38;5;58m██\x1b[38;5;94m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[38;5;15m  \x1b[0m",
+    ]
+
+    yPos = 1
+    for i in range(len(Warrior)):
+        console.set_cursor_pos(30, yPos)
+        print(Warrior[i])
+        # printSlow(Warrior[i], 0, False, 0.01)
+        yPos += 1
