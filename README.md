@@ -1,4 +1,4 @@
-![ARX LOGO](https://i.imgur.com/yNg3kSX.png)
+![ARX LOGO](https://i.imgur.com/RSkUhsx.png)
 > ## OPEN ARX.py in Windows CMD.exe (Uses Python 3.8)
 # ARX 💀🗝️⚔️
 
