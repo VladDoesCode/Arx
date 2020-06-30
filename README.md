@@ -1,8 +1,7 @@
 ![ARX LOGO](https://i.imgur.com/RSkUhsx.png)
-> ## OPEN ARX.py in Windows CMD.exe (Uses Python 3.8)
 # ARX 💀🗝️⚔️
 
-![ARX Gif](https://i.imgur.com/pzv0mVN.gif)
+![ARX Gif](https://i.imgur.com/Q9Vbl3N.gif)
 
 ARX derives from latin to mean Dungeon;  
 ARX is my first "real" python project in which I am attempting to make an all terminal text based game.  

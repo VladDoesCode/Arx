@@ -15,36 +15,36 @@ from universalFunctions import (
 
 
 class Hero:
-    def __init__(self, health, armor, charClass):
+    def __init__(self, health, armor, char_class):
         self._health = health
         self.healthPoolmax = self.health
         self._armor = armor
         self.armorPoolmax = self.armor
-        if charClass.lower() == "commoner":
+        if char_class.lower() == "commoner":
             self.strength = 8
             self.agility = 8
             self.intelligence = 8
             self.charisma = 8
             self.charClass = "commoner"
-        elif charClass.lower() == "warrior":
+        elif char_class.lower() == "warrior":
             self.strength = 16
             self.agility = 6
             self.intelligence = 6
             self.charisma = 12
             self.charClass = "warrior"
-        elif charClass.lower() == "mage":
+        elif char_class.lower() == "mage":
             self.strength = 6
             self.agility = 5
             self.intelligence = 16
             self.charisma = 13
             self.charClass = "mage"
-        elif charClass.lower() == "thief":
+        elif char_class.lower() == "thief":
             self.strength = 9
             self.agility = 16
             self.intelligence = 6
             self.charisma = 9
             self.charClass = "thief"
-        elif charClass.lower() == "paladin":
+        elif char_class.lower() == "paladin":
             self.strength = 12
             self.agility = 2
             self.intelligence = 10

@@ -1,8 +1,8 @@
-import sys
-import time as t
-import consolemanager
-import begin
 import random
+import time as t
+
+import begin
+import consolemanager
 
 # Text format block things
 big = "--<======================>--"
@@ -51,7 +51,7 @@ def scroll_text_up(
                 x_start=rectangle.left,
             )
             line = console.read_console_line(row + clear_row)[
-                rectangle.left : -rectangle.right
+                rectangle.left: -rectangle.right
             ]
             # THIS MIGHT CAUSE AN ISSUE AT SOME POINT! IF THINGS ARNT MOVING UP!
             console.clear_line_until(
@@ -67,7 +67,7 @@ def clear_screen(PADDING=PADDINGMIDDLE, waitTime=0.018):
     "Function to clear the screen WITH padding"
     console = begin.console
     for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
-        scroll_text_up(PADDING)
+        scroll_text_up(PADDING, 1, 0, PADDING)
         t.sleep(waitTime)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 
@@ -101,9 +101,7 @@ def qAnswer(question, safeZone=False, PADDINGAREA=PADDINGMIDDLE):
         clear_screen()
         printSlow(big)
         printSlow(
-            "Remember you can view a list of commands in any safezone with !commands",
-            0.5,
-        )
+            "Remember you can view a list of commands in any safezone with !commands", 0.5, )
         playerStats()
         clear_screen()
     elif answer.lower() == "!statsmeaning" and safeZone == True:
@@ -117,7 +115,6 @@ def qAnswer(question, safeZone=False, PADDINGAREA=PADDINGMIDDLE):
         statMeaning()
     elif answer.lower() == "!commands" and safeZone == True:
         clear_screen()
-        commands()
     else:
         scroll_text_up(PADDINGAREA, 1, 0, PADDINGAREA)
         console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
@@ -132,10 +129,10 @@ def spacing(x1, x2, str1, str2):
 def monsterFight(monster, mainChar):
     "Monster encounter function"
     printSlow(f"You encounter a {monster.name}!", 0, True, 0.02, PADDINGBATTLE)
-    setHP(mainChar.health, True, mainChar)
-    setMana(mainChar.mana, True, mainChar, mainChar.manaPoolmax)
-    setStamina(mainChar.stamina, True, mainChar, mainChar.staminaPoolmax)
-    setArmor(mainChar.armor, True, mainChar, mainChar.armorPoolmax)
+    # setHP(mainChar.health, True, mainChar)
+    # setMana(mainChar.mana, True, mainChar, mainChar.manaPoolmax)
+    # setStamina(mainChar.stamina, True, mainChar, mainChar.staminaPoolmax)
+    # setArmor(mainChar.armor, True, mainChar, mainChar.armorPoolmax)
     choice = qAnswer(
         "What would you like to do? [1. Attack] [2. Try to Escape!]",
         False,
@@ -159,13 +156,15 @@ def monsterFight(monster, mainChar):
                     playerAttackMultiplier = 2
 
                 localMonsterhealth = monster.health - (
-                    3 + (mainChar.strength * playerAttackMultiplier - monster.armor)
+                    3 + (mainChar.strength *
+                         playerAttackMultiplier - monster.armor)
                 )
 
                 if localMonsterhealth > 0:
 
                     monster.health = monster.health - (
-                        3 + (mainChar.strength * playerAttackMultiplier - monster.armor)
+                        3 + (mainChar.strength *
+                             playerAttackMultiplier - monster.armor)
                     )
                     if playerAttackMultiplier == 1:
                         printSlow(
@@ -251,7 +250,8 @@ def monsterFight(monster, mainChar):
                 if localHerohealth > 0:
 
                     mainChar.health = mainChar.health - (
-                        int(monster.strength * enemyAttackMultiplier - mainChar.armor)
+                        int(monster.strength *
+                            enemyAttackMultiplier - mainChar.armor)
                     )
                     if enemyAttackMultiplier == 1:
                         printSlow(
@@ -308,7 +308,6 @@ def monsterFight(monster, mainChar):
 
 def playerStats(mainChar):
     "Shows player their stats"
-    console = begin.console
     printSlow(
         "Lets look at your characters stats! (They are dependent on what class you pick!)",
         0.5,
@@ -322,7 +321,6 @@ def playerStats(mainChar):
 
 def statMeaning():
     "Shows player what each player stat does"
-    console = begin.console
     printSlow(big)
     printSlow("Stats in Arx")
     printSlow(small)
@@ -352,15 +350,17 @@ def statMeaning():
 
 def setHP(current_hp, showStats, mainChar, max_hp=100, initialize=False):
     "Sets Player Instance's Health and Updates On-Screen Display for it."
+
     console = begin.console
     mainChar._health = current_hp
-    console.set_cursor_pos(8, 0)
+    console.set_cursor_pos(95, 15)
     printSlow("Hero's Stats:", 0, False)
+    console.set_cursor_pos(90, 16)
     if showStats == True and initialize == False:
-        console.set_cursor_pos(0, 1)
 
         console.set_text_color("bright white", "black")
-        print(f"[Health  {current_hp: >3}/{max_hp}:".ljust(14), end="", flush=True)
+        print(f"[Health  {current_hp: >3}/{max_hp}:".ljust(14),
+              end="", flush=True)
         health_percentage_current = int(((current_hp / max_hp) * 100) // 10)
 
         console.set_text_color("bright white", "light red")
@@ -373,7 +373,6 @@ def setHP(current_hp, showStats, mainChar, max_hp=100, initialize=False):
         printSlow("]", 0, False)
         console.set_default_text_color()
     elif showStats == True and initialize == True:
-        console.set_cursor_pos(0, 1)
 
         console.set_text_color("bright white", "black")
         printSlow(f"[Health  {current_hp: >3}/{max_hp}:".ljust(14), 0, False)
@@ -393,12 +392,16 @@ def setHP(current_hp, showStats, mainChar, max_hp=100, initialize=False):
 
 def setMana(current_mana, showStats, mainChar, max_mana=None, initialize=False):
     "Sets Player Instance's Mana and Updates On-Screen Display for it."
+
     console = begin.console
     mainChar._mana = current_mana
+    console.set_cursor_pos(90, 17)
     if showStats == True and initialize == False:
+
         if max_mana is None:
+
             max_mana = mainChar.manaPoolMax
-        console.set_cursor_pos(0, 2)
+
         console.set_text_color("bright white", "black")
         print(
             f"[Mana      {current_mana: >2}/{max_mana}:".ljust(14), end="", flush=True
@@ -414,12 +417,16 @@ def setMana(current_mana, showStats, mainChar, max_mana=None, initialize=False):
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False)
         console.set_default_text_color()
+
     elif showStats == True and initialize == True:
+
         if max_mana is None:
+
             max_mana = mainChar.manaPoolmax
-        console.set_cursor_pos(0, 2)
+
         console.set_text_color("bright white", "black")
-        printSlow(f"[Mana      {current_mana: >2}/{max_mana}:".ljust(14), 0, False)
+        printSlow(
+            f"[Mana      {current_mana: >2}/{max_mana}:".ljust(14), 0, False)
         mana_percent_current = int(((current_mana / max_mana) * 100) // 10)
 
         console.set_text_color("bright white", "light aqua")
@@ -438,19 +445,25 @@ def setStamina(
     current_stamina, showStats, mainChar, max_stamina=None, initialize=False
 ):
     "Sets Player Instance's Stamina and Updates On-Screen Display for it."
+
     console = begin.console
     mainChar._stamina = current_stamina
+    console.set_cursor_pos(90, 18)
+
     if showStats == True and initialize == False:
+
         if max_stamina is None:
+
             max_stamina = mainChar.staminaPoolmax
-        console.set_cursor_pos(0, 3)
+
         console.set_text_color("bright white", "black")
         print(
             f"[Stamina   {current_stamina: >2}/{max_stamina}:".ljust(14),
             end="",
             flush=True,
         )
-        stamina_percent_current = int(((current_stamina / max_stamina) * 100) // 10)
+        stamina_percent_current = int(
+            ((current_stamina / max_stamina) * 100) // 10)
 
         console.set_text_color("bright white", "light green")
         print(" " * stamina_percent_current, end="", flush=True)
@@ -461,15 +474,20 @@ def setStamina(
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False)
         console.set_default_text_color()
+
     elif showStats == True and initialize == True:
+
         if max_stamina is None:
+
             max_stamina = mainChar.staminaPoolmax
-        console.set_cursor_pos(0, 3)
+
         console.set_text_color("bright white", "black")
         printSlow(
-            f"[Stamina   {current_stamina: >2}/{max_stamina}:".ljust(14), 0, False
+            f"[Stamina   {current_stamina: >2}/{max_stamina}:".ljust(
+                14), 0, False
         )
-        stamina_percent_current = int(((current_stamina / max_stamina) * 100) // 10)
+        stamina_percent_current = int(
+            ((current_stamina / max_stamina) * 100) // 10)
 
         console.set_text_color("bright white", "light green")
         printSlow(" " * stamina_percent_current, 0, False)
@@ -485,15 +503,19 @@ def setStamina(
 
 def setArmor(current_armor, showStats, mainChar, max_armor=10, initialize=False):
     "Sets Player Instance's Armor and Updates On-Screen Display for it."
+
     console = begin.console
     mainChar._armor = current_armor
+    console.set_cursor_pos(90, 19)
+
     if showStats == True and initialize == False:
-        console.set_cursor_pos(0, 4)
+
         console.set_text_color("bright white", "black")
         print(
             f"[Armor     {current_armor: >2}/{max_armor}:".ljust(14), end="", flush=True
         )
-        armor_percentage_current = int(((current_armor / max_armor) * 100) // 10)
+        armor_percentage_current = int(
+            ((current_armor / max_armor) * 100) // 10)
 
         console.set_text_color("bright white", "light yellow")
         print(" " * armor_percentage_current, end="", flush=True)
@@ -504,11 +526,14 @@ def setArmor(current_armor, showStats, mainChar, max_armor=10, initialize=False)
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False)
         console.set_default_text_color()
+
     elif showStats == True and initialize == True:
-        console.set_cursor_pos(0, 4)
+
         console.set_text_color("bright white", "black")
-        printSlow(f"[Armor     {current_armor: >2}/{max_armor}:".ljust(14), 0, False)
-        armor_percentage_current = int(((current_armor / max_armor) * 100) // 10)
+        printSlow(
+            f"[Armor     {current_armor: >2}/{max_armor}:".ljust(14), 0, False)
+        armor_percentage_current = int(
+            ((current_armor / max_armor) * 100) // 10)
 
         console.set_text_color("bright white", "light yellow")
         printSlow(" " * armor_percentage_current, 0, False)
@@ -529,16 +554,20 @@ def setArmor(current_armor, showStats, mainChar, max_armor=10, initialize=False)
 
 def setEnemyHP(monster, max_hp, initialize=False):
     "Sets Enemy Instance's Health and Updates On-Screen Display for it."
+
     console = begin.console
     # TODO Set this to center monster.name relative to the len()
-    console.set_cursor_pos(95, 18)
+    console.set_cursor_pos(95, 21)
     printSlow(f"{monster.name}'s Stats:", 0, False, 0.02, PADDINGBATTLE)
-    console.set_cursor_pos(90, 19)
+    console.set_cursor_pos(90, 22)
+
     if initialize == False:
 
         console.set_text_color("bright white", "black")
-        print(f"[Health  {monster.health: >3}/{max_hp}:".ljust(14), end="", flush=True)
-        health_percentage_current = int(((monster.health / max_hp) * 100) // 10)
+        print(
+            f"[Health  {monster.health: >3}/{max_hp}:".ljust(14), end="", flush=True)
+        health_percentage_current = int(
+            ((monster.health / max_hp) * 100) // 10)
 
         console.set_text_color("bright white", "light red")
         print(" " * health_percentage_current, end="", flush=True)
@@ -559,13 +588,16 @@ def setEnemyHP(monster, max_hp, initialize=False):
             0.02,
             PADDINGBATTLE,
         )
-        health_percentage_current = int(((monster.health / max_hp) * 100) // 10)
+        health_percentage_current = int(
+            ((monster.health / max_hp) * 100) // 10)
 
         console.set_text_color("bright white", "light red")
-        printSlow(" " * health_percentage_current, 0, False, 0.02, PADDINGBATTLE)
+        printSlow(" " * health_percentage_current,
+                  0, False, 0.02, PADDINGBATTLE)
 
         console.set_text_color("bright white", "red")
-        printSlow(" " * (10 - health_percentage_current), 0, False, 0.02, PADDINGBATTLE)
+        printSlow(" " * (10 - health_percentage_current),
+                  0, False, 0.02, PADDINGBATTLE)
 
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False, 0.02, PADDINGBATTLE)
@@ -575,8 +607,9 @@ def setEnemyHP(monster, max_hp, initialize=False):
 
 def setEnemyMana(monster, initialize=False):
     "Sets Enemy Instance's Mana and Updates On-Screen Display for it."
+
     console = begin.console
-    console.set_cursor_pos(90, 20)
+    console.set_cursor_pos(90, 23)
 
     if len(str(monster.mana)) == 2:
         spaces = "     "
@@ -589,11 +622,13 @@ def setEnemyMana(monster, initialize=False):
 
         console.set_text_color("bright white", "black")
         print(
-            f"[Mana{spaces}{monster.mana: >2}/{monster.manaPoolmax}:".ljust(14),
+            f"[Mana{spaces}{monster.mana: >2}/{monster.manaPoolmax}:".ljust(
+                14),
             end="",
             flush=True,
         )
-        mana_percent_current = int(((monster.mana / monster.manaPoolmax) * 100) // 10)
+        mana_percent_current = int(
+            ((monster.mana / monster.manaPoolmax) * 100) // 10)
 
         console.set_text_color("bright white", "light aqua")
         print(" " * mana_percent_current, end="", flush=True)
@@ -608,19 +643,22 @@ def setEnemyMana(monster, initialize=False):
 
         console.set_text_color("bright white", "black")
         printSlow(
-            f"[Mana{spaces}{monster.mana: >2}/{monster.manaPoolmax}:".ljust(14),
+            f"[Mana{spaces}{monster.mana: >2}/{monster.manaPoolmax}:".ljust(
+                14),
             0,
             False,
             0.02,
             PADDINGBATTLE,
         )
-        mana_percent_current = int(((monster.mana / monster.manaPoolmax) * 100) // 10)
+        mana_percent_current = int(
+            ((monster.mana / monster.manaPoolmax) * 100) // 10)
 
         console.set_text_color("bright white", "light aqua")
         printSlow(" " * mana_percent_current, 0, False, 0.02, PADDINGBATTLE)
 
         console.set_text_color("bright white", "aqua")
-        printSlow(" " * (10 - mana_percent_current), 0, False, 0.02, PADDINGBATTLE)
+        printSlow(" " * (10 - mana_percent_current),
+                  0, False, 0.02, PADDINGBATTLE)
 
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False, 0.02, PADDINGBATTLE)
@@ -630,14 +668,16 @@ def setEnemyMana(monster, initialize=False):
 
 def setEnemyStamina(monster, initialize=False):
     "Sets Enemy Instance's Stamina and Updates On-Screen Display for it."
+
     console = begin.console
-    console.set_cursor_pos(90, 21)
+    console.set_cursor_pos(90, 24)
 
     if initialize == False:
 
         console.set_text_color("bright white", "black")
         print(
-            f"[Stamina  {monster.stamina: >2}/{monster.staminaPoolmax}:".ljust(14),
+            f"[Stamina  {monster.stamina: >2}/{monster.staminaPoolmax}:".ljust(
+                14),
             end="",
             flush=True,
         )
@@ -658,7 +698,8 @@ def setEnemyStamina(monster, initialize=False):
 
         console.set_text_color("bright white", "black")
         printSlow(
-            f"[Stamina  {monster.stamina: >2}/{monster.staminaPoolmax}:".ljust(14),
+            f"[Stamina  {monster.stamina: >2}/{monster.staminaPoolmax}:".ljust(
+                14),
             0,
             False,
             0.02,
@@ -672,7 +713,8 @@ def setEnemyStamina(monster, initialize=False):
         printSlow(" " * stamina_percent_current, 0, False, 0.02, PADDINGBATTLE)
 
         console.set_text_color("bright white", "green")
-        printSlow(" " * (10 - stamina_percent_current), 0, False, 0.02, PADDINGBATTLE)
+        printSlow(" " * (10 - stamina_percent_current),
+                  0, False, 0.02, PADDINGBATTLE)
 
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False, 0.02, PADDINGBATTLE)
@@ -682,8 +724,9 @@ def setEnemyStamina(monster, initialize=False):
 
 def setEnemyArmor(monster, max_armor, initialize=False):
     "Sets Enemy Instance's Armor and Updates On-Screen Display for it."
+
     console = begin.console
-    console.set_cursor_pos(90, 22)
+    console.set_cursor_pos(90, 25)
 
     if initialize == False:
 
@@ -691,7 +734,8 @@ def setEnemyArmor(monster, max_armor, initialize=False):
         print(
             f"[Armor     {monster.armor: >2}/{max_armor}:".ljust(14), end="", flush=True
         )
-        armor_percentage_current = int(((monster.armor / max_armor) * 100) // 10)
+        armor_percentage_current = int(
+            ((monster.armor / max_armor) * 100) // 10)
 
         console.set_text_color("bright white", "light yellow")
         print(" " * armor_percentage_current, end="", flush=True)
@@ -712,13 +756,16 @@ def setEnemyArmor(monster, max_armor, initialize=False):
             0.02,
             PADDINGBATTLE,
         )
-        armor_percentage_current = int(((monster.armor / max_armor) * 100) // 10)
+        armor_percentage_current = int(
+            ((monster.armor / max_armor) * 100) // 10)
 
         console.set_text_color("bright white", "light yellow")
-        printSlow(" " * armor_percentage_current, 0, False, 0.02, PADDINGBATTLE)
+        printSlow(" " * armor_percentage_current,
+                  0, False, 0.02, PADDINGBATTLE)
 
         console.set_text_color("bright white", "yellow")
-        printSlow(" " * (10 - armor_percentage_current), 0, False, 0.02, PADDINGBATTLE)
+        printSlow(" " * (10 - armor_percentage_current),
+                  0, False, 0.02, PADDINGBATTLE)
 
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False, 0.02, PADDINGBATTLE)

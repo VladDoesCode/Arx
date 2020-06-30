@@ -3,4 +3,4 @@ import time as t
 
 import begin
 
-begin.beginGame()
+begin.begin_game()

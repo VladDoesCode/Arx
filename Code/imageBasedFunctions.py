@@ -2,7 +2,7 @@ import begin
 import time as t
 import consolemanager
 from universalFunctions import printSlow, scroll_text_up, clear_screen
-from colored import *
+from colored import fg
 
 console_info = ""
 PADDING = consolemanager.Rectangle(0, 6, 12, 0)
@@ -12,31 +12,6 @@ PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
 PADDINGMIDDLE = consolemanager.Rectangle(0, 14, 1, 2)
 PADDINGBATTLE = consolemanager.Rectangle(0, 14, 29, 2)
 PADDINGWIPEART = consolemanager.Rectangle(0, 0, 1, 16)
-
-"""
-   _____   __________ ____  ___
-  /  _  \  \______   \\   \/  /
- /  /_\  \  |       _/ \     /
-/    |    \ |    |   \ /     \ 
-\____|__  / |____|_  //___/\  \ 
-        \/         \/       \_/
-"""
-
-
-def setArx():
-    console = begin.console
-    console.set_cursor_pos(console.get_console_info().window_rectangle.right - 30, 0)
-    printSlow("   _____  __________ ____  ___ ", 0, False, 0.012)
-    console.set_cursor_pos(console.get_console_info().window_rectangle.right - 30, 1)
-    printSlow("  /  _  \ \______   \\\   \/  /", 0, False, 0.012)
-    console.set_cursor_pos(console.get_console_info().window_rectangle.right - 30, 2)
-    printSlow(" /  /_\  \ |       _/ \     /  ", 0, False, 0.012)
-    console.set_cursor_pos(console.get_console_info().window_rectangle.right - 30, 3)
-    printSlow("/    |    \|    |   \ /     \  ", 0, False, 0.012)
-    console.set_cursor_pos(console.get_console_info().window_rectangle.right - 30, 4)
-    printSlow("\____|__  /|____|_  //___/\  \ ", 0, False, 0.012)
-    console.set_cursor_pos(console.get_console_info().window_rectangle.right - 30, 5)
-    printSlow("        \/        \/       \_/ ", 0, False, 0.012)
 
 
 def titleScreen():
@@ -85,7 +60,8 @@ def titleScreen():
     printSlow("[1. Start New Game] [2. Load Game] [3. Game Credit]", 0, False)
     console.set_cursor_pos(40, 23)
 
-    introChoice = input(printSlow("Whats your choice, Adventurer? > ", 0, False))
+    introChoice = input(
+        printSlow("Whats your choice, Adventurer? > ", 0, False))
     while introChoice != "1":
         console.set_cursor_pos(40, 23)
         if introChoice == "1":
@@ -106,7 +82,8 @@ def titleScreen():
         else:
             console.clear_line(23)
             console.set_cursor_pos(42, 23)
-            introChoice = input(printSlow("I didn't catch that, Huh? > ", 0, False))
+            introChoice = input(
+                printSlow("I didn't catch that, Huh? > ", 0, False))
 
     t.sleep(0.5)
     clear_screen(PADDINGNONE, 0.05)
@@ -118,14 +95,16 @@ def createGameArea():
     console = begin.console
     console.set_cursor_pos(0, 13)
     printSlow(
-        "█=►─═─═" + ("=" * (console_info.window_rectangle.right - 14)) + "═─═─◄=█",
+        "█=►─═─═" +
+        ("=" * (console_info.window_rectangle.right - 14)) + "═─═─◄=█",
         0,
         False,
         0.01,
     )
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 2)
     printSlow(
-        "█=►─═─═" + ("=" * (console_info.window_rectangle.right - 14)) + "═─═─◄=█",
+        "█=►─═─═" +
+        ("=" * (console_info.window_rectangle.right - 14)) + "═─═─◄=█",
         0,
         False,
         0.01,
