@@ -120,11 +120,6 @@ class Monster:
             self.intelligence = random.randint(3, 10)
             self.charisma = random.randint(3, 10)
 
-        # setEnemyHP(self, self.health, True)
-        # setEnemyMana(self, True)
-        # setEnemyStamina(self, True)
-        # setEnemyArmor(self, self.armor, True)
-
     @property
     def health(self):
         return self._health

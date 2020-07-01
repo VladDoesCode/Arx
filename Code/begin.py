@@ -27,25 +27,12 @@ def beginGame():
     "Beggining of the game"
 
     global mainChar
-    safeZone = 0
-    showStats = True
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 1)
 
     imageBasedFunctions.titleScreen()
     askName()
     askClass()
     mainChar = Hero(100, 10, classSelect)
-<<<<<<< Updated upstream
-    universalFunctions.setHP(100, showStats, mainChar, 100, True)
-    universalFunctions.setMana(
-        mainChar.manaPoolmax, showStats, mainChar, mainChar.manaPoolmax, True
-    )
-    universalFunctions.setStamina(
-        mainChar.staminaPoolmax, showStats, mainChar, mainChar.staminaPoolmax, True
-    )
-    universalFunctions.setArmor(10, showStats, mainChar, 10, True)
-=======
->>>>>>> Stashed changes
     dialogue1()
 
 
@@ -95,13 +82,9 @@ def askClass():
         )
 
 
-<<<<<<< Updated upstream
-def classArt():
-=======
 def class_art():
     if mainChar.charClass == "commoner":
         imageBasedFunctions.drawCommoner()
->>>>>>> Stashed changes
     if mainChar.charClass == "warrior":
         imageBasedFunctions.drawWarrior()
     if mainChar.charClass == "mage":
@@ -118,38 +101,6 @@ def monster_art(monster):
 
 
 def dialogue1():
-<<<<<<< Updated upstream
-    goodCursorPos = universalFunctions.spacing(29, 55, "[Title: ]", name)
-    console.set_cursor_pos(
-        goodCursorPos, console.get_console_info().window_rectangle.top + 2
-    )
-    printSlow(f"[Title: {name.capitalize()}]", 0, False)
-
-    goodCursorPos = universalFunctions.spacing(29, 55, "[Class: ]", classSelect)
-    console.set_cursor_pos(
-        goodCursorPos, console.get_console_info().window_rectangle.top + 3
-    )
-    printSlow(f"[Class: {classSelect.capitalize()}]", 0, False)
-    t.sleep(0.5)
-
-    console.set_cursor_pos(0, console.get_console_info().window_rectangle.bottom - 3)
-    # universalFunctions.playerStats(mainChar)
-    # universalFunctions.statMeaning()
-
-    # First choice
-    safeZone = 1
-    printSlow("Now that you're situated with your stats, would you like to:")
-    answer = qAnswer("[1] Visit the Town or [2] Fight a Monster?")
-    while answer not in ["2"]:
-        if answer == "1":
-            printSlow("The town isn't avaliable yet, try again later ;)", 1)
-            clear_screen()
-            printSlow("Now that you're situated with your stats, would you like to:")
-            answer = qAnswer("[1] Visit the Town or [2] Fight a Monster?")
-        else:
-            printSlow("I didn't catch your answer, come again?")
-            answer = qAnswer("[1] Visit the Town or [2] Fight a Monster?")
-=======
     universalFunctions.playerStats(mainChar)
     universalFunctions.statMeaning()
 
@@ -172,28 +123,15 @@ def dialogue1():
             printSlow("I didn't catch your answer, come again?")
             answer = qAnswer(
                 "[1] Visit the Town or [2] Fight a Monster?", False, PADDINGMIDDLE)
->>>>>>> Stashed changes
 
     if answer == "2":
-        clear_screen()
+        universalFunctions.clear_screen(PADDINGMIDDLE)
         printSlow(
-<<<<<<< Updated upstream
-            "Alright lets climb this hill, I think I see some monsters on top!", 1
-        )
-        printSlow("")
-=======
             "Alright lets climb this hill, I think I see some monsters on top!", 0, True, 0.02, PADDINGMIDDLE)
         printSlow("", 0, True, 0.02, PADDINGMIDDLE)
->>>>>>> Stashed changes
 
-    clear_screen(PADDINGWIPEART)
-<<<<<<< Updated upstream
-
-    classArt()
-
-=======
+    universalFunctions.clear_screen(PADDINGWIPEART)
     monster1 = Monster("skeleton", mainChar)
->>>>>>> Stashed changes
     monsterFight(monster1, mainChar)
 
     # ---------------------------------------

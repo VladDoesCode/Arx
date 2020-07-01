@@ -62,13 +62,8 @@ def scroll_text_up(
 def clear_screen(padding=PADDINGMIDDLE, waitTime=0.018):
     "Function to clear the screen WITH padding"
     console = begin.console
-<<<<<<< Updated upstream
-    for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
-        scroll_text_up(PADDING)
-=======
     for row in range(console.get_console_info().window_rectangle.bottom - padding.top):
         scroll_text_up(padding, 1, 0, padding)
->>>>>>> Stashed changes
         t.sleep(waitTime)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 
@@ -132,13 +127,6 @@ def spacing(x1, x2, str1, str2):
 
 def monsterFight(monster, mainChar):
     "Monster encounter function"
-<<<<<<< Updated upstream
-    printSlow(f"You encounter a {monster.name}!", 0, True, 0.02, PADDINGBATTLE)
-    setHP(mainChar.health, True, mainChar)
-    setMana(mainChar.mana, True, mainChar, mainChar.manaPoolmax)
-    setStamina(mainChar.stamina, True, mainChar, mainChar.staminaPoolmax)
-    setArmor(mainChar.armor, True, mainChar, mainChar.armorPoolmax)
-=======
     console = begin.console
     printSlow(f"You encounter a {monster.name}!", 0, True, 0.02, PADDINGMIDDLE)
 
@@ -157,7 +145,6 @@ def monsterFight(monster, mainChar):
     console.set_cursor_pos(0, 16)
     printSlow(("█" * console_info.window_rectangle.right), 0, False, 0.002)
 
->>>>>>> Stashed changes
     choice = qAnswer(
         "What would you like to do? [1. Attack] [2. Try to Escape!]",
         False,
@@ -381,16 +368,12 @@ def setHP(current_hp, showStats, mainChar, max_hp=100, initialize=False):
     "Sets Player Instance's Health and Updates On-Screen Display for it."
     console = begin.console
     mainChar._health = current_hp
-<<<<<<< Updated upstream
-    console.set_cursor_pos(8, 0)
-    printSlow("Hero's Stats:", 0, False)
-=======
+
     console.set_cursor_pos(40, 17)
     printSlow("Hero's Stats:", 0, False)
     console.set_cursor_pos(35, 18)
->>>>>>> Stashed changes
+
     if showStats == True and initialize == False:
-        console.set_cursor_pos(0, 1)
 
         console.set_text_color("bright white", "black")
         print(f"[Health  {current_hp: >3}/{max_hp}:".ljust(14), end="", flush=True)
@@ -406,7 +389,6 @@ def setHP(current_hp, showStats, mainChar, max_hp=100, initialize=False):
         printSlow("]", 0, False)
         console.set_default_text_color()
     elif showStats == True and initialize == True:
-        console.set_cursor_pos(0, 1)
 
         console.set_text_color("bright white", "black")
         printSlow(f"[Health  {current_hp: >3}/{max_hp}:".ljust(14), 0, False)
@@ -428,14 +410,15 @@ def setMana(current_mana, showStats, mainChar, max_mana=None, initialize=False):
     "Sets Player Instance's Mana and Updates On-Screen Display for it."
     console = begin.console
     mainChar._mana = current_mana
-<<<<<<< Updated upstream
-=======
+
     console.set_cursor_pos(35, 19)
->>>>>>> Stashed changes
+
     if showStats == True and initialize == False:
+
         if max_mana is None:
+
             max_mana = mainChar.manaPoolMax
-        console.set_cursor_pos(0, 2)
+
         console.set_text_color("bright white", "black")
         print(
             f"[Mana      {current_mana: >2}/{max_mana}:".ljust(14), end="", flush=True
@@ -451,10 +434,13 @@ def setMana(current_mana, showStats, mainChar, max_mana=None, initialize=False):
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False)
         console.set_default_text_color()
+
     elif showStats == True and initialize == True:
+
         if max_mana is None:
+
             max_mana = mainChar.manaPoolmax
-        console.set_cursor_pos(0, 2)
+
         console.set_text_color("bright white", "black")
         printSlow(f"[Mana      {current_mana: >2}/{max_mana}:".ljust(14), 0, False)
         mana_percent_current = int(((current_mana / max_mana) * 100) // 10)
@@ -477,15 +463,14 @@ def setStamina(
     "Sets Player Instance's Stamina and Updates On-Screen Display for it."
     console = begin.console
     mainChar._stamina = current_stamina
-<<<<<<< Updated upstream
-=======
     console.set_cursor_pos(35, 20)
 
->>>>>>> Stashed changes
     if showStats == True and initialize == False:
+
         if max_stamina is None:
+
             max_stamina = mainChar.staminaPoolmax
-        console.set_cursor_pos(0, 3)
+
         console.set_text_color("bright white", "black")
         print(
             f"[Stamina   {current_stamina: >2}/{max_stamina}:".ljust(14),
@@ -503,10 +488,13 @@ def setStamina(
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False)
         console.set_default_text_color()
+
     elif showStats == True and initialize == True:
+
         if max_stamina is None:
+
             max_stamina = mainChar.staminaPoolmax
-        console.set_cursor_pos(0, 3)
+
         console.set_text_color("bright white", "black")
         printSlow(
             f"[Stamina   {current_stamina: >2}/{max_stamina}:".ljust(14), 0, False
@@ -529,13 +517,10 @@ def setArmor(current_armor, showStats, mainChar, max_armor=10, initialize=False)
     "Sets Player Instance's Armor and Updates On-Screen Display for it."
     console = begin.console
     mainChar._armor = current_armor
-<<<<<<< Updated upstream
-=======
     console.set_cursor_pos(35, 21)
 
->>>>>>> Stashed changes
     if showStats == True and initialize == False:
-        console.set_cursor_pos(0, 4)
+
         console.set_text_color("bright white", "black")
         print(
             f"[Armor     {current_armor: >2}/{max_armor}:".ljust(14), end="", flush=True
@@ -551,8 +536,9 @@ def setArmor(current_armor, showStats, mainChar, max_armor=10, initialize=False)
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False)
         console.set_default_text_color()
+
     elif showStats == True and initialize == True:
-        console.set_cursor_pos(0, 4)
+        
         console.set_text_color("bright white", "black")
         printSlow(f"[Armor     {current_armor: >2}/{max_armor}:".ljust(14), 0, False)
         armor_percentage_current = int(((current_armor / max_armor) * 100) // 10)
@@ -578,16 +564,10 @@ def setEnemyHP(monster, max_hp, initialize=False):
     "Sets Enemy Instance's Health and Updates On-Screen Display for it."
     console = begin.console
     # TODO Set this to center monster.name relative to the len()
-<<<<<<< Updated upstream
-    console.set_cursor_pos(95, 18)
-    printSlow(f"{monster.name}'s Stats:", 0, False, 0.02, PADDINGBATTLE)
-    console.set_cursor_pos(90, 19)
-=======
     console.set_cursor_pos(95, 17)
     printSlow(f"{monster.name}'s Stats:", 0, False, 0.02, PADDINGMIDDLE)
     console.set_cursor_pos(90, 18)
 
->>>>>>> Stashed changes
     if initialize == False:
 
         console.set_text_color("bright white", "black")
@@ -616,19 +596,12 @@ def setEnemyHP(monster, max_hp, initialize=False):
         health_percentage_current = int(((monster.health / max_hp) * 100) // 10)
 
         console.set_text_color("bright white", "light red")
-<<<<<<< Updated upstream
-        printSlow(" " * health_percentage_current, 0, False, 0.02, PADDINGBATTLE)
-
-        console.set_text_color("bright white", "red")
-        printSlow(" " * (10 - health_percentage_current), 0, False, 0.02, PADDINGBATTLE)
-=======
         printSlow(" " * health_percentage_current,
                   0, False, 0.02, PADDINGMIDDLE)
 
         console.set_text_color("bright white", "red")
         printSlow(" " * (10 - health_percentage_current),
                   0, False, 0.02, PADDINGMIDDLE)
->>>>>>> Stashed changes
 
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False, 0.02, PADDINGMIDDLE)
@@ -639,11 +612,7 @@ def setEnemyHP(monster, max_hp, initialize=False):
 def setEnemyMana(monster, initialize=False):
     "Sets Enemy Instance's Mana and Updates On-Screen Display for it."
     console = begin.console
-<<<<<<< Updated upstream
-    console.set_cursor_pos(90, 20)
-=======
     console.set_cursor_pos(90, 19)
->>>>>>> Stashed changes
 
     if len(str(monster.mana)) == 2:
         spaces = "     "
@@ -687,12 +656,8 @@ def setEnemyMana(monster, initialize=False):
         printSlow(" " * mana_percent_current, 0, False, 0.02, PADDINGMIDDLE)
 
         console.set_text_color("bright white", "aqua")
-<<<<<<< Updated upstream
-        printSlow(" " * (10 - mana_percent_current), 0, False, 0.02, PADDINGBATTLE)
-=======
         printSlow(" " * (10 - mana_percent_current),
                   0, False, 0.02, PADDINGMIDDLE)
->>>>>>> Stashed changes
 
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False, 0.02, PADDINGMIDDLE)
@@ -703,11 +668,7 @@ def setEnemyMana(monster, initialize=False):
 def setEnemyStamina(monster, initialize=False):
     "Sets Enemy Instance's Stamina and Updates On-Screen Display for it."
     console = begin.console
-<<<<<<< Updated upstream
-    console.set_cursor_pos(90, 21)
-=======
     console.set_cursor_pos(90, 20)
->>>>>>> Stashed changes
 
     if initialize == False:
 
@@ -748,12 +709,8 @@ def setEnemyStamina(monster, initialize=False):
         printSlow(" " * stamina_percent_current, 0, False, 0.02, PADDINGMIDDLE)
 
         console.set_text_color("bright white", "green")
-<<<<<<< Updated upstream
-        printSlow(" " * (10 - stamina_percent_current), 0, False, 0.02, PADDINGBATTLE)
-=======
         printSlow(" " * (10 - stamina_percent_current),
                   0, False, 0.02, PADDINGMIDDLE)
->>>>>>> Stashed changes
 
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False, 0.02, PADDINGMIDDLE)
@@ -764,11 +721,7 @@ def setEnemyStamina(monster, initialize=False):
 def setEnemyArmor(monster, max_armor, initialize=False):
     "Sets Enemy Instance's Armor and Updates On-Screen Display for it."
     console = begin.console
-<<<<<<< Updated upstream
-    console.set_cursor_pos(90, 22)
-=======
     console.set_cursor_pos(90, 21)
->>>>>>> Stashed changes
 
     if initialize == False:
 
@@ -800,19 +753,12 @@ def setEnemyArmor(monster, max_armor, initialize=False):
         armor_percentage_current = int(((monster.armor / max_armor) * 100) // 10)
 
         console.set_text_color("bright white", "light yellow")
-<<<<<<< Updated upstream
-        printSlow(" " * armor_percentage_current, 0, False, 0.02, PADDINGBATTLE)
-
-        console.set_text_color("bright white", "yellow")
-        printSlow(" " * (10 - armor_percentage_current), 0, False, 0.02, PADDINGBATTLE)
-=======
         printSlow(" " * armor_percentage_current,
                   0, False, 0.02, PADDINGMIDDLE)
 
         console.set_text_color("bright white", "yellow")
         printSlow(" " * (10 - armor_percentage_current),
                   0, False, 0.02, PADDINGMIDDLE)
->>>>>>> Stashed changes
 
         console.set_text_color("bright white", "black")
         printSlow("]", 0, False, 0.02, PADDINGMIDDLE)

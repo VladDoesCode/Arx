@@ -2,41 +2,12 @@ import begin
 import time as t
 import consolemanager
 from universalFunctions import printSlow, scroll_text_up, clear_screen
-<<<<<<< Updated upstream
-from colored import *
-=======
 from colored1 import *
->>>>>>> Stashed changes
 
 console_info = ""
 PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
 PADDINGMIDDLE = consolemanager.Rectangle(0, 23, 1, 2)
 PADDINGWIPEART = consolemanager.Rectangle(0, 0, 1, 18)
-
-"""
-   _____   __________ ____  ___
-  /  _  \  \______   \\   \/  /
- /  /_\  \  |       _/ \     /
-/    |    \ |    |   \ /     \ 
-\____|__  / |____|_  //___/\  \ 
-        \/         \/       \_/
-"""
-
-
-def setArx():
-    console = begin.console
-    console.set_cursor_pos(console.get_console_info().window_rectangle.right - 30, 0)
-    printSlow("   _____  __________ ____  ___ ", 0, False, 0.012)
-    console.set_cursor_pos(console.get_console_info().window_rectangle.right - 30, 1)
-    printSlow("  /  _  \ \______   \\\   \/  /", 0, False, 0.012)
-    console.set_cursor_pos(console.get_console_info().window_rectangle.right - 30, 2)
-    printSlow(" /  /_\  \ |       _/ \     /  ", 0, False, 0.012)
-    console.set_cursor_pos(console.get_console_info().window_rectangle.right - 30, 3)
-    printSlow("/    |    \|    |   \ /     \  ", 0, False, 0.012)
-    console.set_cursor_pos(console.get_console_info().window_rectangle.right - 30, 4)
-    printSlow("\____|__  /|____|_  //___/\  \ ", 0, False, 0.012)
-    console.set_cursor_pos(console.get_console_info().window_rectangle.right - 30, 5)
-    printSlow("        \/        \/       \_/ ", 0, False, 0.012)
 
 
 def titleScreen():
@@ -82,16 +53,12 @@ def titleScreen():
         t.sleep(0.05)
         scroll_text_up(PADDINGNONE)
 
-<<<<<<< Updated upstream
-    introChoice = input(printSlow("Whats your choice, Adventurer? > ", 0, False))
-=======
     console.set_cursor_pos(59, 26)
     printSlow("[1. Start New Game] [2. Load Game] [3. Game Credit]", 0, False)
     console.set_cursor_pos(68, 27)
     introChoice = input(
         printSlow("Whats your choice, Adventurer? > ", 0, False))
 
->>>>>>> Stashed changes
     while introChoice != "1":
 
         if introChoice == "2" or introChoice == "3":
@@ -108,16 +75,10 @@ def titleScreen():
                 printSlow("Whats your choice, Adventurer? > ", 0, False)
             )
         else:
-<<<<<<< Updated upstream
-            console.clear_line(23)
-            console.set_cursor_pos(42, 23)
-            introChoice = input(printSlow("I didn't catch that, Huh? > ", 0, False))
-=======
             console.clear_line(27)
             console.set_cursor_pos(71, 27)
             introChoice = input(
                 printSlow("I didn't catch that, Huh? > ", 0, False))
->>>>>>> Stashed changes
 
     t.sleep(0.5)
     clear_screen(PADDINGNONE, 0.05)
