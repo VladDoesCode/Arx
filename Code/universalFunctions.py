@@ -9,12 +9,9 @@ big = "--<======================>--"
 small = "-<===============>-"
 
 console_info = ""
-PADDING = consolemanager.Rectangle(0, 6, 12, 0)
 PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
-PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
-PADDINGMIDDLE = consolemanager.Rectangle(0, 14, 1, 2)
-PADDINGBATTLE = consolemanager.Rectangle(0, 14, 29, 2)
-PADDINGWIPEART = consolemanager.Rectangle(0, 0, 1, 16)
+PADDINGMIDDLE = consolemanager.Rectangle(0, 23, 1, 2)
+PADDINGWIPEART = consolemanager.Rectangle(0, 0, 1, 18)
 
 
 def printSlow(
@@ -53,7 +50,6 @@ def scroll_text_up(
             line = console.read_console_line(row + clear_row)[
                 rectangle.left : -rectangle.right
             ]
-            # THIS MIGHT CAUSE AN ISSUE AT SOME POINT! IF THINGS ARNT MOVING UP!
             console.clear_line_until(
                 console_info.window_rectangle.right - padding.right, row
             )
@@ -63,11 +59,16 @@ def scroll_text_up(
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 
 
-def clear_screen(PADDING=PADDINGMIDDLE, waitTime=0.018):
+def clear_screen(padding=PADDINGMIDDLE, waitTime=0.018):
     "Function to clear the screen WITH padding"
     console = begin.console
+<<<<<<< Updated upstream
     for row in range(console.get_console_info().window_rectangle.bottom - PADDING.top):
         scroll_text_up(PADDING)
+=======
+    for row in range(console.get_console_info().window_rectangle.bottom - padding.top):
+        scroll_text_up(padding, 1, 0, padding)
+>>>>>>> Stashed changes
         t.sleep(waitTime)
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 
@@ -131,15 +132,36 @@ def spacing(x1, x2, str1, str2):
 
 def monsterFight(monster, mainChar):
     "Monster encounter function"
+<<<<<<< Updated upstream
     printSlow(f"You encounter a {monster.name}!", 0, True, 0.02, PADDINGBATTLE)
     setHP(mainChar.health, True, mainChar)
     setMana(mainChar.mana, True, mainChar, mainChar.manaPoolmax)
     setStamina(mainChar.stamina, True, mainChar, mainChar.staminaPoolmax)
     setArmor(mainChar.armor, True, mainChar, mainChar.armorPoolmax)
+=======
+    console = begin.console
+    printSlow(f"You encounter a {monster.name}!", 0, True, 0.02, PADDINGMIDDLE)
+
+    begin.class_art()
+    setHP(mainChar.health, True, mainChar, mainChar.healthPoolmax, True)
+    setMana(mainChar.mana, True, mainChar, mainChar.manaPoolmax, True)
+    setStamina(mainChar.stamina, True, mainChar, mainChar.staminaPoolmax, True)
+    setArmor(mainChar.armor, True, mainChar, mainChar.armorPoolmax, True)
+
+    begin.monster_art(monster)
+    setEnemyHP(monster, monster.health, True)
+    setEnemyMana(monster, True)
+    setEnemyStamina(monster, True)
+    setEnemyArmor(monster, monster.armor, True)
+
+    console.set_cursor_pos(0, 16)
+    printSlow(("█" * console_info.window_rectangle.right), 0, False, 0.002)
+
+>>>>>>> Stashed changes
     choice = qAnswer(
         "What would you like to do? [1. Attack] [2. Try to Escape!]",
         False,
-        PADDINGBATTLE,
+        PADDINGMIDDLE,
     )
     while monster.health > 0:
         enemyCritChance = monster.agility + 5
@@ -173,9 +195,9 @@ def monsterFight(monster, mainChar):
                             0,
                             True,
                             0.02,
-                            PADDINGBATTLE,
+                            PADDINGMIDDLE,
                         )
-                        printSlow("", 0, True, 0.02, PADDINGBATTLE)
+                        printSlow("", 0, True, 0.02, PADDINGMIDDLE)
 
                     elif playerAttackMultiplier == 2:
                         printSlow(
@@ -183,9 +205,9 @@ def monsterFight(monster, mainChar):
                             0,
                             True,
                             0.02,
-                            PADDINGBATTLE,
+                            PADDINGMIDDLE,
                         )
-                        printSlow("", 0, True, 0.02, PADDINGBATTLE)
+                        printSlow("", 0, True, 0.02, PADDINGMIDDLE)
                         if monster.armor > 0:
                             monster.armor = monster.armor - 1
 
@@ -197,8 +219,9 @@ def monsterFight(monster, mainChar):
                         0,
                         True,
                         0.02,
-                        PADDINGBATTLE,
+                        PADDINGMIDDLE,
                     )
+                    break
 
             else:
                 printSlow(
@@ -206,9 +229,9 @@ def monsterFight(monster, mainChar):
                     0,
                     True,
                     0.02,
-                    PADDINGBATTLE,
+                    PADDINGMIDDLE,
                 )
-                printSlow("", 0, True, 0.02, PADDINGBATTLE)
+                printSlow("", 0, True, 0.02, PADDINGMIDDLE)
 
         elif choice == "2":
 
@@ -217,9 +240,9 @@ def monsterFight(monster, mainChar):
                 0,
                 True,
                 0.02,
-                PADDINGBATTLE,
+                PADDINGMIDDLE,
             )
-            printSlow("", 0, True, 0.02, PADDINGBATTLE)
+            printSlow("", 0, True, 0.02, PADDINGMIDDLE)
 
         else:
 
@@ -228,9 +251,9 @@ def monsterFight(monster, mainChar):
                 0,
                 True,
                 0.02,
-                PADDINGBATTLE,
+                PADDINGMIDDLE,
             )
-            printSlow("", 0, True, 0.02, PADDINGBATTLE)
+            printSlow("", 0, True, 0.02, PADDINGMIDDLE)
 
         if monster.health > 0:
 
@@ -259,7 +282,7 @@ def monsterFight(monster, mainChar):
                             0,
                             True,
                             0.02,
-                            PADDINGBATTLE,
+                            PADDINGMIDDLE,
                         )
 
                     elif enemyAttackMultiplier == 1.5:
@@ -268,7 +291,7 @@ def monsterFight(monster, mainChar):
                             0,
                             True,
                             0.02,
-                            PADDINGBATTLE,
+                            PADDINGMIDDLE,
                         )
                         if mainChar.armor > 0:
                             mainChar.armor = mainChar.armor - 1
@@ -289,14 +312,18 @@ def monsterFight(monster, mainChar):
                     0,
                     True,
                     0.02,
-                    PADDINGBATTLE,
+                    PADDINGMIDDLE,
                 )
 
             choice = qAnswer(
-                "Now what? [1. Attack] [2. Try to Escape!]", False, PADDINGBATTLE
+                "Now what? [1. Attack] [2. Try to Escape!]", False, PADDINGMIDDLE
             )
 
     clear_screen()
+    console.set_cursor_pos(0, 21)
+    print(" " * console_info.window_rectangle.right)
+    console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
+    clear_screen(PADDINGWIPEART)
     printSlow(f"Wow, you defeated the {monster.name}")
     printSlow("")
 
@@ -354,8 +381,14 @@ def setHP(current_hp, showStats, mainChar, max_hp=100, initialize=False):
     "Sets Player Instance's Health and Updates On-Screen Display for it."
     console = begin.console
     mainChar._health = current_hp
+<<<<<<< Updated upstream
     console.set_cursor_pos(8, 0)
     printSlow("Hero's Stats:", 0, False)
+=======
+    console.set_cursor_pos(40, 17)
+    printSlow("Hero's Stats:", 0, False)
+    console.set_cursor_pos(35, 18)
+>>>>>>> Stashed changes
     if showStats == True and initialize == False:
         console.set_cursor_pos(0, 1)
 
@@ -395,6 +428,10 @@ def setMana(current_mana, showStats, mainChar, max_mana=None, initialize=False):
     "Sets Player Instance's Mana and Updates On-Screen Display for it."
     console = begin.console
     mainChar._mana = current_mana
+<<<<<<< Updated upstream
+=======
+    console.set_cursor_pos(35, 19)
+>>>>>>> Stashed changes
     if showStats == True and initialize == False:
         if max_mana is None:
             max_mana = mainChar.manaPoolMax
@@ -440,6 +477,11 @@ def setStamina(
     "Sets Player Instance's Stamina and Updates On-Screen Display for it."
     console = begin.console
     mainChar._stamina = current_stamina
+<<<<<<< Updated upstream
+=======
+    console.set_cursor_pos(35, 20)
+
+>>>>>>> Stashed changes
     if showStats == True and initialize == False:
         if max_stamina is None:
             max_stamina = mainChar.staminaPoolmax
@@ -487,6 +529,11 @@ def setArmor(current_armor, showStats, mainChar, max_armor=10, initialize=False)
     "Sets Player Instance's Armor and Updates On-Screen Display for it."
     console = begin.console
     mainChar._armor = current_armor
+<<<<<<< Updated upstream
+=======
+    console.set_cursor_pos(35, 21)
+
+>>>>>>> Stashed changes
     if showStats == True and initialize == False:
         console.set_cursor_pos(0, 4)
         console.set_text_color("bright white", "black")
@@ -531,9 +578,16 @@ def setEnemyHP(monster, max_hp, initialize=False):
     "Sets Enemy Instance's Health and Updates On-Screen Display for it."
     console = begin.console
     # TODO Set this to center monster.name relative to the len()
+<<<<<<< Updated upstream
     console.set_cursor_pos(95, 18)
     printSlow(f"{monster.name}'s Stats:", 0, False, 0.02, PADDINGBATTLE)
     console.set_cursor_pos(90, 19)
+=======
+    console.set_cursor_pos(95, 17)
+    printSlow(f"{monster.name}'s Stats:", 0, False, 0.02, PADDINGMIDDLE)
+    console.set_cursor_pos(90, 18)
+
+>>>>>>> Stashed changes
     if initialize == False:
 
         console.set_text_color("bright white", "black")
@@ -557,18 +611,27 @@ def setEnemyHP(monster, max_hp, initialize=False):
             0,
             False,
             0.02,
-            PADDINGBATTLE,
+            PADDINGMIDDLE,
         )
         health_percentage_current = int(((monster.health / max_hp) * 100) // 10)
 
         console.set_text_color("bright white", "light red")
+<<<<<<< Updated upstream
         printSlow(" " * health_percentage_current, 0, False, 0.02, PADDINGBATTLE)
 
         console.set_text_color("bright white", "red")
         printSlow(" " * (10 - health_percentage_current), 0, False, 0.02, PADDINGBATTLE)
+=======
+        printSlow(" " * health_percentage_current,
+                  0, False, 0.02, PADDINGMIDDLE)
+
+        console.set_text_color("bright white", "red")
+        printSlow(" " * (10 - health_percentage_current),
+                  0, False, 0.02, PADDINGMIDDLE)
+>>>>>>> Stashed changes
 
         console.set_text_color("bright white", "black")
-        printSlow("]", 0, False, 0.02, PADDINGBATTLE)
+        printSlow("]", 0, False, 0.02, PADDINGMIDDLE)
         console.set_default_text_color()
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 
@@ -576,7 +639,11 @@ def setEnemyHP(monster, max_hp, initialize=False):
 def setEnemyMana(monster, initialize=False):
     "Sets Enemy Instance's Mana and Updates On-Screen Display for it."
     console = begin.console
+<<<<<<< Updated upstream
     console.set_cursor_pos(90, 20)
+=======
+    console.set_cursor_pos(90, 19)
+>>>>>>> Stashed changes
 
     if len(str(monster.mana)) == 2:
         spaces = "     "
@@ -602,7 +669,7 @@ def setEnemyMana(monster, initialize=False):
         print(" " * (10 - mana_percent_current), end="", flush=True)
 
         console.set_text_color("bright white", "black")
-        printSlow("]", 0, False, 0.02, PADDINGBATTLE)
+        printSlow("]", 0, False, 0.02, PADDINGMIDDLE)
         console.set_default_text_color()
     else:
 
@@ -612,18 +679,23 @@ def setEnemyMana(monster, initialize=False):
             0,
             False,
             0.02,
-            PADDINGBATTLE,
+            PADDINGMIDDLE,
         )
         mana_percent_current = int(((monster.mana / monster.manaPoolmax) * 100) // 10)
 
         console.set_text_color("bright white", "light aqua")
-        printSlow(" " * mana_percent_current, 0, False, 0.02, PADDINGBATTLE)
+        printSlow(" " * mana_percent_current, 0, False, 0.02, PADDINGMIDDLE)
 
         console.set_text_color("bright white", "aqua")
+<<<<<<< Updated upstream
         printSlow(" " * (10 - mana_percent_current), 0, False, 0.02, PADDINGBATTLE)
+=======
+        printSlow(" " * (10 - mana_percent_current),
+                  0, False, 0.02, PADDINGMIDDLE)
+>>>>>>> Stashed changes
 
         console.set_text_color("bright white", "black")
-        printSlow("]", 0, False, 0.02, PADDINGBATTLE)
+        printSlow("]", 0, False, 0.02, PADDINGMIDDLE)
         console.set_default_text_color()
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 
@@ -631,7 +703,11 @@ def setEnemyMana(monster, initialize=False):
 def setEnemyStamina(monster, initialize=False):
     "Sets Enemy Instance's Stamina and Updates On-Screen Display for it."
     console = begin.console
+<<<<<<< Updated upstream
     console.set_cursor_pos(90, 21)
+=======
+    console.set_cursor_pos(90, 20)
+>>>>>>> Stashed changes
 
     if initialize == False:
 
@@ -652,7 +728,7 @@ def setEnemyStamina(monster, initialize=False):
         print(" " * (10 - stamina_percent_current), end="", flush=True)
 
         console.set_text_color("bright white", "black")
-        printSlow("]", 0, False, 0.02, PADDINGBATTLE)
+        printSlow("]", 0, False, 0.02, PADDINGMIDDLE)
         console.set_default_text_color()
     else:
 
@@ -662,20 +738,25 @@ def setEnemyStamina(monster, initialize=False):
             0,
             False,
             0.02,
-            PADDINGBATTLE,
+            PADDINGMIDDLE,
         )
         stamina_percent_current = int(
             ((monster.stamina / monster.staminaPoolmax) * 100) // 10
         )
 
         console.set_text_color("bright white", "light green")
-        printSlow(" " * stamina_percent_current, 0, False, 0.02, PADDINGBATTLE)
+        printSlow(" " * stamina_percent_current, 0, False, 0.02, PADDINGMIDDLE)
 
         console.set_text_color("bright white", "green")
+<<<<<<< Updated upstream
         printSlow(" " * (10 - stamina_percent_current), 0, False, 0.02, PADDINGBATTLE)
+=======
+        printSlow(" " * (10 - stamina_percent_current),
+                  0, False, 0.02, PADDINGMIDDLE)
+>>>>>>> Stashed changes
 
         console.set_text_color("bright white", "black")
-        printSlow("]", 0, False, 0.02, PADDINGBATTLE)
+        printSlow("]", 0, False, 0.02, PADDINGMIDDLE)
         console.set_default_text_color()
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 
@@ -683,7 +764,11 @@ def setEnemyStamina(monster, initialize=False):
 def setEnemyArmor(monster, max_armor, initialize=False):
     "Sets Enemy Instance's Armor and Updates On-Screen Display for it."
     console = begin.console
+<<<<<<< Updated upstream
     console.set_cursor_pos(90, 22)
+=======
+    console.set_cursor_pos(90, 21)
+>>>>>>> Stashed changes
 
     if initialize == False:
 
@@ -700,7 +785,7 @@ def setEnemyArmor(monster, max_armor, initialize=False):
         print(" " * (10 - armor_percentage_current), end="", flush=True)
 
         console.set_text_color("bright white", "black")
-        printSlow("]", 0, False, 0.02, PADDINGBATTLE)
+        printSlow("]", 0, False, 0.02, PADDINGMIDDLE)
         console.set_default_text_color()
     else:
 
@@ -710,18 +795,27 @@ def setEnemyArmor(monster, max_armor, initialize=False):
             0,
             False,
             0.02,
-            PADDINGBATTLE,
+            PADDINGMIDDLE,
         )
         armor_percentage_current = int(((monster.armor / max_armor) * 100) // 10)
 
         console.set_text_color("bright white", "light yellow")
+<<<<<<< Updated upstream
         printSlow(" " * armor_percentage_current, 0, False, 0.02, PADDINGBATTLE)
 
         console.set_text_color("bright white", "yellow")
         printSlow(" " * (10 - armor_percentage_current), 0, False, 0.02, PADDINGBATTLE)
+=======
+        printSlow(" " * armor_percentage_current,
+                  0, False, 0.02, PADDINGMIDDLE)
+
+        console.set_text_color("bright white", "yellow")
+        printSlow(" " * (10 - armor_percentage_current),
+                  0, False, 0.02, PADDINGMIDDLE)
+>>>>>>> Stashed changes
 
         console.set_text_color("bright white", "black")
-        printSlow("]", 0, False, 0.02, PADDINGBATTLE)
+        printSlow("]", 0, False, 0.02, PADDINGMIDDLE)
         console.set_default_text_color()
     console.set_cursor_pos(0, console_info.window_rectangle.bottom - 3)
 

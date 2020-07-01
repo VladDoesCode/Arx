@@ -8,9 +8,12 @@ import random
 from classes import *
 from universalFunctions import printSlow, qAnswer, monsterFight
 
-console = consolemanager.Console(
-    std_handle=consolemanager.ConsoleStandardHandle.STD_OUTPUT_HANDLE
-)
+PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
+PADDINGMIDDLE = consolemanager.Rectangle(0, 23, 1, 2)
+PADDINGWIPEART = consolemanager.Rectangle(0, 0, 1, 18)
+
+console = consolemanager.Console(std_handle=consolemanager.ConsoleStandardHandle.STD_OUTPUT_HANDLE)
+console.resize(170, 41)
 console_info = console.get_console_info()
 
 console.set_title("ARX")
@@ -18,17 +21,11 @@ console.set_cursor_info(size=1, visibility=False)
 console.clear_screen()
 mainChar = ""
 classSelect = ""
-PADDING = consolemanager.Rectangle(0, 6, 12, 0)
-PADDINGNONE = consolemanager.Rectangle(0, 0, 1, 0)
-PADDINGART = consolemanager.Rectangle(0, 23, 1, 0)
-
-PADDINGMIDDLE = consolemanager.Rectangle(0, 14, 1, 2)
-PADDINGBATTLE = consolemanager.Rectangle(0, 14, 29, 2)
-PADDINGWIPEART = consolemanager.Rectangle(0, 0, 1, 16)
 
 
 def beginGame():
     "Beggining of the game"
+
     global mainChar
     safeZone = 0
     showStats = True
@@ -38,6 +35,7 @@ def beginGame():
     askName()
     askClass()
     mainChar = Hero(100, 10, classSelect)
+<<<<<<< Updated upstream
     universalFunctions.setHP(100, showStats, mainChar, 100, True)
     universalFunctions.setMana(
         mainChar.manaPoolmax, showStats, mainChar, mainChar.manaPoolmax, True
@@ -46,6 +44,8 @@ def beginGame():
         mainChar.staminaPoolmax, showStats, mainChar, mainChar.staminaPoolmax, True
     )
     universalFunctions.setArmor(10, showStats, mainChar, 10, True)
+=======
+>>>>>>> Stashed changes
     dialogue1()
 
 
@@ -95,12 +95,30 @@ def askClass():
         )
 
 
+<<<<<<< Updated upstream
 def classArt():
+=======
+def class_art():
+    if mainChar.charClass == "commoner":
+        imageBasedFunctions.drawCommoner()
+>>>>>>> Stashed changes
     if mainChar.charClass == "warrior":
         imageBasedFunctions.drawWarrior()
+    if mainChar.charClass == "mage":
+        imageBasedFunctions.drawMage()
+    if mainChar.charClass == "thief":
+        imageBasedFunctions.drawThief()
+    if mainChar.charClass == "paladin":
+        imageBasedFunctions.drawPaladin()
+
+
+def monster_art(monster):
+    if monster.name == "Skeleton":
+        imageBasedFunctions.drawSkeleton()
 
 
 def dialogue1():
+<<<<<<< Updated upstream
     goodCursorPos = universalFunctions.spacing(29, 55, "[Title: ]", name)
     console.set_cursor_pos(
         goodCursorPos, console.get_console_info().window_rectangle.top + 2
@@ -131,18 +149,51 @@ def dialogue1():
         else:
             printSlow("I didn't catch your answer, come again?")
             answer = qAnswer("[1] Visit the Town or [2] Fight a Monster?")
+=======
+    universalFunctions.playerStats(mainChar)
+    universalFunctions.statMeaning()
+
+    # First choice
+    printSlow("Now that you're situated with your stats, would you like to:",
+              0, True, 0.02, PADDINGMIDDLE)
+    answer = qAnswer(
+        "[1] Visit the Town or [2] Fight a Monster?", False, PADDINGMIDDLE)
+    while answer not in ["2"]:
+        if answer == "1":
+            printSlow("The town isn't avaliable yet, try again later ;)",
+                      1, True, 0.02, PADDINGMIDDLE)
+            clear_screen(PADDINGMIDDLE)
+            printSlow(
+                "Now that you're situated with your stats, would you like to:",
+                0, True, 0.02, PADDINGMIDDLE)
+            answer = qAnswer(
+                "[1] Visit the Town or [2] Fight a Monster?", False, PADDINGMIDDLE)
+        else:
+            printSlow("I didn't catch your answer, come again?")
+            answer = qAnswer(
+                "[1] Visit the Town or [2] Fight a Monster?", False, PADDINGMIDDLE)
+>>>>>>> Stashed changes
 
     if answer == "2":
+        clear_screen()
         printSlow(
+<<<<<<< Updated upstream
             "Alright lets climb this hill, I think I see some monsters on top!", 1
         )
         printSlow("")
+=======
+            "Alright lets climb this hill, I think I see some monsters on top!", 0, True, 0.02, PADDINGMIDDLE)
+        printSlow("", 0, True, 0.02, PADDINGMIDDLE)
+>>>>>>> Stashed changes
 
-    monster1 = Monster("skeleton", mainChar)
     clear_screen(PADDINGWIPEART)
+<<<<<<< Updated upstream
 
     classArt()
 
+=======
+    monster1 = Monster("skeleton", mainChar)
+>>>>>>> Stashed changes
     monsterFight(monster1, mainChar)
 
     # ---------------------------------------
